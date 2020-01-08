@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Yun Wen Huang">
+
+
+
+
+
+<title>Qt with OpenCV3.0 in Windows10 | HakunaMatata</title>
+
+
+
+    <link rel="icon" href="/blog/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/blog/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/blog/js/script.js"></script>
+    
+    <script src="/blog/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/blog/">Hakuna Matata, All is well!</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/blog/archives">Posts</a>
+                
+                    <a class="menu-item" href="/blog/category">Categories</a>
+                
+                    <a class="menu-item" href="/blog/tag">Tags</a>
+                
+                    <a class="menu-item" href="/blog/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/blog/">Hakuna Matata, All is well!</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/blog/archives">Posts</a>
+                
+                    <a class="menu-item" href="/blog/category">Categories</a>
+                
+                    <a class="menu-item" href="/blog/tag">Tags</a>
+                
+                    <a class="menu-item" href="/blog/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Qt with OpenCV3.0 in Windows10</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: May 7, 2016
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/blog/categories/Image-Processing/">Image Processing</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>紀錄如何用Qt建置OpenCV 3.0，因為有用到CMake，步驟較複雜，特地詳細記錄一下</p>
+<h2 id="步驟"><a href="#步驟" class="headerlink" title="步驟"></a>步驟</h2><h3 id="下載Qt"><a href="#下載Qt" class="headerlink" title="下載Qt"></a>下載Qt</h3><p>到<a href="https://www.qt.io/download/" target="_blank" rel="noopener">Qt官網</a>下載<br>OpenSource → Get started → View All Downloads</p>
+<p>下載 <strong>Qt for Windows 32bit VS2013</strong></p>
+<p>不載64bit的原因是之後cmake會出一點問題<br>不知道為什麼，但32bit可以用 </p>
+<p>因為目前Qt支援的Visual Studio compiler只到2013<br>所以要先有VS2013在電腦裡面才可以，2015他不吃 (超討厭)</p>
+<p>如果你已經裝VS2015了，要嘛就是把2015清乾淨改裝2013<br>不然就是再裝一個VS2013……</p>
+<p>我用的是Qt 5.5.0版本</p>
+<h3 id="編譯OpenCV"><a href="#編譯OpenCV" class="headerlink" title="編譯OpenCV"></a>編譯OpenCV</h3><p>用cmake3.3.1 編譯OpenCV3.0:</p>
+<ul>
+<li>Configure → generator選擇VS 2013 → Use Default </li>
+<li>Configure完後要多勾選<strong>WITH_QT</strong></li>
+</ul>
+<p><img src="http://i.imgur.com/ly57Mck.png" alt="Step image"></p>
+<p>檢查一下後面對應到的path是否正確<br>如果沒出現，就自己手動連到對的位置就好了</p>
+<p>再Configure一次，<strong>紅色的都不見了，就按Generate</strong></p>
+<ul>
+<li>接著到mybuild資料夾內，找到這個OpenCV.sln這個檔案</li>
+</ul>
+<p>用VS打開這個檔案，因為檔案很多，沒意外會開得有點久<br><img src="http://i.imgur.com/kYr3tTO.png" alt="QtCmake1"></p>
+<p>全部開完後，在右側的Solution往下拉到最底，有一個ALL_BUILD<br><strong>點選ALL_BUILD，選擇Win32，開始建置</strong><br><img src="http://i.imgur.com/jroGJgC.png" alt="QtCmake2"><br>過程中可能會有一些Warning，可以忽略</p>
+<h3 id="測試"><a href="#測試" class="headerlink" title="測試"></a>測試</h3><h4 id="VS2013"><a href="#VS2013" class="headerlink" title="VS2013"></a>VS2013</h4><p>建立VC++ Win32主控台專案結束後，隨便側一份有用到OpenCV的cpp檔案</p>
+<p>做的事情跟直接連接opencv一樣，修改屬性，但path會有些不同</p>
+<p>VC++ include path</p>
+<ul>
+<li>一樣連結到opencv的build裡面的include</li>
+</ul>
+<p>VC++ library path</p>
+<ul>
+<li>改成連結到mybuild裡面的lib，裡面還有一個Debug，總之就是連結到放一堆lib的那個資料夾</li>
+</ul>
+<p>Linker input</p>
+<ul>
+<li>Additional Dependencies</li>
+<li>把mybuild\lib\Debug內的d.lib結尾的檔案名字copy paste</li>
+<li>OpenCV 3.0 Cmake完後的lib list如下</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">opencv_calib3d300d.lib</span><br><span class="line">opencv_core300d.lib</span><br><span class="line">opencv_features2d300d.lib</span><br><span class="line">opencv_flann300d.lib</span><br><span class="line">opencv_hal300d.lib</span><br><span class="line">opencv_highgui300d.lib</span><br><span class="line">opencv_imgcodecs300d.lib</span><br><span class="line">opencv_imgproc300d.lib</span><br><span class="line">opencv_ml300d.lib</span><br><span class="line">opencv_objdetect300d.lib</span><br><span class="line">opencv_photo300d.lib</span><br><span class="line">opencv_shape300d.lib</span><br><span class="line">opencv_stitching300d.lib</span><br><span class="line">opencv_superres300d.lib</span><br><span class="line">opencv_ts300d.lib</span><br><span class="line">opencv_video300d.lib</span><br><span class="line">opencv_videoio300d.lib</span><br><span class="line">opencv_videostab300d.lib</span><br></pre></td></tr></table></figure>
+
+<p><strong>Build專案時記得要選Win32 compiler , 因為cmake的時候選的是VS2013 32bit 不是64bit</strong></p>
+<dl><dt>環境變數<br>: 把原本連結到opencv bin的環境變數砍掉<br>: 改成連到mybuild\bin\Debug</dt><dd>可以用cmd check，打開cmd鍵入path即可</dd></dl><p><img src="http://i.imgur.com/W1zTrWC.png" alt="QtCmake3">{:class=”img-responsive”}</p>
+<p>改完後重開機(若你是<strong>Windows10不需要重開</strong>)</p>
+<h4 id="Qt"><a href="#Qt" class="headerlink" title="Qt"></a>Qt</h4><p>測試Qt編譯有OpenCV的cpp</p>
+<ol>
+<li>New Project → Non Qt → C++<br><img src="http://i.imgur.com/OeE6X8b.png" alt="QtCmake4"><br><img src="http://i.imgur.com/76jzfJG.png" alt="QtCmake5"></li>
+<li>Release勾勾取消，Debug位置後面一串default可以砍掉，擺在同一份資料夾就好<br><img src="http://i.imgur.com/M2Mxpuo.png" alt="QtCmake6"></li>
+<li>打開.pro檔<br><img src="http://i.imgur.com/D1DbFMt.png" alt="QtCmake7"></li>
+<li>加入 <code>INCLUDE_PATH</code> 和 <code>LIBS</code>，Library位置就是mybuild內放lib的地方，<strong>記得前面要加 -l 且lib檔後面不需要.lib</strong><br><img src="http://i.imgur.com/Ac2rvRV.png" alt="QtCmake8"></li>
+<li>打開main.cpp，貼入隨便一份用到OpenCV的cpp檔案測試<br><img src="http://i.imgur.com/jlIU8Qi.png" alt="QtCmake9"><br><img src="http://i.imgur.com/EhtlPrt.png" alt="QtCmake10"></li>
+</ol>
+<h4 id="Qt-widget-OpenCV3-0"><a href="#Qt-widget-OpenCV3-0" class="headerlink" title="Qt widget + OpenCV3.0"></a>Qt widget + OpenCV3.0</h4><p>用Qt寫C++介面</p>
+<ol>
+<li><p>New Project → Application → Qt Widgets<br><img src="http://i.imgur.com/buYSgBK.png" alt="QtCmake11"><br><img src="http://i.imgur.com/kOAPlAx.png" alt="QtCmake12"></p>
+</li>
+<li><p>把Release取消，Debug位置後面一長串拿掉<br><img src="http://i.imgur.com/SJENxQs.png" alt="QtCmake13"></p>
+</li>
+<li><p>打開.pro檔，加入 <code>INCLUDE_PATH</code> 和 <code>LIBS</code><br><img src="http://i.imgur.com/0hYIkwY.png" alt="QtCmake14"></p>
+</li>
+<li><p>打開mainwindow.cpp，加入一些基本的opencv語法<br><img src="http://i.imgur.com/8ekKsoJ.png" alt="QtCmake15"></p>
+</li>
+<li><p>執行檔案<br><img src="http://i.imgur.com/RPcbhvh.png" alt="QtCmake16"></p>
+</li>
+</ol>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://havincy.github.io/blog/post/QtandOpenCV/">http://havincy.github.io/blog/post/QtandOpenCV/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/blog/tags/OpenCV/">#OpenCV</a>
+                    
+                        <a href="/blog/tags/Qt/">#Qt</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/blog/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/blog/post/Cplus-precision/">C++ 控制小數點輸出</a>
+            
+            
+            <a class="next" rel="next" href="/blog/post/VSandOpenCV/">Visual Studio + OpenCV 3.0 小心得</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Yun Wen Huang">
+
+
+
+
+
+<title>Template matching 模板匹配 | HakunaMatata</title>
+
+
+
+    <link rel="icon" href="/blog/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/blog/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/blog/js/script.js"></script>
+    
+    <script src="/blog/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/blog/">Hakuna Matata, All is well!</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/blog/archives">Posts</a>
+                
+                    <a class="menu-item" href="/blog/category">Categories</a>
+                
+                    <a class="menu-item" href="/blog/tag">Tags</a>
+                
+                    <a class="menu-item" href="/blog/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/blog/">Hakuna Matata, All is well!</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/blog/archives">Posts</a>
+                
+                    <a class="menu-item" href="/blog/category">Categories</a>
+                
+                    <a class="menu-item" href="/blog/tag">Tags</a>
+                
+                    <a class="menu-item" href="/blog/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Template matching 模板匹配</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: August 14, 2017
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/blog/categories/Image-Processing/">Image Processing</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>參考論文：<em>Template Matching Techniques in Computer Vision: Theory and Practice, 2009</em></p>
+<p>Template matching 的技術已經發展得很成熟，上面只是列出其中一個參考資料</p>
+<hr>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>模板匹配，是一種在給定的目標影像中尋找給定的模板影像的技術，原理很簡單，就是利用一些計算相似度的公式來判斷兩張影像之間有多相似</p>
+<p>模板影像小於目標影像的話，就需要用 sliding window 的方式來得到多個匹配的結果，可以選擇取最佳匹配</p>
+<p>或是設定一個門檻值，只要比這個門檻值好的結果都認為是有效的匹配</p>
+<p>sliding window 示意：</p>
+<p><img src="http://i.imgur.com/K6Ed1Jm.jpg" alt="TemplateMatching1"></p>
+<h2 id="常用的相似度的公式"><a href="#常用的相似度的公式" class="headerlink" title="常用的相似度的公式"></a>常用的相似度的公式</h2><h3 id="Square-difference-平方差"><a href="#Square-difference-平方差" class="headerlink" title="Square difference 平方差"></a>Square difference 平方差</h3><p>這是最常見的數學公式</p>
+<h3 id="Correlation-相關性"><a href="#Correlation-相關性" class="headerlink" title="Correlation 相關性"></a>Correlation 相關性</h3><p>計算 dot product (內積)，可以想成是計算兩個向量在空間中的距離有多近，就是用 cosine 去算夾角，cosine 值越大代表夾角越小，代表越接近 </p>
+<p>(假設模板影像是10*10的影像，可以被看作是100維的向量，每一維是像素的值)</p>
+<h3 id="Correlation-coefficient"><a href="#Correlation-coefficient" class="headerlink" title="Correlation coefficient"></a>Correlation coefficient</h3><p>與 Correlation 差別只在於計算內積時還要減去各個向量的平均值，如此一來相關性就會被放大</p>
+<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><ol>
+<li><p>先從目標影像的左上角開始，與模板影像一樣的長寬開始做sliding</p>
+</li>
+<li><p>利用相似度公式計算區域內模板與目標影像的每一個像素的相似度，然後加總</p>
+</li>
+<li><p>更新目前記錄的最佳位置</p>
+</li>
+<li><p>移動模板影像到下一個位置 (x + template.width, y + template.height)</p>
+</li>
+<li><p>重複 2~4 步驟，直到 run 完目標影像中所有位置 (x, y)</p>
+</li>
+</ol>
+<p>Template matching 需要花費的計算時間還不少，因為模板中的每個像素都要跟目標影像上所有像素比對一遍，找到最相似的模板位置</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Template matching的大概程式流程</span></span><br><span class="line"><span class="keyword">float</span> minSSD = FLOAT_MAX;</span><br><span class="line"><span class="built_in">point</span> p;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; Target.<span class="built_in">width</span>; x++)&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; Target.<span class="built_in">height</span>; y++)&#123;</span><br><span class="line">        <span class="keyword">float</span> curSSD = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> m = <span class="number">0</span>; m &lt; Template.<span class="built_in">width</span>; m++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> n = <span class="number">0</span>; n &lt; Template.<span class="built_in">height</span>; n++)&#123;</span><br><span class="line">                curSSD = curSSD + mathSSD(Target(x + m,y + n), Template(m, n));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(curSSD &lt; minSSD) &#123;</span><br><span class="line">            minSSD = curSSD;</span><br><span class="line">            p = (x, y);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 最後p的值為目標影像上最相似的位置(右上角)</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的程式碼只是大概流程，細節操作(例如取出像素值、SSD 函式等等)並沒有寫進去</p>
+<p>因為 Template matching 在 <a href="http://docs.opencv.org/2.4/doc/tutorials/imgproc/histograms/template_matching/template_matching.html" target="_blank" rel="noopener">OpenCV中也有函式庫</a> 能直接使用，實作的算很完整，有把不同的比較方法都涵蓋，這邊就不多說明，</p>
+<p>比較需要知道的大概是因為 Template matching 速度不快，後續有些論文主要是在加速 Template maching，有些論文則是在研究不同需求下要使用怎麼樣的比較準則會較好</p>
+<p>比如用在一連串的影片中找到某個物體，為了減少影像亮度變化對計算的影響，會做Normalization (正規化)</p>
+<p>模板匹配優點是實作簡單且穩定，缺點是如果兩個比對的影像有一點旋轉或歪斜的情況發生時，就會造成比對錯誤</p>
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><p>利用 OpneCV 的 <code>matchTemplate</code> 實作</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Point <span class="title">Matching</span><span class="params">(Mat&amp; templ, Mat&amp; target)</span> </span>&#123;</span><br><span class="line">	Mat display_img;</span><br><span class="line">	target.copyTo(display_img);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">int</span> result_cols = target.cols - templ.cols + <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">int</span> result_rows = target.rows - templ.rows + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">	<span class="function">Mat <span class="title">result</span><span class="params">(result_rows, result_cols, CV_32FC1)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* 0 = CV_TM_SQDIFF       平方差</span></span><br><span class="line"><span class="comment">	1 = CV_TM_SQDIFF_NORMED</span></span><br><span class="line"><span class="comment">	2 = CV_TM_CCORR           相關性</span></span><br><span class="line"><span class="comment">	3 = CV_TM_CCORR_NORMED</span></span><br><span class="line"><span class="comment">	4 = CV_TM_CCOEFF          相關係數</span></span><br><span class="line"><span class="comment">	5 = CV_TM_CCOEFF_NORMED</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line">	matchTemplate(target, templ, result, CV_TM_SQDIFF_NORMED);</span><br><span class="line">	normalize(result, result, <span class="number">0</span>, <span class="number">1</span>, NORM_MINMAX, <span class="number">-1</span>, Mat());</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Localizing the best match with minMaxLoc</span></span><br><span class="line">	<span class="keyword">double</span> minVal; <span class="keyword">double</span> maxVal; Point minLoc; Point maxLoc;</span><br><span class="line">	Point matchLoc;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// use the function minMaxLoc to locate the highest value(or lower, depending of the type of matching method) in the R matrix.</span></span><br><span class="line">	<span class="comment">// The functions *minMaxLoc* do not work with multi-channel arrays.</span></span><br><span class="line">	minMaxLoc(result, &amp;minVal, &amp;maxVal, &amp;minLoc, &amp;maxLoc, Mat());</span><br><span class="line"></span><br><span class="line">	matchLoc = minLoc;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Show me what you got</span></span><br><span class="line">	rectangle(display_img, matchLoc, Point(matchLoc.x + templ.cols, matchLoc.y + templ.rows), Scalar(<span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>), <span class="number">1</span>, <span class="number">8</span>, <span class="number">0</span>);</span><br><span class="line">	rectangle(result, matchLoc, Point(matchLoc.x + templ.cols, matchLoc.y + templ.rows), Scalar(<span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>), <span class="number">1</span>, <span class="number">8</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	imshow(<span class="string">"target"</span>, display_img);</span><br><span class="line">	<span class="comment">//waitKey(0);</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> matchLoc;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://havincy.github.io/blog/post/TemplateMatching/">http://havincy.github.io/blog/post/TemplateMatching/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/blog/tags/OpenCV/">#OpenCV</a>
+                    
+                        <a href="/blog/tags/TemplateMatching/">#TemplateMatching</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/blog/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/blog/post/MoveBlogFromJekyllToHexo/">Hexo + GitHubPage & 從 Jekyll 移到 Hexo</a>
+            
+            
+            <a class="next" rel="next" href="/blog/post/OpticalFlow/">Optical Flow 光流法概述</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

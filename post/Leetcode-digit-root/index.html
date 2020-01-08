@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Yun Wen Huang">
+
+
+
+
+
+<title>digital root 數根 / 生命靈數 ?  | HakunaMatata</title>
+
+
+
+    <link rel="icon" href="/blog/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/blog/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/blog/js/script.js"></script>
+    
+    <script src="/blog/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/blog/">Hakuna Matata, All is well!</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/blog/archives">Posts</a>
+                
+                    <a class="menu-item" href="/blog/category">Categories</a>
+                
+                    <a class="menu-item" href="/blog/tag">Tags</a>
+                
+                    <a class="menu-item" href="/blog/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/blog/">Hakuna Matata, All is well!</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/blog/archives">Posts</a>
+                
+                    <a class="menu-item" href="/blog/category">Categories</a>
+                
+                    <a class="menu-item" href="/blog/tag">Tags</a>
+                
+                    <a class="menu-item" href="/blog/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">digital root 數根 / 生命靈數 ? </h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: October 8, 2016
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/blog/categories/Other/">Other</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>三個月沒有新增文章了！</p>
+<p>原因是暑假去IBM實習的緣故，6月底忙著打理台北的落腳處和一些學期末雜事，拉哩拉雜的總總，導致想記錄東西的意志被消滅了XD</p>
+<p>實習期間也是忙得不可開交，加上是用實驗室的筆電很不習慣，整個暑假就沒有在顧部落格了<br>最近又開始在寫leetcode的題目，之前被medium電太慘，每一題平均思考加 Debug 的時間都要花兩小時<br>信心大受打擊，決定從easy慢慢刷= =</p>
+<p>是說leetcode的easy跟medium難度有點落差，easy有些題目根本太簡單……</p>
+<p>當然有些還是滿有思考挑戰的，比如最近遇到的一題有趣的問題</p>
+<h3 id="給你一個數字請你算出數根"><a href="#給你一個數字請你算出數根" class="headerlink" title="給你一個數字請你算出數根"></a>給你一個數字請你算出數根</h3><blockquote>
+<p>比如 digital root (2016) = 2 + 0 + 1 + 6 = 9</p>
+</blockquote>
+<p>若是超過9則需要再拆開加一次</p>
+<blockquote>
+<p>比如 digital root (2216) = 2 + 2 + 1 + 6 = 11 = 1 + 1 = 2</p>
+</blockquote>
+<p>身為喜愛研究命理學的份子，這題目讓我瞬間聯想到”生命靈數”哈哈</p>
+<p>第一次思考這題的時候直接是用人腦的運作方式，想說將數字都加起來，如果大於9就重複動作，也就是用遞迴的方式去做</p>
+<p>正自信滿滿要開始寫code的時候發現hint上面卻說能不能用常數時間算出這題</p>
+<h3 id="純數學解法"><a href="#純數學解法" class="headerlink" title="純數學解法"></a>純數學解法</h3><p>這下難了，要怎麼用常數時間算 ? 後來就想了好久，認為一定是有某個定理<br>決定google digital root這東西，果然<a href="https://en.wikipedia.org/wiki/Digital_root" target="_blank" rel="noopener">維基百科</a>出現很多公式XDD</p>
+<p>稍微仔細讀一下就會發現一個驚人的事實</p>
+<p><strong>原來每個數的數根 = 該數除以9的餘數！！！</strong></p>
+<p><strong>如果餘數為0，則數根就為9</strong></p>
+<p>當天知道這個定理的時候真心佩服想出來的數學家</p>
+<p>真的他媽的太神啦！</p>
+<blockquote>
+<p>2016 mod 9 = 0 , digit root (2016) = 9</p>
+</blockquote>
+<blockquote>
+<p>2216 mod 9 = 2, digit root (2216) = 2</p>
+</blockquote>
+<p>於是這題完全可以在常數時間直接用數學解掉</p>
+<p>不需跑什麼迴圈或是遞迴或是用樹去解= =</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://havincy.github.io/blog/post/Leetcode-digit-root/">http://havincy.github.io/blog/post/Leetcode-digit-root/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/blog/tags/Leetcode/">#Leetcode</a>
+                    
+                        <a href="/blog/tags/DigitalRoot/">#DigitalRoot</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/blog/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/blog/post/ArrayvsLinkedlist/">Array vs Linked list </a>
+            
+            
+            <a class="next" rel="next" href="/blog/post/Knapsack-Problem/">Knapsack problem 背包問題</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

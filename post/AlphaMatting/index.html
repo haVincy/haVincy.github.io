@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Yun Wen Huang">
+
+
+
+
+
+<title>Alpha matting, 摳圖去背 | HakunaMatata</title>
+
+
+
+    <link rel="icon" href="/blog/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/blog/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/blog/js/script.js"></script>
+    
+    <script src="/blog/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/blog/">Hakuna Matata, All is well!</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/blog/archives">Posts</a>
+                
+                    <a class="menu-item" href="/blog/category">Categories</a>
+                
+                    <a class="menu-item" href="/blog/tag">Tags</a>
+                
+                    <a class="menu-item" href="/blog/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/blog/">Hakuna Matata, All is well!</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/blog/archives">Posts</a>
+                
+                    <a class="menu-item" href="/blog/category">Categories</a>
+                
+                    <a class="menu-item" href="/blog/tag">Tags</a>
+                
+                    <a class="menu-item" href="/blog/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Alpha matting, 摳圖去背</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: August 7, 2017
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/blog/categories/Image-Processing/">Image Processing</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>主要參考論文：<em>A global sampling method for alpha matting. CVPR, 2011</em></p>
+<p>參考程式碼：<a href="https://github.com/atilimcetin/global-matting" target="_blank" rel="noopener">GitHub</a></p>
+<hr>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>中文叫做摳圖技術，簡單來講就是將一張照片的前景或背景分離，去除前景或是去除背景，普遍的應用是去除背景留下前景，並把前景與額外的背景作合成(composite)</p>
+<p>Alpha Matting 的核心公式是在 1984 年在 <a href="https://www.siggraph.org/" target="_blank" rel="noopener">SIGGRAPH</a> 被 Porter 和 Duff 提出的，這個公式假設一張影像可以看成是前景和背景的線性合成 <code>I=Fa+B(1-a)</code>，合成的比重是一個介於[0,1]之間的值，這篇論文是base在此假設上再去改善</p>
+<p>結果圖，紅頭髮玩偶是matting paper普遍使用的圖，顯示出此技術可以將有複雜爆炸頭的玩偶完美的摳出來並合成到另外一張背景上</p>
+<p><img src="http://i.imgur.com/wIrbypX.jpg" alt="AlphaMatting1"></p>
+<h2 id="與-Threshold-比較"><a href="#與-Threshold-比較" class="headerlink" title="與 Threshold 比較"></a>與 Threshold 比較</h2><p>Matting 與一般大家知道的 Threshold (二值化) 有很大的差別</p>
+<p>Threshold需要設定一個門檻值，超過門檻值的像素當作前景，反之則當作背景，門檻值的設定要看需求，在做 Threshold 之前，多半會先套用其他技巧來找到前景背景像素，通常會以像素變化劇烈的地方作為一個分界(前景與背景通常會有所差異)。</p>
+<p>Threshold 的好處是簡單快速，但可想而知效果並不好，尤其如果想分離較複雜或細緻的前景(比如毛髮)</p>
+<p>像 Threshold 需要事先定義一個門檻值，Matting 也需要user 去定義一張圖來提供資訊做分析，前人把這個資訊叫做 <strong>trimap(三元圖)</strong>，三元圖的意思就是有三種元素，黑色、白色、灰色，根據原圖的樣子，塗上黑色的地方是確定的背景，白色的是確定的前景，灰色則是不確定的部分。</p>
+<p>要做的分析就是灰色的區域中的未知像素，去判斷這些未知像素哪些是前景跟背景</p>
+<p><img src="http://i.imgur.com/3N6JNbZ.png?1" alt="AlphaMatting2"></p>
+<h2 id="公式說明"><a href="#公式說明" class="headerlink" title="公式說明"></a>公式說明</h2><p>這篇論文跟其他論文的不同之處在於，其他 Matting 相關論文都是以鄰近的像素的顏色來判斷，如果某未知像素的顏色與前景相似，則判定為前景，反之為背景，這篇論文參考的不只是鄰近的像素，而是全部都考慮，所以叫做 Global Sampling Matting </p>
+<p><img src="http://i.imgur.com/EkQ0MbS.png" alt="AlphaMatting3"></p>
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><p>實作部分就是看個人需求去改動參考的程式碼，基本上原作者寫得已經很完善了，跟原論文比只差在 composite 的部分，也就是合成想要的背景的實作</p>
+<p>我們只要將 composite 的公式轉成程式碼加到最後就好囉</p>
+<p>加入後的 main function code 如下</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cv::Mat <span class="built_in">image</span> = cv::imread(<span class="string">"GT04-image.png"</span>, CV_LOAD_IMAGE_COLOR);</span><br><span class="line">	cv::Mat trimap = cv::imread(<span class="string">"GT04-trimap.png"</span>, CV_LOAD_IMAGE_GRAYSCALE);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// (optional) exploit the affinity of neighboring pixels to reduce the </span></span><br><span class="line">	<span class="comment">// size of the unknown region. please refer to the paper</span></span><br><span class="line">	<span class="comment">// 'Shared Sampling for Real-Time Alpha Matting'.</span></span><br><span class="line">	expansionOfKnownRegions(<span class="built_in">image</span>, trimap, <span class="number">9</span>);</span><br><span class="line"></span><br><span class="line">	cv::Mat foreground, alpha;</span><br><span class="line">	globalMatting(<span class="built_in">image</span>, trimap, foreground, alpha);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// filter the result with fast guided filter</span></span><br><span class="line">	alpha = guidedFilter(<span class="built_in">image</span>, alpha, <span class="number">10</span>, <span class="number">1e-5</span>);</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; trimap.cols; ++x)&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; trimap.rows; ++y)&#123;</span><br><span class="line">			<span class="keyword">if</span> (trimap.at&lt;uchar&gt;(y, x) == <span class="number">0</span>)</span><br><span class="line">				alpha.at&lt;uchar&gt;(y, x) = <span class="number">0</span>;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (trimap.at&lt;uchar&gt;(y, x) == <span class="number">255</span>)</span><br><span class="line">				alpha.at&lt;uchar&gt;(y, x) = <span class="number">255</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* =============== 加入的程式碼如下 ============== */</span></span><br><span class="line">	cv::Mat background_image = cv::imread(<span class="string">"newBackground.png"</span>, CV_LOAD_IMAGE_COLOR);   <span class="comment">// 讀入你想要合成的背景圖片</span></span><br><span class="line">	<span class="comment">//cv::Mat blackbg(trimap.rows, trimap.cols, CV_8UC3, cv::Scalar(0, 0, 0));</span></span><br><span class="line">	cv::<span class="function">Mat <span class="title">output</span><span class="params">(trimap.rows, trimap.cols, CV_8UC3)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 這邊就是遵照論文公式利用得到的alpha image做合成</span></span><br><span class="line">	<span class="comment">// formula : I = alpha * foreground + (1-alpha) * background </span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; trimap.cols; ++x) &#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; trimap.rows; ++y)&#123;</span><br><span class="line">			<span class="keyword">double</span> alphavalue = alpha.at&lt;uchar&gt;(y, x) / <span class="number">255.0</span>;</span><br><span class="line">			output.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">0</span>] =</span><br><span class="line">				foreground.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">0</span>] * alphavalue + background_image.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">0</span>] * (<span class="number">1</span> - alphavalue);</span><br><span class="line">			output.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">1</span>] =</span><br><span class="line">				foreground.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">1</span>] * alphavalue + background_image.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">1</span>] * (<span class="number">1</span> - alphavalue);</span><br><span class="line">			output.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">2</span>] =</span><br><span class="line">				foreground.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">2</span>] * alphavalue + background_image.at&lt;cv::Vec3b&gt;(y, x)[<span class="number">2</span>] * (<span class="number">1</span> - alphavalue);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	cv::imshow(<span class="string">"original"</span>, <span class="built_in">image</span>);</span><br><span class="line">	cv::imshow(<span class="string">"alpha map"</span>, alpha);</span><br><span class="line">	cv::imshow(<span class="string">"output"</span>, output);</span><br><span class="line"></span><br><span class="line">	cv::waitKey(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://havincy.github.io/blog/post/AlphaMatting/">http://havincy.github.io/blog/post/AlphaMatting/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/blog/tags/OpenCV/">#OpenCV</a>
+                    
+                        <a href="/blog/tags/AlphaMatting/">#AlphaMatting</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/blog/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/blog/post/OpticalFlow/">Optical Flow 光流法概述</a>
+            
+            
+            <a class="next" rel="next" href="/blog/post/HeapSort/">Heap Sort 堆積排序法</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

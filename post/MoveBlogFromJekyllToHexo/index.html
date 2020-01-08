@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Yun Wen Huang">
+
+
+
+
+
+<title>Hexo + GitHubPage &amp; 從 Jekyll 移到 Hexo | HakunaMatata</title>
+
+
+
+    <link rel="icon" href="/blog/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/blog/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/blog/js/script.js"></script>
+    
+    <script src="/blog/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/blog/">Hakuna Matata, All is well!</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/blog/archives">Posts</a>
+                
+                    <a class="menu-item" href="/blog/category">Categories</a>
+                
+                    <a class="menu-item" href="/blog/tag">Tags</a>
+                
+                    <a class="menu-item" href="/blog/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/blog/">Hakuna Matata, All is well!</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/blog/archives">Posts</a>
+                
+                    <a class="menu-item" href="/blog/category">Categories</a>
+                
+                    <a class="menu-item" href="/blog/tag">Tags</a>
+                
+                    <a class="menu-item" href="/blog/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Hexo + GitHubPage &amp; 從 Jekyll 移到 Hexo</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: January 3, 2020
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/blog/categories/Blogging/">Blogging</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>2020 年的新年新希望之一就是重拾紀錄文字的習慣，不論是知識筆記或是個人心得<br>之前是用 <a href="https://jekyllrb.com/" target="_blank" rel="noopener">Jekyll</a> + <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHubPage</a> 來 build 我的部落格</p>
+<p>最近 survey 發現 Hexo 似乎更多人推薦，除了中文的討論較多很方便之外，他的 deploy cli 也包得很完善，所以就打算試試看 (另個重點大概是我一直覺得 Jekyll 很難拼哈哈)</p>
+<p>這篇紀錄一下如何建立 Hexo + GitHubPage &amp; 搬移 Jekyll 到 Hexo</p>
+<h2 id="前置環境"><a href="#前置環境" class="headerlink" title="前置環境"></a>前置環境</h2><p>官方文件：<a href="https://hexo.io/docs/" target="_blank" rel="noopener">https://hexo.io/docs/</a></p>
+<p>這篇我假設你的電腦已經有 git &amp; node 環境</p>
+<p>需要注意的是你的 node 版本，盡量在 10 以上，否則會有問題</p>
+<p>如果有多個 node 版本給不同的 packages，推薦使用 nvm 來安裝與管理不同的 node 版本</p>
+<h3 id="Install-Hexo"><a href="#Install-Hexo" class="headerlink" title="Install Hexo"></a>Install Hexo</h3><p>利用強大的 npm 來安裝 Hexo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+
+<p>檢查一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo --help</span><br><span class="line">hexo -v</span><br></pre></td></tr></table></figure>
+
+<h2 id="localhost"><a href="#localhost" class="headerlink" title="localhost"></a>localhost</h2><p>本地建制你的 blog</p>
+<p>先用 hexo cli 建立一個簡單的 demo folder</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo init &lt;your-folder&gt;</span><br><span class="line">cd &lt;your-folder&gt;</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+
+<p>運行在 localhost:4000</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
+
+<p>這時應該會成功看到 hexo 的 demo page</p>
+<img src="/blog/post/MoveBlogFromJekyllToHexo/hexo-demo-page.png" class="">
+
+<h2 id="GitHubPage"><a href="#GitHubPage" class="headerlink" title="GitHubPage"></a>GitHubPage</h2><p>官方文件說要建立一個以自己帳號名稱命名的 repo，例如  <code>&lt;username&gt;.github.io</code><br>但其實不一定這樣做，比如我是取名為 <code>blog</code></p>
+<p>建立好你的 repo 後，將他 clone 到本地端，把剛剛做的 hexo demo 內的檔案複製放到你的 repo folder 內</p>
+<p>這時候可以改一下 global <code>_config.yml</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># URL</span><br><span class="line">## If your site is put in a subdirectory, set url as &#39;http:&#x2F;&#x2F;yoursite.com&#x2F;child&#39; and root as &#39;&#x2F;child&#x2F;&#39;</span><br><span class="line">url: http:&#x2F;&#x2F;&lt;username&gt;.github.io&#x2F;&lt;your-repo-name&gt;&#x2F;</span><br><span class="line">root: &#x2F;&lt;your-repo-name&gt;&#x2F;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>push 到 master branch</p>
+<p>這時去看你的 repo 設定裡面有個欄位就是 GitHub Pages<br>他會註明 </p>
+<blockquote>
+<p>Your site is published in https://&lt;username&gt;.github.io/&lt;your-repo-name&gt;/</p>
+</blockquote>
+<p>記得如果不是付費會員要設成 Public repo</p>
+<p>需要注意的是這裡還沒有成功 publish，所以你打開會看到 404<br>hexo 跟 jekyll 不同的是，要用另外一個機制作 deployment，將檔案與資料夾再進行一次轉換</p>
+<h2 id="Hexo-deploy-to-GitHub"><a href="#Hexo-deploy-to-GitHub" class="headerlink" title="Hexo deploy to GitHub"></a>Hexo deploy to GitHub</h2><h3 id="同個-repo"><a href="#同個-repo" class="headerlink" title="同個 repo"></a>同個 repo</h3><p>我之前的做法是用 master branch 放 hexo source<br>再開一個 branch 取名為 gh-pages 放 deploy 後的 hexo blog</p>
+<p>這樣是方便我分開管理 source/deploy，要都丟在 master 也不是不行，但用 hexo cli deploy 後的檔案都會覆蓋掉你的 source files，所以還是建議分支管理比較好</p>
+<p>如果選擇使用 gh-pages branch 來 host，記得在 GitHub Pages 的設定內把 Source 欄位改成 gh-pages branch</p>
+<img src="/blog/post/MoveBlogFromJekyllToHexo/github-pages-settings.png" class="">
+
+<h3 id="用不同的-repo"><a href="#用不同的-repo" class="headerlink" title="用不同的 repo"></a>用不同的 repo</h3><p>可以用一個 private repo 來放 source，public repo 來放 deploy 後的檔案</p>
+<h3 id="hexo-deploy"><a href="#hexo-deploy" class="headerlink" title="hexo deploy"></a>hexo deploy</h3><p>先下載 hexo deploy 需要的套件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+<p>打開你的 global <code>_config.yml</code> 修改正確的 repo 路徑與 branch</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># Deployment</span><br><span class="line">## Docs: https:&#x2F;&#x2F;hexo.io&#x2F;docs&#x2F;deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https:&#x2F;&#x2F;github.com&#x2F;&lt;username&gt;&#x2F;&lt;your-repo-name&gt;</span><br><span class="line">  branch: gh-pages</span><br></pre></td></tr></table></figure>
+
+<p>可以先用 watch 看一下 hexo deploy 後的檔案樣子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo generate --watch</span><br></pre></td></tr></table></figure>
+
+<p>這時候你會發現多了很多東西，這些東西就是之後 hexo deploy 會丟上去的</p>
+<p>在 deploy 之前先作 clean</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>這時候應該可以看到你的 Github repo 內有剛剛 hexo deploy 的一堆檔案</p>
+<p>再打開 https://&lt;username&gt;.github.io/&lt;your-repo-name&gt;/ 就成功囉</p>
+<p>記得每次 deploy 完要 push source 之前都要作 hexo clean，才不會把那些轉換後的檔案也 push 上去了</p>
+<h2 id="從-Jekyll-搬家到-Hexo"><a href="#從-Jekyll-搬家到-Hexo" class="headerlink" title="從 Jekyll 搬家到 Hexo"></a>從 Jekyll 搬家到 Hexo</h2><p>搬家的步驟滿簡單的，把 <code>_post</code> 資料夾內的 <code>.md</code> 檔案都搬到 hexo 的 <code>_post</code>， 然後執行 hexo server 看看</p>
+<p>有錯誤的話是你的 hexo config 裡面沒有支援一些設定，移除掉或是自己重新加入設定就可以了</p>
+<p>沒有錯誤的話就成功搬家囉，Happy Blogging!</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://havincy.github.io/blog/post/MoveBlogFromJekyllToHexo/">http://havincy.github.io/blog/post/MoveBlogFromJekyllToHexo/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/blog/tags/Hexo/">#Hexo</a>
+                    
+                        <a href="/blog/tags/Jekyll/">#Jekyll</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/blog/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/blog/post/TDLSOnAndroidDevices/">Android 啟用 Tunneled Direct Link Setup</a>
+            
+            
+            <a class="next" rel="next" href="/blog/post/TemplateMatching/">Template matching 模板匹配</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
