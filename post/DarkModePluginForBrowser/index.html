@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>瀏覽器深色模式套件推薦 | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">瀏覽器深色模式套件推薦</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: February 14, 2020
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Tips/">Tips</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近 iOS 與 Android 都雙雙推出手機的深色模式了，降低電量消耗之外也提升使用者體驗</p>
+<p>Chrome 有幾款深色模式的外掛可以用，我大概用了兩三個成效都不佳</p>
+<p>大部分都是無腦套用，但無法適用於所有網站，有些網站套起來就會很怪，可以自己手動去後台改但是就很麻煩</p>
+<p>但前陣子發現了超好用的黑暗模式套件，是我用過的套件中最好用的</p>
+<h2 id="Night-Eye"><a href="#Night-Eye" class="headerlink" title="Night Eye"></a>Night Eye</h2><p>官方網站：<a href="https://nighteye.app/" target="_blank" rel="noopener">https://nighteye.app/</a></p>
+<p>不支援手機上的瀏覽器，在 PC 上幾乎常見的瀏覽器都有推出支援的外掛，個人試了 Chrome, Safari 的效果非常好</p>
+<p>除了深色模式，他還有調整色調降低藍光的選項，還能設定時段啟用想要的模式，功能相當齊全</p>
+<p>雖然他要付費，但試用期有三個月，即便試用期過了，想繼續使用免費版，他也有推出上限 5 個網域的免費版設定</p>
+<img src="/post/DarkModePluginForBrowser/night-eye-lite.png" class="">
+
+<h3 id="付費制比較"><a href="#付費制比較" class="headerlink" title="付費制比較"></a>付費制比較</h3><p>以今天我看到的價格</p>
+<p>年費制 $9 USD</p>
+<ul>
+<li>最多在 3 種瀏覽器使用</li>
+<li>有客戶支援服務</li>
+<li>最先使用新的功能</li>
+<li>自動更新版本</li>
+</ul>
+<p>永久使用 $40 USD</p>
+<ul>
+<li>最多能在 10 種瀏覽器使用</li>
+<li>有客戶支援服務</li>
+<li>最先使用新的功能</li>
+<li>自動更新版本</li>
+</ul>
+<p>免費版本 Lite</p>
+<ul>
+<li>幾乎全部網頁都有支援</li>
+<li>最多只能在 5 個網域使用</li>
+<li>自動更新版本</li>
+</ul>
+<p>看使用習慣來決定要不要付費升級，其實他的終身制的收費不算貴，但考量到深色模式的趨勢，我在想各家瀏覽器的開發團隊假以時日說不定會推出自家的官方套件去調校，就不急著下手買，後來考慮了一下對我而言五個網域很夠，因為他這個設定也不是不能更動的，你可以隨時刪改你要啟用深色模式的網域</p>
+<h2 id="深色模式與眼睛勞累程度"><a href="#深色模式與眼睛勞累程度" class="headerlink" title="深色模式與眼睛勞累程度"></a>深色模式與眼睛勞累程度</h2><p>工作後需要長時間看螢幕，需要瀏覽很多網頁查資料XD，所以有感白色頁面看久了對眼睛滿累的</p>
+<p>但有研究指出對於閃光重的人而言，看深色底搭配白色反而是容易看不清楚的哈哈，但個人感覺深色模式對看程式碼來說真的比較順眼</p>
+<p>以我們眼睛而言要看得清楚，最好是在對比強的白底配黑字，因為我們人類的視力本來就是習慣在白天看東西，我們並不習慣夜視</p>
+<p>還有一點就是長時間習慣深色模式後，一接觸亮色模式，眼睛會受到比較大的刺激，所以我們會誤判為深色模式對眼睛較好，所幸這個刺激並不是永久的，只要再多看點亮色模式的頁面就能再使眼睛感知系統平衡</p>
+<p>主要影響眼睛疲勞度的還是使用時間跟螢幕的色調還有亮度，跟深色模式無關，大多是心理作用造成</p>
+<p>深色模式的存在是如果周遭環境光源不夠的情況下，手機如果是亮色模式會顯得刺眼，之前手機都會有自動調整亮度的功能，但事實上還是很亮或是自動調整完後變得不清楚，這時候如果用深色模式就會是很好的選擇</p>
+<p>總結就是，深色模式是為了在特定使用情境下的產物，能夠讓使用者對內容保持視線集中，對護眼實際上沒什麼幫助</p>
+<p>看來要防止藍光影響黃斑區實際的解決辦法是配戴一副抗藍光眼鏡，還有適度的多讓眼睛休息…</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/DarkModePluginForBrowser/">http://havincy.github.io/post/DarkModePluginForBrowser/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/ProgressiveWebApplicationOverview/">PWA 與 Service Worker & 在 iOS Safari 的限制</a>
+            
+            
+            <a class="next" rel="next" href="/post/TakeCareSurgicalWound/">粉瘤手術後的傷口照護與換藥材料推薦</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/DarkModePluginForBrowser/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

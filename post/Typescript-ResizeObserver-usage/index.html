@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>使用 ResizeObserver 與 onResize() 的差別 | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">使用 ResizeObserver 與 onResize() 的差別</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: January 23, 2021
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Web/">Web</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在公司的 Angular project 使用 <code>onResize()</code> 監聽 screen viewport changed 時，發生了一些預期外的問題</p>
+<p>經過了一個禮拜的搗鼓，以及 Sr. engineer 的指導，發現可以使用這個 ResizeObserver API，雖然專案最後沒有採用，我們用了另一個算是微繞路的方法，不算是 Work around，可也不太能百分百說是正解，欲知詳情如何就請看下去吧 👀</p>
+<h2 id="問題"><a href="#問題" class="headerlink" title="問題"></a>問題</h2><p>Web APP 在手機上轉動方向後，透過 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/resize_event" target="_blank" rel="noopener"><code>onResize()</code> window event</a> 的 call back 來做後續的動作時，沒有抓到元素變動後的正確位置</p>
+<p>原因是 <code>onResize()</code> event 是針對 window viewport 發生變動，就會被 fired，並不是針對元素有變動才 fired，所以有機率會發生想要計算的目標元素還沒更新完畢時就收到 call back，這時候抓到的值可能會是還沒改變時的樣子</p>
+<p>相關討論可以到永遠的好朋友 StackOverflow 上看</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/44484547/screen-width-screen-height-not-updating-after-screen-rotation" target="_blank" rel="noopener">https://stackoverflow.com/questions/44484547/screen-width-screen-height-not-updating-after-screen-rotation</a></li>
+<li><a href="https://stackoverflow.com/questions/1649086/detect-rotation-of-android-phone-in-the-browser-with-javascript/6603537#6603537" target="_blank" rel="noopener">https://stackoverflow.com/questions/1649086/detect-rotation-of-android-phone-in-the-browser-with-javascript/6603537#6603537</a></li>
+</ul>
+<p>用 <a href="https://developer.mozilla.org/zh-TW/docs/Web/API/Window/orientationchange_event" target="_blank" rel="noopener"><code>onOrientationChange()</code> window event</a> 也是一樣的，它也是針對 window viewport 的改變，只是多了判斷角度，無法讓我們接收 DOM 真的改變後的 call back</p>
+<blockquote>
+<p>Whenever the viewport is drawn at a different angle compared to the device’s natural orientation (<a href="https://compat.spec.whatwg.org/#windoworientation-interface" target="_blank" rel="noopener">refer to this spec</a>)</p>
+</blockquote>
+<p>這個問題發生的機會在小專案可能不高，因為從 window 一變動到 DOM updated 的時差應該是非常短的，我們後來認為應該跟目前的專案太肥了導致在 rotating 的 perf 很差有關</p>
+<h2 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h2><p>使用 JS 剛推出不久的 <a href="https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver" target="_blank" rel="noopener">API</a> - <strong>ResizeObserver 直接監聽 DOM 變動</strong>，就能完美解決這個問題😇</p>
+<p>目前幾乎所有瀏覽器都支援了 (ResizeObserver 背後其實就是基於 RxJS 的 Observable 概念)</p>
+<ul>
+<li><a href="https://caniuse.com/mdn-api_resizeobserver" target="_blank" rel="noopener">ResizeObserver API supported browsers</a></li>
+</ul>
+<p>使用它除了能解決我上述提到的問題，還能夠改進不必要的 call back check 次數</p>
+<p>在大部分的使用情境，我們用 window event 去監聽大小變動都是想要 update layout (如果有需要)，但有時候元素大小沒有被變動因為視窗變動了，window resize event 還是會被 fired</p>
+<p>延伸閱讀</p>
+<ul>
+<li>web.dev: <a href="https://web.dev/resize-observer/" target="_blank" rel="noopener">ResizeObserver: it’s like document.onresize for elements</a></li>
+</ul>
+<h3 id="library"><a href="#library" class="headerlink" title="library"></a>library</h3><p>剩下的小問題就是在 Angular 10 + Typescript 中並沒有找到 ResizeObserver type，Compiler 會報錯 (不過是可以使用的)</p>
+<p>大部分推薦的是引入這個已經存在一陣子的 resize-observer-polyfill open source</p>
+<ul>
+<li><a href="https://github.com/que-etc/resize-observer-polyfill" target="_blank" rel="noopener">https://github.com/que-etc/resize-observer-polyfill</a></li>
+</ul>
+<h3 id="TS-code-snippet"><a href="#TS-code-snippet" class="headerlink" title="TS code snippet"></a>TS code snippet</h3><p>如果不想引入 3rd party library，在 Angular + ts code 內要使用 <code>any</code> type 宣告，並且在 initiate 的地方的前一行用 <code>// @ts-ignore</code> 去避免 compiler error</p>
+<figure class="highlight ts"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> resizeObserver: <span class="built_in">any</span>;</span><br><span class="line"><span class="meta">@ViewChild</span>(<span class="string">'targetDiv'</span>) targetElement: ElementRef;</span><br><span class="line"></span><br><span class="line"><span class="keyword">constructor</span>(<span class="params">...</span>) {}</span><br><span class="line"></span><br><span class="line">ngOnInit() {</span><br><span class="line">    <span class="keyword">if</span> (<span class="string">'ResizeObserver'</span> <span class="keyword">in</span> <span class="built_in">window</span>) {</span><br><span class="line">        <span class="comment">// @ts-ignore</span></span><br><span class="line">        <span class="keyword">this</span>.resizeObserver = <span class="keyword">new</span> ResizeObserver(<span class="function">(<span class="params">entries: <span class="built_in">any</span></span>) =&gt;</span> {</span><br><span class="line">            <span class="keyword">this</span>.targetBottom = entries[<span class="number">0</span>].target.getBoundingClientRect().bottom;</span><br><span class="line">        });</span><br><span class="line">    } <span class="keyword">else</span> {</span><br><span class="line">        <span class="built_in">console</span>.warn(<span class="string">'ResizeObserver is unsupported in this browser'</span>);</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">ngAfterViewInit() {</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.resizeObserver) {</span><br><span class="line">        <span class="keyword">this</span>.resizeObserver.observe(<span class="keyword">this</span>.targetElement.nativeElement);</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="Trick"><a href="#Trick" class="headerlink" title="Trick"></a>Trick</h2><p>senior 同事提供的另外一個方法是加 <code>setTimeout()</code>，<strong>但不要加任何秒數</strong> (通常不建議去設置任何秒數去預期某些行為會在這個秒數內結束)，只需等這個 tick 結束，看看能不能抓到目標元素正確的位置</p>
+<figure class="highlight ts"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@HostListener</span>(<span class="string">'window:orientationchange'</span>)</span><br><span class="line">onOrientationChange() {</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> {</span><br><span class="line">        <span class="comment">// actions after orientation changed</span></span><br><span class="line">    });</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>會稱作 Trick 的原因是可能<strong>不是萬用解</strong>，我試過放在 <code>onResize()</code> 內，還是沒有辦法抓到正確的數值，後來發現加在 <code>onOrientationChange()</code> 內有辦法得到正確的值</p>
+<p>正好我們要解的 issue 只有 在 orientation change 後才需要✌️✌️✌️</p>
+<p>如果加入 ResizeObserver，需要考慮 backward compatibility，萬一這個瀏覽器版本不支援的話，要有對應的 fall back action，後來就決定比起加入 ResizeObserver，使用這個方法才最適合我們目前的需求</p>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><img src="/post/Typescript-ResizeObserver-usage/js-book-joke.png" class="">
+
+<p>這次經驗又讓我學到新東西，對於前端開發還不能說是特別熟稔，目前接觸了一年多下來發現真的要很認真與時俱進，既有的基礎核心都還沒補完，就要更新知識，在不同語言間跳轉的話我又容易忘記前端用過的東西，然後瀏覽器種類、版本、裝置又這麼多組合要考慮= =…<del>以後誰在跟我說前端很簡單的都給我滾</del></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/Typescript-ResizeObserver-usage/">http://havincy.github.io/post/Typescript-ResizeObserver-usage/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Typescript/">#Typescript</a>
+                    
+                        <a href="/tags/ResizeObserver/">#ResizeObserver</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/2020-Book-Reading-List/">我的 2020 閱讀書單</a>
+            
+            
+            <a class="next" rel="next" href="/post/How-To-Practice-Listening-Indian-Accent/">如何練習聽懂印度腔英文</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/Typescript-ResizeObserver-usage/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

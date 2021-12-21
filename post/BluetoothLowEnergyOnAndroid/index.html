@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>在 Android 上使用 BLE 連線 | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">在 Android 上使用 BLE 連線</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: January 22, 2020
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Android/">Android</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>開發公司的 Android 產品中有一個是跟連線控制相關的，除了用 TCP/IP 的連線外，我們也希望加入藍牙連線的功能，使用 <a href="https://zh.wikipedia.org/wiki/蓝牙低功耗" target="_blank" rel="noopener">Bluetooth Low Energy</a> 的方式連線，減少電量消耗</p>
+<p>幾年前慢慢流行起來的穿戴式裝置，還有各種用途的 sensor communication，這些裝置幾乎都是用藍芽連線的方式來傳輸資料跟控制其他裝置，如何在有限的電量下達成最長的使用時間就是一件很重要的事，BLE 在現今可以說是非常廣泛應用的一個技術了</p>
+<p>Android 當然也有對應的 API，方便支援 BLE 的 Android 手機能跟其他 BLE 裝置進行互動</p>
+<p>這篇記錄下當時在 Android 裝置上加入 BLE 的一些筆記跟心得</p>
+<h2 id="BLE-架構"><a href="#BLE-架構" class="headerlink" title="BLE 架構"></a>BLE 架構</h2><p>比起原本的 Bluetooth, 提供更低功耗的連線機制, 在裝置之間傳送小量的檔案, 與鄰近的 sensor 互動</p>
+<h3 id="相關術語"><a href="#相關術語" class="headerlink" title="相關術語"></a>相關術語</h3><ul>
+<li>Generic Attribute Profile (GATT)<ul>
+<li>GATT profile 在 BLE link 上通用的規格, 傳送包裝成 attributes 的短資料, 所有 Low Energy 應用的資料都 base 在 GATT</li>
+</ul>
+</li>
+<li>Attribute Protocol (ATT)<ul>
+<li>GATT 建構在 ATT 的上面, ATT 盡可能使用最少的 bytes 來描述資料, 每個 attribute 用 Universally Unique Identifier (UUID) 來個別描述, UUID 是128bit 的 string ID, 被 ATT 傳輸的 attribute 被格式化為 characteristics 和 services </li>
+</ul>
+</li>
+<li>Characteristic<ul>
+<li>a single value 和 0-n descriptors that describe the value (type, analogous to a class)</li>
+</ul>
+</li>
+<li>Descriptor<ul>
+<li>defined attributes that describe a characteristic value</li>
+</ul>
+</li>
+<li>Service<ul>
+<li>collection of characteristics</li>
+<li>For example, service called “Heart Rate Monitor” that includes characteristics such as “heart rate measurement”. </li>
+</ul>
+</li>
+</ul>
+<h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><img src="/post/BluetoothLowEnergyOnAndroid/gatt-diagram.png" class="">
+
+<p>一個 Profile 可以有好幾個 Service，是一組服務的集合，這些服務組合起來就是一個使用場景，比如小米手環內有一個計算使用者當前步數的服務</p>
+<p>一個 Service 可以包含好幾個 Characteristic</p>
+<p>一個 Characteristic 可以包含 Properties，Value 還有多個 Descriptor，Characteristic 具有 Read, Write, Notify 等權限，BLE 設備連接成功後對它進行<strong>讀寫的動作實際上就是對 Characteristic 進行</strong></p>
+<p>BLE 以 UUID 來識別多個 Service，<strong>所以在讀寫 BLE 數據時都要有相應的 UUID 來針對不同的 Service 作反應</strong></p>
+<h3 id="UUID"><a href="#UUID" class="headerlink" title="UUID"></a>UUID</h3><blockquote>
+<p>A UUID is a universally unique identifier that is guaranteed to be unique across all space and all time</p>
+</blockquote>
+<p>128-bit 含有數字與英文的一串字串，不分大小寫 (not case-sensitive)</p>
+<p>Bluetooth SIG 有公開一個 <a href="https://www.bluetooth.com/specifications/gatt/services/" target="_blank" rel="noopener">UUID list</a> 針對不同廠商開發的 Service 有他們自己獨立的 UUID，方便其他需要跟這個 Service 互動的裝置，這些是被 Bluetooth SIG 保留的 IDs (前面的 16-bit)，不能被任何 custom service 所使用</p>
+<blockquote>
+<p>128-bit value = 16-bit-value * 2^96 + BluetoothBaseUUID</p>
+</blockquote>
+<blockquote>
+<p>BluetoothBaseUUID = 00000000-0000-1000-8000-00805f9b34fb</p>
+</blockquote>
+<p>像是 Battery Service 是 <code>0x180F</code></p>
+<blockquote>
+<p>Battery Service UUID = 0000180F-0000-1000-8000-00805f9b34fb </p>
+</blockquote>
+<h4 id="Custom-UUID"><a href="#Custom-UUID" class="headerlink" title="Custom UUID"></a>Custom UUID</h4><p>承上所述，16-bit 搭配 Base UUID 的設置是給被保留的名單，我們要盡可能不要使用到保留區段，像是 <code>XXXXXXXX-0000-1000-8000-00805f9b34fb</code> (XXXXXXXX = 任何數字)，自己的小專案或是還在內部開發的測試階段使用是沒關係，release 的話就要避免</p>
+<p>可以使用隨機的 128-bit 來設置 UUID，比如 <code>795090c7-420d-4048-a24e-18e60180e23c</code> 這種亂數</p>
+<p>隨機產生是最方便的做法，但這樣做不能保證完全沒有別的應用有使用到相同的 UUID (機率很低就是)，最好的辦法就是公司可以跟 Bluetooth  SIG  <a href="https://www.bluetooth.com/specifications/assigned-numbers/16-bit-uuids-for-members/" target="_blank" rel="noopener">申請獨立的 UUID</a></p>
+<h3 id="連線機制"><a href="#連線機制" class="headerlink" title="連線機制"></a>連線機制</h3><p>通常分為 Central 和 Peripheral</p>
+<p>Central 角色的裝置會搜尋 (scan) 發出廣播 (advertisement) 的 Peripheral 裝置</p>
+<p>所以如果是以單向 Client 連線到 Server 的模型，Server = Peripheral，Client = Central，會有好幾個 Client 同時連線於一個 Server</p>
+<p>這裡有一個很好的 client-server 圖例</p>
+<img src="/post/BluetoothLowEnergyOnAndroid/gatt-client-server-model.png" class="">
+
+<p>兩台 Android 裝置誰要當 Central 還是 Peripheral，就要看應用方式是什麼樣來決定</p>
+<p>另外要注意的是 BLE 不像經典藍牙有固定的 mac address， 每次連線 BLE 的 mac address 都會變，且藍牙通訊是跳頻的，只有在 37, 38, 39 這三個廣播頻道進行廣播，雙方設備在某一時刻同時跳到同一個頻段上才能進行連接，就會有機率會連不上裝置，尤其在一直連續斷掉重連的時候</p>
+<h2 id="Android-dev"><a href="#Android-dev" class="headerlink" title="Android dev"></a>Android dev</h2><p><a href="https://developer.android.com/guide/topics/connectivity/bluetooth-le#java" target="_blank" rel="noopener">官方文件</a>對於如何加入 BLE 有滿不錯的 step by step 教學了 (注意這是 Client 端的部分)</p>
+<h3 id="廣播與搜尋"><a href="#廣播與搜尋" class="headerlink" title="廣播與搜尋"></a>廣播與搜尋</h3><p>要特別注意的就是如果你的 Client 端應用，想要限制只會搜尋到特定的服務的話，在 scan 的時候就要做 filter</p>
+<p>Server 端這做要設置好特定的 UUID 讓 Client 可以指定，在 scanning 時只掃這組特定的 UUID，才不會掃到其他的 Service</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Server side</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">startAdvertise</span><span class="params">(<span class="keyword">byte</span>[] androidId)</span> </span>{</span><br><span class="line">    AdvertiseSettings mAdvSettings = <span class="keyword">new</span> AdvertiseSettings.Builder()</span><br><span class="line">            .setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_BALANCED)</span><br><span class="line">            .setTxPowerLevel(AdvertiseSettings.ADVERTISE_TX_POWER_LOW)</span><br><span class="line">            .setConnectable(<span class="keyword">true</span>)</span><br><span class="line">            .build();</span><br><span class="line">    AdvertiseData mAdvData = <span class="keyword">new</span> AdvertiseData.Builder()</span><br><span class="line">            .setIncludeTxPowerLevel(<span class="keyword">true</span>)</span><br><span class="line">            .addServiceUuid(<span class="keyword">new</span> ParcelUuid(ADV_SERVICE_UUID))</span><br><span class="line">            .addManufacturerData(<span class="number">65535</span>, androidId)</span><br><span class="line">            .build();</span><br><span class="line">    AdvertiseData mAdvScan = <span class="keyword">new</span> AdvertiseData.Builder()</span><br><span class="line">            .setIncludeDeviceName(<span class="keyword">true</span>)</span><br><span class="line">            .build();</span><br><span class="line">    mBluetoothLeAdvertiser.startAdvertising(mAdvSettings, mAdvData, mAdvScan, mAdvertiseCallback);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="傳送資料"><a href="#傳送資料" class="headerlink" title="傳送資料"></a>傳送資料</h3><p>前面提過 BLE 傳送資料其實是利用對 Characteristic 的讀寫來交換資料</p>
+<p>當初在開發的時候，記得另外一個比較會讓人混淆的就是讀寫 call back 的相關 API</p>
+<p>Client 傳訊息給 Server 的機制是 <code>writeCharacteristic</code></p>
+<p>Server 如果收到 Client 的訊息，會到 <code>onCharacteristicWriteRequest</code> 這個 call back function，這時候就可以把資料取出來</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCharacteristicWriteRequest</span><span class="params">(BluetoothDevice device, </span></span></span><br><span class="line"><span class="function"><span class="params">                                         <span class="keyword">int</span> requestId, </span></span></span><br><span class="line"><span class="function"><span class="params">                                         BluetoothGattCharacteristic characteristic,</span></span></span><br><span class="line"><span class="function"><span class="params">                                         <span class="keyword">boolean</span> preparedWrite, <span class="keyword">boolean</span> responseNeeded,</span></span></span><br><span class="line"><span class="function"><span class="params">                                         <span class="keyword">int</span> offset, </span></span></span><br><span class="line"><span class="function"><span class="params">                                         <span class="keyword">byte</span>[] value)</span> </span>{</span><br><span class="line"></span><br><span class="line">    <span class="keyword">super</span>.onCharacteristicWriteRequest(device, requestId, characteristic, preparedWrite</span><br><span class="line">                    , responseNeeded, offset, value);</span><br><span class="line">    <span class="comment">// retrieve your data, value or characteristic</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>Server 要傳訊息給 Client 的機制是先改變目前給 Client 讀取的 Characteristic 的內容，這裡的 <code>BluetoothGattCharacteristic</code> 的設置要記得加上特定的 property</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mUpdateCharacteristic = <span class="keyword">new</span> BluetoothGattCharacteristic(UPDATE_CHARACTERISTIC_UUID,</span><br><span class="line">                BluetoothGattCharacteristic.PROPERTY_READ |</span><br><span class="line">                        BluetoothGattCharacteristic.PROPERTY_NOTIFY,</span><br><span class="line">                BluetoothGattCharacteristic.PERMISSION_READ);</span><br><span class="line"></span><br><span class="line"><span class="comment">// put your updated data</span></span><br><span class="line">mUpdateCharacteristic.setValue(data); <span class="comment">// data type is byte[]</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>接著再 call <code>notifyCharacteristicChanged</code>，notify BLE Client (在已經建立連線的狀態下)，來讀取新的資料</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//true for indicate, false for notification(w/o ACK)</span></span><br><span class="line"><span class="keyword">boolean</span> indicate = (characteristic.getProperties()</span><br><span class="line">                &amp; BluetoothGattCharacteristic.PROPERTY_INDICATE)</span><br><span class="line">                == BluetoothGattCharacteristic.PROPERTY_INDICATE;</span><br><span class="line"><span class="keyword">if</span> (mGattServer != <span class="keyword">null</span>) {</span><br><span class="line">    mGattServer.notifyCharacteristicChanged(device, characteristic, indicate);</span><br><span class="line">} <span class="keyword">else</span> {</span><br><span class="line">    <span class="comment">// null handle</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>Android BLE 的 API 滿多的，所以一開始會覺得很雜，而且到後面遇到一些連線問題時會發現細節很多，在開發的過程中修了不少地方</p>
+<p>一開始要弄懂最快的方式就是照著範例寫好簡單的 Server 與 Client 端後，在每個 call back 都印 log 出來跑一次看看，就會清楚他們之間的 Flow</p>
+<p>連線穩定度我覺得有點看兩台 Android 裝置是什麼，我們遇過不同 Android 手機連同一台 Android 裝置的時候有不一樣的連線狀況，Client 與 Server 端的程式版本明明一樣</p>
+<p>開發 Android 最煩的大概就是不同系統廠的手機會有不一樣的毛病…這部分只能說無解，所幸後來流行 pure Android system，各廠牌都有出，賣得也不錯，希望 pure Android 能慢慢成為市場主流XD</p>
+<p>圖片與參考資料來源</p>
+<ul>
+<li><a href="https://www.mathworks.com/help/comm/examples/modeling-of-ble-devices-with-heart-rate-profile.html" target="_blank" rel="noopener">https://www.mathworks.com/help/comm/examples/modeling-of-ble-devices-with-heart-rate-profile.html</a></li>
+<li><a href="http://nilhcem.com/android-things/bluetooth-low-energy" target="_blank" rel="noopener">http://nilhcem.com/android-things/bluetooth-low-energy</a></li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/BluetoothLowEnergyOnAndroid/">http://havincy.github.io/post/BluetoothLowEnergyOnAndroid/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/BLE/">#BLE</a>
+                    
+                        <a href="/tags/Bluetooth/">#Bluetooth</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/ServeHttpsWebLocally/">手機如何連線到加密的 localhost 本地端</a>
+            
+            
+            <a class="next" rel="next" href="/post/SebaceousCystSurgeryExp/">粉瘤切除手術心得</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/BluetoothLowEnergyOnAndroid/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>我的 2020 閱讀書單 | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">我的 2020 閱讀書單</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: March 28, 2021
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E8%AE%80%E6%9B%B8%E5%BF%83%E5%BE%97/">讀書心得</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>效仿我的偶像比爾蓋茲也想要記錄下每年的閱讀書單! 只是數量跟比爾差很多就是了😆</p>
+<p>之前<a href="../ExportNotesFromKoboEReader/">買了 Kobo 電子書閱讀器</a>，利用新購優惠券買了很多本書，<strong>去年累計的閱讀量是 15 本半</strong> (1 本看到一半)</p>
+<p>去年的閱讀目標除了閱讀量，還有整理每本書在 Kobo 上所畫的重點到 Gitbook，除了方便想到時可以 review，也會在整理的時候加深對知識的印象，我常常只會在讀完書的那個月特別有感悟，時間久了又忘了，透過再整理一次的方式就不會只是囫圇吞棗了</p>
+<p>以下書單不按照喜好排名，會簡短附上我<strong>主觀的評論跟分數</strong></p>
+<h2 id="1-原子習慣"><a href="#1-原子習慣" class="headerlink" title="1-原子習慣"></a>1-原子習慣</h2><p><strong>細微改變帶來巨大成就的實證法則</strong></p>
+<img src="/post/2020-Book-Reading-List/Atomic-Habits-Cover.jpg" class="">
+
+<p>個人評分：★★★★★</p>
+<h3 id="簡評"><a href="#簡評" class="headerlink" title="簡評"></a>簡評</h3><p><strong>是一本能夠改變你生活的書</strong>，不灌太多雞湯，直接展示給你養成好習慣移除壞習慣的方法</p>
+<p>這本書我有單獨一篇心得在這邊: <a href="../AtomicHabitsReview/">書籍&lt;原子習慣&gt;讀後感</a></p>
+<h2 id="2-為什麼要睡覺"><a href="#2-為什麼要睡覺" class="headerlink" title="2-為什麼要睡覺"></a>2-為什麼要睡覺</h2><p><strong>睡出健康與學習力、夢出創意的新科學</strong></p>
+<img src="/post/2020-Book-Reading-List/Why-We-Sleep-Cover.jpg" class="">
+
+<p>個人評分：★★★★★</p>
+<h3 id="簡評-1"><a href="#簡評-1" class="headerlink" title="簡評"></a>簡評</h3><p>用你想像不到的各種研究理論來談論睡覺這個問題，作者是知名的神經科學教授，目前也在幾個知名公司擔任顧問，如果有長期睡不好的問題，很推薦看看，裡面也有談到疾病、藥物的議題</p>
+<p>這本書我有單獨一篇心得在這邊：<a href="../WhyWeSleepBookReview/">書籍&lt;為什麼要睡覺&gt;讀後心得</a></p>
+<h2 id="3-大器可以晚成"><a href="#3-大器可以晚成" class="headerlink" title="3-大器可以晚成"></a>3-大器可以晚成</h2><p><strong>當世界沉迷年少得志，耐心是你成功的本事</strong></p>
+<img src="/post/2020-Book-Reading-List/Late-Bloomers-Cover.jpg" class="">
+
+<blockquote>
+<p>我們原本該鼓勵孩子懷抱遠大夢想，敢於冒險，從人生無可避免的失敗裡記取教訓，但我們不這麼做，反而教他們戰戰兢兢，不敢犯下半點錯誤。望子成龍，望女成鳳，反而養出脆弱的花朵</p>
+</blockquote>
+<blockquote>
+<p>我們瘋狂地追求早早就得功成名就，做不到就認為自己是失敗者，這導致我們國家浪費了很多人才，扼殺了很多創意。在健康的社會裡，所有人都應該要明白：無論在人生的任何階段，每個人都能夠綻放光芒、重獲新生、成長茁壯，與成就非凡。</p>
+</blockquote>
+<p>個人評分：★★★★★</p>
+<h3 id="簡評-2"><a href="#簡評-2" class="headerlink" title="簡評"></a>簡評</h3><p>非常精彩的一本書，可能跟我個人觀念很符合，所以非常喜歡</p>
+<p>這本書想強調的就是現在這個世代，因為社群媒體的發達，使得我們容易看到別人成功光鮮亮麗的一面，看到 IG, FB 上面好像有許多人在年紀輕輕就已經有一番事業與成就，迫使心智還不成熟的青少年誤以為自己一事無成，而如果沒有跟那些人一樣早早達到所謂的成功，那往後的人生就一敗塗地</p>
+<p>可是事實並非如此，我們不應該有”幾歲”之前就要成功的觀念，<strong>心態的廣度決定你最後的高度</strong>，</p>
+<p>作者親自訪談了幾個不同領域大器晚成的人，參考了不少研究數據在書中引用，事實證明<strong>人類的潛能是無限的，不會受年齡所限制，即使天生智力是已經決定，但後天的經驗累積可以讓人類結合不同的學習經驗在特定領域展現創意</strong></p>
+<p>通過不跟別人比較，看透社群上所有虛假的表像，才能夠挖掘己身真實的內裡，找尋屬於自己的成功</p>
+<h2 id="4-人性的弱點"><a href="#4-人性的弱點" class="headerlink" title="4-人性的弱點"></a>4-人性的弱點</h2><p><strong>卡內基教你贏得友誼並影響他人</strong></p>
+<img src="/post/2020-Book-Reading-List/How-to-Win-Friends-Cover.jpg" class="">
+
+<blockquote>
+<p>卡內基基金會資助的調查與研究，發現了一件重要的事實，即使是極專門化的工程職業，他們成功的原因有百分之十五是由於技術知識，百分之八十五卻是由於他們待人的技巧以及領導的能力。</p>
+</blockquote>
+<p>個人評分：★★★★☆</p>
+<h3 id="簡評-3"><a href="#簡評-3" class="headerlink" title="簡評"></a>簡評</h3><p>是一本我個人認為有一點點黑暗的書籍，若沒有正確的心態去使用卡內基的方法，容易淪於巧言令色說黑為白的小人，我建議不可用操縱別人的心態去讀這本書，是要用<strong>如何創造雙贏局面的心態去看人性的弱點</strong>，</p>
+<p>書中所整理的幾個技巧不應該拿來騙人(像是很多直銷的手法)，更何況在我看來聰明的人不可能被幾招人性的弱點匡走，如果你有一點不真誠，情商比你高的人是很快就能 sense 到的，如此一來你只會失去值得結交的聰明人，反而招來不少愚蠢的人</p>
+<p>不是要利用人性，而是要了解人性，不要只是把招數背起來，而是真的內化成心法，真誠的與人交流，懇切的了解他人的需求</p>
+<h2 id="5-子彈思考整理術"><a href="#5-子彈思考整理術" class="headerlink" title="5-子彈思考整理術"></a>5-子彈思考整理術</h2><p><strong>釐清超載思緒，化想法為行動，專注最重要的事，設計你想要的人生</strong></p>
+<img src="/post/2020-Book-Reading-List/Bullet-Journal-Cover.jpg" class="">
+
+<blockquote>
+<p>自我意識的缺乏。 如今是史上連結最緊密的時代，但是我們缺乏人與人之間的接觸。我們被源源不絕的資訊洪流淹沒，被過度刺激而焦躁不安，過度工作而心有不滿，不斷接受訊息而感到倦怠。科技滲透至生活的各個角落，讓我們不斷分心。</p>
+</blockquote>
+<blockquote>
+<p>現在，無數人認為子彈筆記方法最重要的優點是讓他們重新取回生活的主導權。</p>
+</blockquote>
+<blockquote>
+<p>要找到自己的定位，得先知道自己身在何處。</p>
+</blockquote>
+<p>個人評分：★★★★★</p>
+<h3 id="簡評-4"><a href="#簡評-4" class="headerlink" title="簡評"></a>簡評</h3><p>對時間管理很有用的一本書，不管是工作上的任務還是個人的目標，年度計畫，運動計畫等等，妥善運用子彈筆記教導的方法，最後都有不錯的達成度</p>
+<p>作者本身其實是缺乏專注力的人，心思總會飄來飄去(monkey mind)，我自己也是這類人，所以筆記對思考無法一直線到底的人更加重要，需要找到適合自己的筆記方式，便能夠有效管理每一天，每一週，每一個月，最後完成一整年，讓你可以逐步掌握生活與工作的節奏</p>
+<p>如果覺得一整天一團亂，什麼事都沒完成，想看的書，想達成的目標都失敗，不知道如何有效前進，這本書絕對對你很有幫助</p>
+<p>可以搭配 &lt;原子習慣&gt; 服用，每日做子彈筆記也是一種原子習慣，本人記到第八個月差點堅持不住，我會容易在月底回顧時被沒完成的目標打擊，書中其實有提到，了解自己才是最重要的一步，真的無法完成也不用苛責自己，移到下個月或是再拆分目標就可以了</p>
+<h2 id="6-情緒賽局"><a href="#6-情緒賽局" class="headerlink" title="6-情緒賽局"></a>6-情緒賽局</h2><img src="/post/2020-Book-Reading-List/Feeling-Smart-Cover.png" class="">
+
+<blockquote>
+<p>情緒跟理智機智實際上是共同運作，互相支持，有時候兩者甚至密不可分，只有情緒與理性機制密切合作，才能讓你做出既明智又令人滿意的決定。 </p>
+</blockquote>
+<blockquote>
+<p>最終擁有優勢的不是僅靠理性運作的人，而是感性與理性兼具的人。</p>
+</blockquote>
+<p>個人評分：★★★★★</p>
+<h3 id="簡評-5"><a href="#簡評-5" class="headerlink" title="簡評"></a>簡評</h3><p>很好看的一本書，會打破一般人對於所謂「情緒化」= 「不理性」的誤解</p>
+<p>因為情緒，理性才得以存在，因為情緒，人類才有可能互相理解而達成共識</p>
+<p><strong>一個沒有情緒的社會就如同失去了海浪的海，不會有任何事物被翻轉，當然也不會推動任何事物前進</strong></p>
+<p>作者舉了親身經歷以及很多研究，來探討不同賽局下，情緒的影響對於結果有多大的改變，小至個人事務與公司的獎懲回饋，大至國與國之間的抗衡，這本書讓我最醒悟的就是，就算你理解了所有賽局的情緒因果，身在類似的賽局之中你已然看到了情緒，但你還是無法完全控制，而也許就是因為這樣，人類才如此多采多姿吧</p>
+<h2 id="7-房間裡最有智慧的人"><a href="#7-房間裡最有智慧的人" class="headerlink" title="7-房間裡最有智慧的人"></a>7-房間裡最有智慧的人</h2><p><strong>康乃爾X史丹佛頂尖心理學家帶你洞悉人性、判辨真偽</strong></p>
+<img src="/post/2020-Book-Reading-List/The-Wisest-One-In-The-Room-Cover.jpeg" class="">
+
+<blockquote>
+<p>智慧與智力的一大關鍵分野在於，智慧關乎對人的洞見與掌握，智力則否。</p>
+</blockquote>
+<blockquote>
+<p>一般人傾向找正面佐證支持自己的想法，如果你希望某事為真，會尋求正面佐證加以支持；如果你不希望某事為真，則尋找反面證據加以質疑。</p>
+</blockquote>
+<blockquote>
+<p>一個有智慧的人，必然了解人類行為背後的來龍去脈，洞悉錯誤判斷、失敗預測與糟糕決策的前因後果。要有智慧，就要了解心理。</p>
+</blockquote>
+<p>個人評分：★★★★★</p>
+<h3 id="簡評-6"><a href="#簡評-6" class="headerlink" title="簡評"></a>簡評</h3><p>這本書強調一個事實每個人可能都有不同面向的解讀，提到滿多社會現象都與人類本身的行為心理學息息相關，相當有趣，在觀看的過程中也不斷自我審視是不是房間裡比較有智慧的人，知道房間外還有更寬廣的世界，還是其實是屬於那個被困在房間以為就是全世界的人XD</p>
+<p>我腦中有收藏一個很經典易懂的例子(以前看到一直記到現在)</p>
+<blockquote>
+<p>有一個物體，A 說那一定是個三角形，B 說那肯定是正方形，誰對誰錯呢？一定有人是錯的嗎？</p>
+</blockquote>
+<p><strong>結果物體其實一個三角錐啊，這樣雙方說的都算對，只是站在不同角度指出了部分的事實，把兩人的觀點合併就接近真相了</strong></p>
+<p>相當簡單的例子足以闡述對事物的觀點其實不可能是單一的，可在現實中不同立場的人卻還是難以達成共識</p>
+<p>因為人們會更傾向相信跟自己同觀點的人，打從心底反對意見相左的，尤其在現在社群媒體的世界中，我們每天被演算法所餵食的內容都更侷限我們的視野，加深我們同溫層的厚度，彼此之間更難互相理解了</p>
+<p><strong>私以為在資訊爆炸以及社群分界化更強烈的未來，不局限於平面假象，而是去看到不同表面之間組成的真實立體，會是一個非常重要且需要長期培養的能力</strong></p>
+<h2 id="8-金錢心理學"><a href="#8-金錢心理學" class="headerlink" title="8-金錢心理學"></a>8-金錢心理學</h2><p><strong>打破你對金錢的迷思，學會聰明花費</strong></p>
+<img src="/post/2020-Book-Reading-List/Dollars-And-Sense.jpeg" class="">
+
+<blockquote>
+<p>我們應該思考機會成本―現在花掉了這筆錢，就是放棄其他機會，但是這種思考太抽象、太難，所以我們乾脆不去思考。</p>
+</blockquote>
+<blockquote>
+<p>在相對性思維的作用下，我們可能對花大錢的購買快速做出決定，對花小錢的購買較慢做出決定，這是因為我們思考的是消費金額的百分比，而非實際金額。</p>
+</blockquote>
+<blockquote>
+<p>失去的痛帶給我們的感受強過獲得的快樂，而且兩者差距可不小，約莫兩倍。也就是說，失去10美元的痛感，是獲得10美元的快樂感的兩倍；以相同程度的情緒衝擊來說，必須獲得20美元，才能抵消失去10美元的痛。</p>
+</blockquote>
+<p>個人評分：★★★★★</p>
+<h3 id="簡評-7"><a href="#簡評-7" class="headerlink" title="簡評"></a>簡評</h3><p>時下最夯的行為經濟心理學大師的精華，談了許多日常消費的行為其背後的心理學是為何，為什麼我們會在某種情況下花比較多錢，卻在另一種稍微不一樣的條件下選擇不花錢，但明明都是買同個東西，情境的不同造成結果天差地別</p>
+<p>書中舉的有些例子<strong>既視感滿滿</strong>，許多銷售策略多多少少都應用了金錢心理學去愚弄大眾(?)，尤其數字與文字搭配起來會讓我們大腦有不同的反應，進而導致我們做出不同的選擇</p>
+<p>書中舉例一家供應「牛肉去脂80％」的漢堡，另一家賣一樣的東西，賣的卻是「牛肉脂肪含量20％」，人們的感受有差嗎，實驗結果指出差非常多，<strong>大部分人傾向選擇去脂的說法，而不是選擇脂肪含量，但明明兩者描述的是一樣的事情</strong></p>
+<p>這本書很推薦跟 &lt;房間裡最有智慧的人&gt; 一起搭配閱讀，滿多相同的 references，只是這本書會更著重在金錢感受的部分</p>
+<h2 id="9-起床後的黃金1小時"><a href="#9-起床後的黃金1小時" class="headerlink" title="9-起床後的黃金1小時"></a>9-起床後的黃金1小時</h2><p><strong>揭開64位成功人士培養高效率的祕密時光，從他們的創意晨型活動中，建立屬於自己的高生產力、高抗壓生活習慣</strong></p>
+<img src="/post/2020-Book-Reading-List/My-Morning-Routine.jpeg" class="">
+
+<blockquote>
+<p>利用「起床」作為展開晨間習慣的觸發點，而習慣中每一個子元素都會提醒你進入下一個主元素。請相信這個過程，也就是「一而再、再而三地重複做同樣的事」雖然很無趣，但非常實在，更是改變人生的關鍵</p>
+</blockquote>
+<ul>
+<li>作者群的網站：我的晨型人生 - mymorningroutine.com</li>
+</ul>
+<p>個人評分：★★★★☆</p>
+<h3 id="簡評-8"><a href="#簡評-8" class="headerlink" title="簡評"></a>簡評</h3><p>作者群訪問了很多不同職業不同領域的佼佼者，統整他們的早晨習慣，每個人的早晨儀式都不一樣，相同的就是<strong>成功人士習慣維持一套晨起的習慣，來好好的開始他們的一天</strong>，其中也有一些並不是晨型人的分享，說明習慣早起後的好處，對他們的健康，生活還有工作有多大的改善</p>
+<p>收穫是滿多的，但目前我的實行結果應該算是失敗了，要從夜貓生理時鐘大翻轉成晨型人真的好難，就算訓練早起的來，現在也只會做伸展跟深呼吸，其餘的都在床上發呆，甚或是不小心又睡著，所以後來試了兩個月就放棄了= =</p>
+<p>最近開始週二到週五要早上七點半起來跟美國開 Scrum，不得不早起，因為是強迫身體適應，不是漸進式的，開完會後大概亢奮三十分鐘，趁早處理一些溝通後，就精神爆累倒回床上補眠至少一小時，感覺挺惡性循環</p>
+<p>根本原因就是不夠早睡，根據 &lt;為什麼要睡覺&gt; 這本書學到的<strong>一個睡眠週期是一小時半，重點不是何時睡覺而是有沒有睡滿週期</strong>，要順利七點半起來開會，要睡足至少七小時的話，我就要十二點前入睡才行，這憑現在的我是辦不到的😩😩😩 (夜貓習性加上難入眠易醒)，希望能在今年徹底解決睡眠困擾！</p>
+<h2 id="10-習慣致富"><a href="#10-習慣致富" class="headerlink" title="10-習慣致富"></a>10-習慣致富</h2><p><strong>成為有錢人，你不需要富爸爸，只需要富習慣</strong></p>
+<img src="/post/2020-Book-Reading-List/Rich-Habits-Poor-Habits.jpeg" class="">
+
+<blockquote>
+<p>我們發現他們的成功和其背景、教育、國籍、投資工具或起始資本的關係極小，相反地，這和他們如何思考有很大的關係。事實上，他們的成功有八○％的原因在於心態。富人總讚佩其他富有、成功者，樂見他人成功，共同高舉火炬，照亮社會點線面</p>
+</blockquote>
+<blockquote>
+<p>金錢本身是空洞無意義的，你必須給它一個意義</p>
+</blockquote>
+<p>個人評分：★★★★☆</p>
+<h3 id="簡評-9"><a href="#簡評-9" class="headerlink" title="簡評"></a>簡評</h3><p>主要的作者 Tom Corley，花了五年時間觀察和紀錄超過 350 位富人和窮人的每日行為，問了五萬多個問題，發現富人跟窮人之間的差距主因並不是背景或階級造成的，而是每天的習慣造就的</p>
+<p><strong>我個人的想法是：貧困的原因是綜合性的</strong>，不單就是習慣，文化，國家開發程度等等，所以我不太認可這種單純的習慣歸因，是成因之一但絕不是主要原因</p>
+<p>不過書中提到的很多習慣確實是可以拿來做自我成長的標竿，裡面也有不少段落說的很好，<strong>「如果驅動你想要錢的動機是恐懼或憤怒或要證明自己，那麼錢幫不了你」</strong>，這句話因為我父親的關係我深有感觸，錢只是 byproduct，能帶著錢湧入你口袋的往往跟賺錢無關，能成就你的同時也能毀滅你，一切都要有個平衡</p>
+<h2 id="11-正念減壓的訓練"><a href="#11-正念減壓的訓練" class="headerlink" title="11-正念減壓的訓練"></a>11-正念減壓的訓練</h2><p><strong>風行全球，哈佛醫學院、Google、麥肯錫、蘋果都在用</strong></p>
+<img src="/post/2020-Book-Reading-List/Training-In-Mindfulness.jpeg" class="">
+
+<blockquote>
+<p>差別不在無常的多寡，而是我們面對無常的心態。</p>
+</blockquote>
+<blockquote>
+<p>所謂減壓，減的是壓力，而非壓力源。你有多少壓力，取決於你如何看待壓力源。</p>
+</blockquote>
+<blockquote>
+<p>正念是覺察，因此並非不要有念頭或想法，而是要「覺察到」自己有什麼念頭與想法</p>
+</blockquote>
+<p>台灣正念工坊官網：<a href="http://www.mindfulnesscenter.tw" target="_blank" rel="noopener">www.mindfulnesscenter.tw</a></p>
+<p>個人評分：★★★★★</p>
+<h3 id="簡評-10"><a href="#簡評-10" class="headerlink" title="簡評"></a>簡評</h3><p>去年開始試著冥想，認識了正念</p>
+<p>這本書介紹了什麼是正念以及興起的背景，要如何練習正念，就算是很繁忙的一整天，也能有十分鐘的時間練習，很適合在心煩意亂的時候閱讀，可以照著書上的說的開始深吸深吐XD</p>
+<p>其實冥想<strong>並非要你腦袋一片安詳跟空白，是要學著去意識那些思緒或是情緒，讓自己像是旁觀者一樣</strong>，透過這種練習也有助於大腦思考，進階一點的就是練習專注於當下的每一分每一秒，不要留戀過去瀏覽未來</p>
+<p>後來我發現瑜珈的練習就是在引導你進入專注當下的狀態，你必須把心思都放在身體上才能夠正確伸展或是維持動作，這也是為什麼瑜珈確實能使人放鬆壓力，因為大腦有喘息的空間，我目前只有在練習瑜珈時有辦法進入專注當下的狀態(真的大腦不會去想其他事情)</p>
+<p>目前還是沒有冥想成功過，是有很安靜坐著深呼吸，可是腦中思緒扔然繁雜(<del>修為不夠</del>)</p>
+<p>推薦給想認識什麼是正念，然後想知道該怎麼一步一步執行的人</p>
+<h2 id="12-漫步華爾街的10條投資金律"><a href="#12-漫步華爾街的10條投資金律" class="headerlink" title="12-漫步華爾街的10條投資金律"></a>12-漫步華爾街的10條投資金律</h2><p><strong>經理人不告訴你，但投資前一定要知道的事</strong></p>
+<img src="/post/2020-Book-Reading-List/The-Random-Walk-Guide-To-Investing.jpeg" class="">
+
+<blockquote>
+<p>當眾人都抱持樂觀態度、股市飆升時，投資人通常會紛紛湧入暴漲的股市。直到股市急劇下跌，悲觀的情緒四處蔓延，他們會開始驚慌失措。亞洲市場很不穩定，因此投資人很容易犯下嚴重的投資錯誤。一般來說，不會被從眾效應牽著鼻子走的人，以及不會一股腦兒栽進熱門投資商品的人，最有機會享有美好的投資成果。</p>
+</blockquote>
+<blockquote>
+<p>這世上只有三種金融預言家：根本不知道的人、不知道自己根本不知道的人，以及知道自己不知道，卻藉著裝懂賺錢的人</p>
+</blockquote>
+<p>個人評分：★★★★★</p>
+<h3 id="簡評-11"><a href="#簡評-11" class="headerlink" title="簡評"></a>簡評</h3><p>在閱讀像是 &lt;蒙格主義&gt; 或是 Howard Marks 的 &lt;投資最重要的事&gt; 之前，先把這本投資金律的簡略版讀完會有比較完整的大方向，可以事先評估自己適合哪種投資方式</p>
+<p>如果是走跟著大盤的指數投資，並不需要完整的拜讀投資最重要的事，因為價值投資其實是要花費很大的心力在研究企業跟市場的</p>
+<p>所以我是滿建議投資新手可以先讀完這本再考慮要不要看價值投資，書中會介紹四個主要的投資工具：現金、股票、債券還有不動產，甚至還有如何善用退休金制度幫自己節稅跟理財(作者舉的都是美國的退休金制度，但譯者很貼心的附註台灣勞工退休金制度在上面)，加上作者個人數十年<strong>對於指數投資方法的精華和研究</strong>，是不容錯過的一本投資心法書</p>
+<h2 id="13-深度職場力"><a href="#13-深度職場力" class="headerlink" title="13-深度職場力"></a>13-深度職場力</h2><p><strong>拋開熱情迷思，專心把自己變強！ MIT電腦科學博士寫給工作人的深度精進指南</strong></p>
+<img src="/post/2020-Book-Reading-List/So-Good-They-Can't-Ignore-You.png" class="">
+
+<blockquote>
+<p>我愈是研究這個議題，愈覺得「熱情假設」讓人相信某處有個「適合」的工作等著他；只要他看到那個工作，一眼就能認出那是命中注定的完美工作。當然，問題是，當他們始終找不到那麼篤定的工作時，負面後果也隨之而來；例如不斷換工作，甚至開始懷疑自己</p>
+</blockquote>
+<blockquote>
+<p>技能思維強調「你能為世界提供什麼」，熱情思維則是強調「世界能提供你什麼」</p>
+</blockquote>
+<blockquote>
+<p>你在追求「好」的過程中，應該要體會到那種不適感；如果沒有感到任何不適，你可能還卡在「可接受的水準」</p>
+</blockquote>
+<p>個人評分：★★★☆☆</p>
+<h3 id="簡評-12"><a href="#簡評-12" class="headerlink" title="簡評"></a>簡評</h3><p>少數我的選讀中不會停在某幾頁反思的書，這本大概花兩天閒暇時間就讀完了</p>
+<p>概括就是「熱情」與「專業能力」是不一定共存的</p>
+<p>舉例來說你的熱情是畫畫，可是你不一定會想要把畫畫當成主要的專業能力去服務販售</p>
+<p>作者認為<strong>現在的社會太強調找尋熱情對學子是危險的</strong>，好像找不到熱情跟天命就注定失敗一樣，有人甚至一生都不一定找的到能養活自己的熱情，既然如此為何我們不改變想法，<strong>先追求自身在職場跟在這個社會能提供的專業</strong>，而不是盲目去找也許根本不一定存在的東西</p>
+<p>雖然沒有特別喜歡這本書，<strong>不是沒有內容，而是有些相似的道理很愛一再重複XD</strong>，不知道是想充頁數還怎樣</p>
+<p>不過裡面提到的確實是一個值得深思的，類似我在之前的低潮期所面臨的問題，當有興趣的事情變成一份工作，不能自己控制的時候，便索然無味甚至令人反感</p>
+<p>可能跟我的個性也有關…是屬於別人命令要我幹嘛我就有種越不想照著做的人(我媽表示我很難養大)</p>
+<p>這個問題在我看這本書時稍微得到了解答，但真正讓我醍醐灌頂的是我的爵士鼓老師，某一天我問他</p>
+<blockquote>
+<p>我：「老師你難道不會覺得興趣變成工作很無聊，有時會有點無力？尤其教到一些可能帶不起來或是很煩的小小朋友」<br>老師：「不會啊，雖然有些年齡太小的學生確實有點麻煩，可是我會認為這就是我的專業，我要做教學我就要展現我的專業」<br>我：「我發現我有點對我的職業感到倦怠，雖然我還是喜歡寫程式，接觸新東西」<br>老師：「那就代表你還需要想清楚？或是你要重新思考你是怎麼看待你的工作」</p>
+</blockquote>
+<p>聽完老師的回答後我沈默了大概有一分鐘</p>
+<blockquote>
+<p>我：「結論是你覺得因為你是專業的，就應該要拿出專業去服務的意思嗎，即使你不一定喜歡所有要求」<br>老師：「沒錯」</p>
+</blockquote>
+<p>然後那一天過後我就思考了好多天，加上把這本書看完後，我開始接受這個 mindset，我現在會不斷告訴自己：這是我的專業啊，我應該要拿出我的專業才對，神奇般的結果就是在工作上遇到不想處理的任務時我的心情不再那麼容易煩躁，不知道是不是一種自欺欺人的方法 😅，反正對我個人是滿有效的</p>
+<p>嗯…不推薦花錢買這本書，這本書的核心我上面都說完了 🤣</p>
+<h2 id="14-人類大歷史"><a href="#14-人類大歷史" class="headerlink" title="14-人類大歷史"></a>14-人類大歷史</h2><p><strong>從野獸到扮演上帝</strong></p>
+<img src="/post/2020-Book-Reading-List/A-Brief-History-of-Humankind.jpeg" class="">
+
+<blockquote>
+<p>在人類大歷史的路上，有三大重要革命：大約七萬年前，認知革命（Cognitive Revolution）讓我們所謂的歷史正式啟動。大約一萬兩千年前，農業革命（Agricultural Revolution）讓歷史加速發展。到了大約不過是五百年前，科學革命（Scientific Revolution）可以說是讓過往的歷史告一段落，而另創新局。這本書的內容，就是在描述這三大革命如何改變了人類和周遭的生物。</p>
+</blockquote>
+<p>個人評分：★★★★★</p>
+<h3 id="簡評-13"><a href="#簡評-13" class="headerlink" title="簡評"></a>簡評</h3><p>只能說<strong>精彩絕倫</strong> 👏👏👏</p>
+<p>作者哈拉瑞擅長用宏觀的角度幽默的敘述來鋪陳他的思想與觀點，喜愛歷史的人一定要朝聖這本</p>
+<p>可以當成閒書來看，個人特別喜歡遠古時代的那幾段，學到滿多新知的，像是人類的基因進化跟不上文明跟科技，才會有那麼多的文明病以及飲食問題，還有八卦的基因是如何從西元前一直遺留到現代，仍然是人類凝聚團體的一個重要力量(一起說人閒話)，再來是貨幣是怎麼進化成現今的樣子，信仰對於人類是什麼，戰爭又是怎麼發生的，從帝國到全球化我們是不是有過得比較好了？諸如此類的大哉問</p>
+<p>哈拉瑞本人說故事般的循循引導，<strong>像是在聽一個富有智慧的人在你對面跟你侃侃而談大歷史卻一點不會讓人感到難以理解，吸引你跟著他一起溯古追今</strong>，由深佈廣去了解人類大歷史！</p>
+<h2 id="15-真確"><a href="#15-真確" class="headerlink" title="15-真確"></a>15-真確</h2><p><strong>扭轉十大直覺偏誤，發現事情比你想的美好</strong></p>
+<img src="/post/2020-Book-Reading-List/Factfulness-Cover.png" class="">
+
+<blockquote>
+<p>我們喜歡八卦閒扯，喜歡誇大的故事，這些在過去是有用資訊與新知的唯一來源。我們渴望糖分與脂質，這些在過去食物短缺的時代是維繫生命的熱量來源。我們的許多直覺在幾千年前很管用，但如今我們身在一個截然不同的世界。由於我們的大腦傾向迅速下結論，渴求誇大的故事，結果出現種種偏誤，</p>
+</blockquote>
+<blockquote>
+<p>如果我們能稍微探討得更深入一點，不要只看平均數，而是檢視分布狀況，不把群體綁在一起，而是檢視所有個體，那麼我們幾乎都能獲得更準確的認知，發覺乍看迥異的群體其實多所重疊。</p>
+</blockquote>
+<p>個人評分：★★★★★</p>
+<h3 id="簡評-14"><a href="#簡評-14" class="headerlink" title="簡評"></a>簡評</h3><p>比爾蓋茲強力推薦的書，真的是現在每個人都不得不讀的一本書！</p>
+<p>因為網路發達，看似資訊唾手可得的時代，每個人的認知卻離真相有很大的距離，<strong>真確這本書就是想要用可信的數據讓人們重新看待整個世界，也許世界並沒有我們所想像的這麼糟糕，但也許就如我們想像的一樣糟糕，而該樂觀的就是數據顯示世界都一直在慢慢變好</strong></p>
+<p>在看到一個動態，大家轉發的貼文，甚至是新聞，我們都要有懷疑且求真的態度，現在網路上的資訊很多，如何篩選正確的資訊跟判斷可信的來源都是我們需要去反思的</p>
+<p>我擷取了書中一開始的真確 13 問，有興趣的可以試試看，我自己是錯了一半以上啦XD</p>
+<p>好像才對 6 題，其中 1 題還是猜中的，我當時受到深深的打擊，於是就很快的把這本書看完了</p>
+<h3 id="真確-13-問"><a href="#真確-13-問" class="headerlink" title="真確 13 問"></a>真確 13 問</h3><p>現在請找出紙筆，回答下列13個「真確問題」：<br>每答對1題得1分，請把總分寫到紙上。</p>
+<p>註：這13個「真確問題」來自於我們在2017年推出的「留意認知落差測驗」。同一年，蓋普曼德基金會和民調公司合作，請14個國家的12,000名民眾在線上接受測驗，包括澳洲、比利時、加拿大、芬蘭、法國、德國、匈牙利、日本、挪威、南韓、西班牙、瑞典、英國和美國。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">1.現今全世界的低所得國家裡，多少女孩會讀完小學？</span><br><span class="line">□ （A）20％</span><br><span class="line">□ （B）40％</span><br><span class="line">□ （C）60％</span><br><span class="line"></span><br><span class="line">2.世界上的多數人是生活在哪裡？</span><br><span class="line">□ （A）低所得國家</span><br><span class="line">□ （B）中所得國家</span><br><span class="line">□ （C）高所得國家</span><br><span class="line"></span><br><span class="line">3.在過去20年，全球赤貧人口占總人口的比例是……</span><br><span class="line">□ （A）幾乎翻倍</span><br><span class="line">□ （B）大致不變</span><br><span class="line">□ （C）幾乎減半</span><br><span class="line"></span><br><span class="line">4.現今全球的平均壽命是多少？</span><br><span class="line">□ （A）50歲</span><br><span class="line">□ （B）60歲</span><br><span class="line">□ （C）70歲</span><br><span class="line"></span><br><span class="line">5.現今全球有20億個兒童，年齡介於0到15歲之間。根據聯合國的估算，到了2100年全球會有多少個兒童？</span><br><span class="line">□ （A）40億</span><br><span class="line">□ （B）30億</span><br><span class="line">□ （C）20億</span><br><span class="line"></span><br><span class="line">6.根據聯合國的估算，到了2100年全球會再增加40億人，而主要原因是什麼？</span><br><span class="line">□ （A）兒童人口增加（不到15歲）</span><br><span class="line">□ （B）成年人口增加（15歲到74歲）</span><br><span class="line">□ （C）老年人口增加（75歲以上）</span><br><span class="line"></span><br><span class="line">7.過去100年間，全球死於天災的人數是如何變化？</span><br><span class="line">□ （A）幾乎翻倍</span><br><span class="line">□ （B）大致不變</span><br><span class="line">□ （C）幾乎減半</span><br><span class="line"></span><br><span class="line">8.現今全球約有70億人，下列哪張圖正確呈現人口分布的狀況？（每個人像代表10億人）</span><br><span class="line">//無圖可貼，可以無視這題，反正大部分的人答錯機率很高</span><br><span class="line"></span><br><span class="line">9.現今全球多少2歲兒童有接種疫苗？</span><br><span class="line">□ （A）20％</span><br><span class="line">□ （B）50％</span><br><span class="line">□ （C）80％</span><br><span class="line"></span><br><span class="line">10.全球30歲的男性平均接受過10年的學校教育，而同齡的女性平均接受過幾年的學校教育？</span><br><span class="line">□ （A）9年</span><br><span class="line">□ （B）6年</span><br><span class="line">□ （C）3年</span><br><span class="line"></span><br><span class="line">11.1996年，老虎、熊貓和黑犀牛都列為瀕危動物。現在這3種動物裡，哪幾種面臨更迫切的危機？</span><br><span class="line">□ （A）2種</span><br><span class="line">□ （B）1種</span><br><span class="line">□ （C）0種</span><br><span class="line"></span><br><span class="line">12.全球多少人口享有電力？</span><br><span class="line">□ （A）20％</span><br><span class="line">□ （B）50％</span><br><span class="line">□ （C）80％</span><br><span class="line"></span><br><span class="line">13.全球氣象專家認為接下來一百年裡平均氣溫會……</span><br><span class="line">□ （A）更暖</span><br><span class="line">□ （B）一樣</span><br><span class="line">□ （C）更冷</span><br></pre></td></tr></tbody></table></figure>
+
+<p>正確答案如下：</p>
+<p>1.C 2.B 3.C 4.C 5.C 6.B 7.C 8.A 9.C 10.A 11.C 12.C 13.A</p>
+<blockquote>
+<p>如果你答得不好，你並不孤單。過去數十年來，我向全球各地成千上萬人提出數百個這類問題，關於貧富、人口增長、出生率、死亡率、教育、公衛、性別、暴力、能源與環境──這些都反映全球基本的面貌與趨勢。問題簡單明白，沒有暗藏陷阱，而且我很小心選擇可靠的數據，避免模糊的空間。然而多數人答得慘不忍睹。</p>
+</blockquote>
+<h2 id="16-風險之書"><a href="#16-風險之書" class="headerlink" title="16-風險之書"></a>16-風險之書</h2><p><strong>看人類如何探索、衡量，進而戰勝風險</strong></p>
+<img src="/post/2020-Book-Reading-List/Against-The-Gods-Cover.jpeg" class="">
+
+<p>個人評分：★★★★☆</p>
+<h3 id="簡評-15"><a href="#簡評-15" class="headerlink" title="簡評"></a>簡評</h3><p>這本就是 15 本半的那一本，剛好在今天看完，花了滿長時間咀嚼，一方面是頁數真的跟大歷史有得拼，一方面是他有些地方不容易一次看懂，加上中間我一直有切去看別的書，算一算整整花了半年才讀完哈哈哈</p>
+<p>閱讀的感受跟 &lt;人類大歷史 &gt;頗像，尤其敘述的口吻上面，只不過這本書的作者伯恩斯坦完全專注於談論風險是怎麼演變的</p>
+<p>從最早的只靠上帝決定到後來能推算出機率由自我掌握命運，人類本身有著強大的力量去歸納所有觀察到的事物，利用數字去得到一個可比較的結果，所以滿大的篇章都在討論數字跟機率XD，什麼巴斯卡，高斯，費波納契這些曾經在課本認識的都出來了</p>
+<p>比較建議在腦袋清醒的時候閱讀，並不是單純的閒書，至少有些地方我是停滿久的，感嘆古時候的人可能沒什麼休閒活動，花畢生的時間去研究數字之間的關聯= =</p>
+<p>前面的背景敘述相當龐大，雖然作者用比較淺顯的方式帶大家綜觀風險評估的進展，但大部分有點偏硬，最後幾章在談論投資上的風險，以及衍生性金融商品，還有期貨，避險等等的是怎麼在華爾街產生的，這些就滿實際了，沒有一定閱讀習慣的投資新手，我會建議先不要看這本，先去看一點應用或心法面的理財書</p>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>本來想要分享每本書的個人筆記檔，但恐有侵權風險，畢竟不是書籍心得，想要的人再私信我吧 (不過 &lt;人類大歷史&gt; 與 &lt;風險之書&gt; 的筆記暫時還在施工中)</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/2020-Book-Reading-List/">http://havincy.github.io/post/2020-Book-Reading-List/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/2020%E9%96%B1%E8%AE%80%E6%9B%B8%E5%96%AE/">#2020閱讀書單</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/Github-Actions-Intro/">Github Actions 做簡單的 Lint & Build CI</a>
+            
+            
+            <a class="next" rel="next" href="/post/Typescript-ResizeObserver-usage/">使用 ResizeObserver 與 onResize() 的差別</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/2020-Book-Reading-List/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

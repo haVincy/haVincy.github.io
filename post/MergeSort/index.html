@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>Merge Sort 合併排序法 | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Merge Sort 合併排序法</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: May 28, 2016
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Algorithm/">Algorithm</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Merge Sort是一個很有效率的排序法，利用遞迴的方式達到 $O(nlogn)$ 的複雜度，屬於 stable sorting</p>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>原理就是不斷將array切割成左右兩塊，左右兩塊利用遞迴特性繼續切割，直到切到最小單位時，才會開始合併，<strong>合併時才真正比較大小做排序</strong>，也是Divide and Conquer的運用</p>
+<p>流程大概如下：</p>
+<ol>
+<li>將array分成左半部跟右半部</li>
+<li>左半和右半重複做1的動作(遞迴, 不斷切半)</li>
+<li>合併左半右半(不斷合併)</li>
+</ol>
+<h2 id="pseudo-code"><a href="#pseudo-code" class="headerlink" title="pseudo code"></a>pseudo code</h2><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 切割 */</span></span><br><span class="line">MergeSort(A[<span class="number">1.</span>.n])</span><br><span class="line">  <span class="keyword">if</span> n = <span class="number">1</span>:</span><br><span class="line">  <span class="keyword">return</span> A</span><br><span class="line">  m ← n/<span class="number">2</span></span><br><span class="line">  <span class="comment">// 左右兩個array</span></span><br><span class="line">  Array left[<span class="number">1.</span>.m]</span><br><span class="line">  Array right[<span class="number">1.</span>.n-m]</span><br><span class="line">  <span class="comment">// 將原array的值assign到左右兩個array</span></span><br><span class="line">  <span class="keyword">for</span> i from <span class="number">1</span> to n:</span><br><span class="line">    left[i] ← A[i]</span><br><span class="line">  <span class="keyword">for</span> i from <span class="number">1</span> to n-m:</span><br><span class="line">	right[i] ← A[m+i]</span><br><span class="line">  <span class="comment">// 遞迴</span></span><br><span class="line">  MergeSort(left)</span><br><span class="line">  MergeSort(right)</span><br><span class="line">  Merge(A, left, right)</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 合併, 開始比大小 */</span></span><br><span class="line">Merge(A[<span class="number">1.</span>.n], left[<span class="number">1.</span>.n/<span class="number">2</span>], right[<span class="number">1.</span>.(n-n/<span class="number">2</span>)])</span><br><span class="line">  i ← <span class="number">1</span></span><br><span class="line">  j ← <span class="number">1</span></span><br><span class="line">  k ← <span class="number">1</span></span><br><span class="line">  <span class="comment">// 比較小的就先塞到array A</span></span><br><span class="line">  <span class="keyword">while</span> i &lt; leftSize <span class="keyword">and</span> j &lt; rightSize:</span><br><span class="line">    <span class="keyword">if</span> left[i] &lt;= right[j]:</span><br><span class="line">      A[k++] ← left[i++]</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">      A[k++] ← right[j++]</span><br><span class="line">  <span class="comment">// 如果有剩餘的值就全部塞入array A(因為左右兩個array的大小可能不同)</span></span><br><span class="line">  <span class="keyword">while</span> i &lt; leftSize:</span><br><span class="line">    A[k++] ← left[i++]</span><br><span class="line">  <span class="keyword">while</span> j &lt; rightSize:</span><br><span class="line">    A[k++] ← right[j++]</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="複雜度比較"><a href="#複雜度比較" class="headerlink" title="複雜度比較"></a>複雜度比較</h2><h3 id="時間複雜度"><a href="#時間複雜度" class="headerlink" title="時間複雜度"></a>時間複雜度</h3><table>
+<thead>
+<tr>
+<th align="center">Sequence</th>
+<th align="center">Complexity</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Random</td>
+<td align="center">$O(NlogN)$</td>
+</tr>
+<tr>
+<td align="center">Nearly Sorted</td>
+<td align="center">$O(NlogN)$</td>
+</tr>
+<tr>
+<td align="center">Reversed</td>
+<td align="center">$O(NlogN)$</td>
+</tr>
+<tr>
+<td align="center">Few Unique</td>
+<td align="center">$O(NlogN)$</td>
+</tr>
+</tbody></table>
+<p>Merge sort 的時間複雜度在所有情況下都是 ＄O(NlogN)$, 獨立於資料的組成</p>
+<h3 id="空間複雜度"><a href="#空間複雜度" class="headerlink" title="空間複雜度"></a>空間複雜度</h3><p>因為需要用到額外的 array 來儲存分割的資料作排序，用到 $O(n)$ space<br>如果用 linked list，則是 $O(logN)$ space</p>
+<p>可以到 Toptal 的<a href="https://www.toptal.com/developers/sorting-algorithms/merge-sort" target="_blank" rel="noopener">這個網頁</a>觀看不同 case 的視覺化排序過程</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/MergeSort/">http://havincy.github.io/post/MergeSort/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Sorting/">#Sorting</a>
+                    
+                        <a href="/tags/MergeSort/">#MergeSort</a>
+                    
+                        <a href="/tags/StableSorting/">#StableSorting</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/QuickSort/">Quick Sort 快速排序法</a>
+            
+            
+            <a class="next" rel="next" href="/post/SelectionSort/">Selection Sort 選擇排序法</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/MergeSort/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

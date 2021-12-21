@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>Manacher&#39;s Algorithm 迴文演算法介紹 | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Manacher&#39;s Algorithm 迴文演算法介紹</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: April 4, 2020
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Algorithm/">Algorithm</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>最近連假在家除了看劇耍廢之外，研究了之前在 Leecode 上解迴文的相關題目時，看到的演算法解法</p>
+<p>一般來說在處理迴文時，直覺的中心擴展法或是 DP 的方式都需要 $O(N^2)$ 的時間，但利用該演算法卻可以在線性時間 $O(N)$ 內完成</p>
+<p>這個演算法是由 Manacher Glenn 在 1975 年發現，在線性時間內算出所有迴文字串的方法</p>
+<blockquote>
+<p>Manancher 的論文發表在 ACM<br>(1975), “A new linear-time “on-line” algorithm for finding the smallest initial palindrome of a string”</p>
+</blockquote>
+<p>後人基於他的發現，進而發展出找出最長迴文子字串 LPS (Longest Palindromic Substrings) 的演算法，就叫做 Manacher’s Algorithm</p>
+<p>一開始只看程式碼完全看不懂為什麼，上網找了幾個解說網頁搭配看，自己在紙上推敲後才恍然大悟，真的是很聰明的方法，分享給想要耗損精力(?)的各位</p>
+<hr>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>在線性時間內在一個字串中找出所有迴文的演算法，主要是用來解決 LPS (Longest Palindromic Substrings) 的問題</p>
+<p>Manacher 的方法的前置作業是會在每個字串之間插入一個不相干的符號，比如用 #，然後利用一個正整數陣列計算每個位置的迴文半徑，也就是以該位置為中心的迴文長度</p>
+<p>假設給定字串為 “aabaaca”</p>
+<p>插入符號後的 = “#a#a#b#a#a#c#a#”</p>
+<p>紀錄 length 的 table 會是這樣</p>
+<table>
+<thead>
+<tr>
+<th align="right">string</th>
+<th align="center">#</th>
+<th align="center">a</th>
+<th align="center">#</th>
+<th align="center">a</th>
+<th align="center">#</th>
+<th align="center">b</th>
+<th align="center">#</th>
+<th align="center">a</th>
+<th align="center">#</th>
+<th align="center">a</th>
+<th align="center">#</th>
+<th align="center">c</th>
+<th align="center">#</th>
+<th align="center">a</th>
+<th align="center">#</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="right">radius</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">5</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">3</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+</tbody></table>
+<p>以 “#a#a#b#a#a#” 這組子字串為例，以 b 為中心點的迴文半徑長度(#a#a#)就是 5</p>
+<p>也可以發現 length 雖然紀錄的是半徑，但也是以該字母為中心迴文的實際長度(扣掉符號後)</p>
+<p>最後根據這個 table 紀錄的數值我們就能得出最長迴文的長度</p>
+<p>這裡有個很酷的 <a href="http://manacher-viz.s3-website-us-east-1.amazonaws.com/#/" target="_blank" rel="noopener">Manacher’s Algorithm 動畫</a>可以搭配參考</p>
+<h2 id="中心擴展"><a href="#中心擴展" class="headerlink" title="中心擴展"></a>中心擴展</h2><p>先來看怎麼從一般的方式判定一個字串是迴文並且計算長度的方法: 中心擴展法，這也是原本直覺在一個字串中找迴文的方法</p>
+<ol>
+<li>從中心點向左右擴展</li>
+<li>比對左右的字串</li>
+<li>字母一樣就判定是迴文，count++ (由於我們是要紀錄半徑，所以只需要 count + 1)</li>
+</ol>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span>(s.charAt(i - <span class="number">1</span> - count) == s.charAt(i + <span class="number">1</span> + count)) {</span><br><span class="line">  count++;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>這時候可以發現插入符號的好處，就是當字串長度是偶數時，除以二後的中心點會在符號上，方便我們直接進行擴展比對，而且在單個字母的例子中，透過左右兩旁的符號計算半徑時也能得出他的迴文長度是 1 (單個字母也是迴文)</p>
+<h2 id="鏡像特性"><a href="#鏡像特性" class="headerlink" title="鏡像特性"></a>鏡像特性</h2><p>Manacher’s Algorithm 之所以能線性時間內完成的核心，就是完美利用了的迴文的鏡像(mirror)特性</p>
+<p>在 Manacher 運用的鏡像方法中<strong>需要界定一個中心值 C</strong>，與一個<strong>界定右邊半徑範圍的值 R</strong></p>
+<p>我們以上述例子 “#a#a#b#a#a#c#a#” 的子字串 “#a#a#b#a#a#” 為例，參考以下我粗製的示意圖</p>
+<img src="/post/ManacherAlgorithm/palindromic-mirror-concept.png" class="">
+
+<p>假設我們已經求完 <code>s[5]</code> = 5，這時候 R 會在 5 + <code>s[5]</code>，也就是 index 10 的位置，而 C 就會是在 index 5 的地方</p>
+<p>這時候可以發現在 R 以內的 radius，可以用鏡像的方式直接得到，原理就是在以 <code>s[5]</code> 為中心的迴文中，在範圍 R 內右半部的數值都會等於左半部</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">s[6] = s[4]</span><br><span class="line">s[7] = s[3]</span><br><span class="line">s[8] = s[2]</span><br><span class="line">s[9] = s[1]</span><br><span class="line">s[i] = s[mirror_i]</span><br><span class="line">C = 5</span><br></pre></td></tr></tbody></table></figure>
+
+<p>我們可以推出</p>
+<blockquote>
+<p>mirror_i = C - (i - C) = 2C - i</p>
+</blockquote>
+<p>只要運用這個鏡像原理，不斷更新 R 與 C，與更新右半部分的數字，就能在線性時間內完成</p>
+<h3 id="特殊情況"><a href="#特殊情況" class="headerlink" title="特殊情況"></a>特殊情況</h3><p>要注意的是利用鏡像原理也會有幾個特殊情況需要處理，碰到特殊情況時就得回去使用中心擴展法</p>
+<h3 id="Case-1-i-gt-R"><a href="#Case-1-i-gt-R" class="headerlink" title="Case 1: i >= R"></a>Case 1: i &gt;= R</h3><p>當 i &gt;= R 時，不能用鏡像，因為目前這個就字母不在可以使用鏡像範圍內，所以我們得用中心擴展求出 radius</p>
+<h3 id="Case-2-mirrorIndex-lt-＝-原字串首字母"><a href="#Case-2-mirrorIndex-lt-＝-原字串首字母" class="headerlink" title="Case 2: mirrorIndex <＝ 原字串首字母"></a>Case 2: mirrorIndex &lt;＝ 原字串首字母</h3><p>r[mirrorIndex] 等於第一個符號的時候，使用鏡像可能會出錯</p>
+<p>e.g. “cbcbcb”</p>
+<img src="/post/ManacherAlgorithm/palindromic-mirror-special-case-2.png" class="">
+
+<p><strong>2021/09/25 修正</strong></p>
+<ul>
+<li>這裡的 s[3] &amp; s[7] 圖做錯了，radius 是 3，原圖已經遺失，只能文字更新了</li>
+</ul>
+<p>在 <code>s[5]</code> 的地方為 C，<code>s[10]</code> 的地方為 R</p>
+<p><code>s[9]</code> 雖然在 R 的範圍內，以鏡像方式求得會是 <code>s[9] = s[1] = 1</code>，但事實上 <code>s[9]</code> 不是 1，而是 3</p>
+<p>會發生這種情況是因為 <code>s[1]</code> 是原本字串的頭了，在 <code>s[5]</code> 用中心擴展時無法考慮 <code>s[1]</code> 的更左邊的情形了，所以在考慮 <code>s[9]</code> 的情況時會忽略它右邊的子字串也有可能與左邊的子字串互為迴文的情形</p>
+<p>這時候我們在 <code>s[9]</code> 就得用中心擴展法才能得到正確的 radius</p>
+<h3 id="Case-3-i-s-mirror-i-gt-R"><a href="#Case-3-i-s-mirror-i-gt-R" class="headerlink" title="Case 3: i + s[mirror_i] > R"></a>Case 3: i + s[mirror_i] &gt; R</h3><p>這個情況的意思是 i 的位置上，如果用鏡像得到的數值加上目前的 index i 是會超過 R，那代表這個數值也不正確，需要用中心擴展法</p>
+<p>跟 case 2 可以說是有點類似，同樣是彌補鏡像法沒有 cover 到的情形，也就是右方子字串變化的特殊情況</p>
+<p>e.g. “cbcbcbcbb”</p>
+<img src="/post/ManacherAlgorithm/palindromic-mirror-special-case-3.png" class="">
+
+<p>謝謝 Ryan 在一樓的詳細說明</p>
+<blockquote>
+<p>這時候的中心擴展法可以只考慮 R 以外的範圍，因為迴文特性，<strong>只要在 R 範圍內的字串，其 <code>radius[i]</code> 至少會等於 R - i</strong></p>
+</blockquote>
+<h3 id="頭尾再插入不同符號"><a href="#頭尾再插入不同符號" class="headerlink" title="頭尾再插入不同符號"></a>頭尾再插入不同符號</h3><p>為了方便中心擴展法在計算 count 時不會遇到超出邊界的情況，通常會在字串頭尾再插入另外兩種符號</p>
+<p>比如在字串首加入<code>$</code>，尾巴加入<code>^</code>，e.g. “$#a#a#b#a#a#c#^”</p>
+<p>這樣我們在做 <code>s[i - 1 - count] == s[i + 1 + count]</code> 的比對時，<strong>當有情況是迴文長度會碰到左邊界或右邊界，就會直接因為符號不相等而結束迴圈，省去我們判斷是否 out of bound 的情形</strong></p>
+<h2 id="程式碼"><a href="#程式碼" class="headerlink" title="程式碼"></a>程式碼</h2><p><strong>2021/09/25 更新更好讀的程式碼</strong><br><strong>2021/09/30 更新 case 3</strong></p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Manacher's Algorithm</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">palindromicSubstrings</span><span class="params">(String s)</span> </span>{</span><br><span class="line">    String symbolString = insertSymbolInString(s);</span><br><span class="line">    <span class="keyword">int</span> n = symbolString.length();</span><br><span class="line">    System.out.println(symbolString);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> radius[] = <span class="keyword">new</span> <span class="keyword">int</span>[n];</span><br><span class="line">    <span class="keyword">int</span> C = <span class="number">0</span>, L = <span class="number">0</span>, R = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt; n - <span class="number">1</span>; i++) {</span><br><span class="line">        <span class="keyword">int</span> mirrorIndex = C * <span class="number">2</span> - i;</span><br><span class="line">        <span class="comment">// special cases, using central expand to get radius</span></span><br><span class="line">        <span class="keyword">if</span> (mirrorIndex &lt;= <span class="number">2</span> || i &gt;= R || i + radius[mirrorIndex] &gt;= R) {</span><br><span class="line">            <span class="keyword">if</span> (mirrorIndex &gt;= <span class="number">0</span> &amp;&amp; i + radius[mirrorIndex] &gt;= R) {</span><br><span class="line">                <span class="comment">// We can just do central expanding among unknown range</span></span><br><span class="line">                radius[i] = R - i;</span><br><span class="line">            } <span class="keyword">else</span> {</span><br><span class="line">                radius[i] = <span class="number">0</span>;</span><br><span class="line">            }</span><br><span class="line">            <span class="keyword">while</span> (symbolString.charAt(i - radius[i] - <span class="number">1</span>) == symbolString.charAt(i + radius[i] + <span class="number">1</span>)) {</span><br><span class="line">                radius[i]++;</span><br><span class="line">            }</span><br><span class="line">            <span class="comment">// update C and R</span></span><br><span class="line">            C = i;</span><br><span class="line">            L = i - radius[i];</span><br><span class="line">            R = i + radius[i];</span><br><span class="line">        } <span class="keyword">else</span> {</span><br><span class="line">            radius[i] = radius[mirrorIndex];</span><br><span class="line">        }</span><br><span class="line">     }</span><br><span class="line">    System.out.println(Arrays.toString(radius));</span><br><span class="line">}</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">private</span> String <span class="title">insertSymbolInString</span><span class="params">(String s)</span> </span>{</span><br><span class="line">    String symbolString = <span class="string">"$#"</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length(); i++) {</span><br><span class="line">        symbolString += s.charAt(i) + <span class="string">"#"</span>;</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> symbolString + <span class="string">"^"</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="複雜度"><a href="#複雜度" class="headerlink" title="複雜度"></a>複雜度</h3><p>雖然看似有兩層迴圈，但經過一些複雜的證明(?)的時間複雜度是接近 $O(N)$，原因是因為裡面的那層 While 並不會超出 R，而用鏡像原理處理的那些位置不會用到 While</p>
+<p><strong>2021/09/25 更新</strong></p>
+<ul>
+<li><del>準確來說是有機會到達 $O(N)$ 複雜度，Worst case 的情況下還是接近 $O(N^2)$</del></li>
+<li>感謝一樓 Ryan 大大補充，實測後確實是 $O(N)$，速度比一般的中心擴展或是 DP，快了近一倍！</li>
+</ul>
+<p>空間複雜度是 $O(N)$</p>
+<h2 id="最長迴文子字串"><a href="#最長迴文子字串" class="headerlink" title="最長迴文子字串"></a>最長迴文子字串</h2><p>首先要解決的是如何透過紀錄的 radius 長度，回推字串的開頭位置</p>
+<blockquote>
+<p>(i - radius[i]) / 2 = 迴文字串在原字串的開頭位置 </p>
+</blockquote>
+<p>我們算出 radius table 後只要簡單紀錄 maxIndex，跑一次迴圈就能知道最長迴文的長度</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> maxIndex = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// [1 ~ n - 1] 的範圍是因為頭尾是用來界定邊界的不同符號，不需要計算到</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n - <span class="number">1</span>; i++) {</span><br><span class="line">    <span class="keyword">if</span> (radius[i] &gt; radius[maxIndex]) {</span><br><span class="line">        maxIndex = i;</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"><span class="keyword">int</span> startIndex = (maxIndex - radius[maxIndex]) / <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">String LPS = s.substring(startIndex, startIndex + radius[maxIndex]);</span><br></pre></td></tr></tbody></table></figure>
+
+<p>但如果是要算出所有迴文有幾組呢？</p>
+<h2 id="如何計算總共有幾個迴文"><a href="#如何計算總共有幾個迴文" class="headerlink" title="如何計算總共有幾個迴文"></a>如何計算總共有幾個迴文</h2><h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p>一樣用上面提到過的例子來舉例，”aabaaca”</p>
+<p>先看子字串 “aabaa” 的情形，以 b 為中心的 radius 是 5，考慮以 b 為中心向左右擴散，拆解這個迴文字串內有幾組子字串是迴文，總共會有 “b”, “aba”, “aabaa” 三組</p>
+<p>以下附上三個拆解的示意圖幫助理解</p>
+<p>注意：radius 的計算如同上面闡述的一樣，是包含符號而算的值</p>
+<img src="/post/ManacherAlgorithm/count-palindromic-1.png" class="">
+
+<img src="/post/ManacherAlgorithm/count-palindromic-2.png" class="">
+
+<img src="/post/ManacherAlgorithm/count-palindromic-3.png" class="">
+
+<h3 id="以此類推"><a href="#以此類推" class="headerlink" title="以此類推"></a>以此類推</h3><p>以此類推我們可以觀察到</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">aca (radius = 3) =&gt; c, aca =&gt; 2 palindromic substrings</span><br><span class="line">aabaa (radius = 5) =&gt; b, aba, aabaa =&gt; 3 palindromic substrings</span><br><span class="line">aabccbaa (radius = 8) =&gt; cc, bccb, abccba, aabccbaa =&gt; 4 palindromic substrings</span><br><span class="line">aabcbcbaa (radius = 9) =&gt; b, cbc, bcbcb, abcbcba, aabcbcbaa =&gt; 5 palindromic substrings</span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>So all palindromic substrings at each position of radius array is (radius + 1) / 2</p>
+</blockquote>
+<p>所以只要在跑 radius table 的迴圈內，把每個位置上代表的迴文中會有幾組迴文子字串，全部加總即可得到答案</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n - <span class="number">1</span>; i++) {</span><br><span class="line">     count += (radius[i] + <span class="number">1</span>) / <span class="number">2</span>; </span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<hr>
+<p>真的覺得以前的數學家都很有時間鑽研最佳化…XD，身為凡人真心佩服啊，希望這篇有幫助到人，複雜的演算法是很難單看程式碼去理解背後原理的，當初在看的時候真的一頭霧水，建議拿筆跟紙真的演練一下，即使是亂塗也能助於大腦理解</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/ManacherAlgorithm/">http://havincy.github.io/post/ManacherAlgorithm/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Manacher/">#Manacher</a>
+                    
+                        <a href="/tags/LPS/">#LPS</a>
+                    
+                        <a href="/tags/Palindromic-Substring/">#Palindromic Substring</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/WhyWeSleepBookReview/">書籍<為什麼要睡覺>讀後心得</a>
+            
+            
+            <a class="next" rel="next" href="/post/AddManifestInAngular/">在 Angular 專案加入 Manifest</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/ManacherAlgorithm/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>用 Github Actions 部署 AWS EC2 &amp; S3 | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">用 Github Actions 部署 AWS EC2 &amp; S3</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: June 20, 2021
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/DevOps/">DevOps</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>補完上次的 <a href="../Github-Actions-Intro/">Github Action 系列文</a></p>
+<p>這篇會簡單敘述如何讓 Github Actions 搭配 AWS 的服務做前後端的部署(CD - Continuous Deployment)，讓 AWS Live URL 的狀態跟 Repo 保持一致</p>
+<p>我們是利用 <a href="https://aws.amazon.com/ec2/?ec2-whats-new.sort-by=item.additionalFields.postDateTime&amp;ec2-whats-new.sort-order=desc" target="_blank" rel="noopener">AWS EC2 web service</a> 在公開網路上執行網頁服務來 run side project</p>
+<p>此篇是假設你已經有了 AWS EC2 的知識的前提下，該如何利用 Github Action 來串最後的 Deploy</p>
+<p>對如何使用 AWS EC2 有興趣的人可以參考免費的官方文件或是各類線上教學</p>
+<h2 id="AWS-CodeDeploy"><a href="#AWS-CodeDeploy" class="headerlink" title="AWS CodeDeploy"></a>AWS CodeDeploy</h2><p>利用 AWS 現成的服務 CodeDeploy 就能跟 Github Actions 完成自動部署的腳本</p>
+<p>AWS 自己有在 Github Actions Market 出了官方套件給開發者整合 AWS Key，也有相關的說明文件</p>
+<ul>
+<li><a href="https://github.com/marketplace/actions/configure-aws-credentials-action-for-github-actions" target="_blank" rel="noopener">https://github.com/marketplace/actions/configure-aws-credentials-action-for-github-actions</a></li>
+<li><a href="https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-partners-github.html" target="_blank" rel="noopener">https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-partners-github.html</a></li>
+</ul>
+<h3 id="AWS-IAM-Role"><a href="#AWS-IAM-Role" class="headerlink" title="AWS IAM Role"></a>AWS IAM Role</h3><p>首先得在 IAM 服務內新增一個 IAM rule 給要搭配 Github Action 部署用的 CodeDeploy 使用去產生對應的 Access Key Pair</p>
+<p>IAM -&gt; Access management -&gt; Users </p>
+<p>新增一個 User 取名叫 CodeDeploy，Policy 加入 AWS 已經打包好 policy package</p>
+<p>Add Inline policy -&gt; Import managed policy</p>
+<img src="/post/Github-Action-Deploy-AWS/AWS-Import-Managed-Policy.png" class="">
+
+<p>搜尋 “AWSCodeDeploy” 就會出現一些已經打包好的 policy 集合，選擇 “AWSCodeDeployDeployerAccess”</p>
+<img src="/post/Github-Action-Deploy-AWS/AWS-Import-CodeDeploy-Policy.png" class="">
+
+<p>在建立好的 IAM User 選單內選擇 Security credentials -&gt; Create access key 就會得到一組 Access key，這會需要放在在 Github repo 中的 Secrets 內供 Actions 腳本取用，建議先複製到記事本方便等等貼上</p>
+<p>Note: Secret Key 務必自己紀錄好，一但建立完畢，就無法再看到，<a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html?icmpid=docs_iam_console" target="_blank" rel="noopener">AWS 官方建議</a>管理員時不時就應該換新的 Access Key 來確保系統安全</p>
+<blockquote>
+<p>For your protection, you should never share your secret keys with anyone. As a best practice, we recommend frequent key rotation. If you lose or forget your secret key, you cannot retrieve it. Instead, create a new access key and make the old key inactive.</p>
+</blockquote>
+<h2 id="Github-Secrets"><a href="#Github-Secrets" class="headerlink" title="Github Secrets"></a>Github Secrets</h2><p>到需要做 CD 的 Github Repo 中的 Settings -&gt; Secrets 內建立新的 Secrets</p>
+<p>把剛剛建立好的 CodeDeploy User 的</p>
+<ul>
+<li>AWS Access Secret Key 放到 Value 欄位內，取名為 <code>AWS_SECRET_ACCESS_KEY</code></li>
+<li>AWS Access Key ID 放到 Value 欄位內，取名為 <code>AWS_ACCESS_KEY_ID</code></li>
+</ul>
+<img src="/post/Github-Action-Deploy-AWS/Github-Add-Secrets.png" class="">
+
+<h2 id="CD-pipeline"><a href="#CD-pipeline" class="headerlink" title="CD pipeline"></a>CD pipeline</h2><p>前置準備都差不多了，就加入以下的 yml 檔案</p>
+<p><a href="https://docs.github.com/en/actions/reference/events-that-trigger-workflows#workflow_dispatch" target="_blank" rel="noopener">workflow_dispatch</a> 是 Github Actions 支援手動 trigger 的語法</p>
+<h3 id="deploy-yml-example"><a href="#deploy-yml-example" class="headerlink" title="deploy.yml example"></a>deploy.yml example</h3><figure class="highlight yml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">Deploy</span></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">workflow_dispatch:</span></span><br><span class="line">    <span class="attr">inputs:</span></span><br><span class="line">      <span class="attr">commitId:</span></span><br><span class="line">        <span class="attr">description:</span> <span class="string">'git commit Id to deploy'</span>     </span><br><span class="line">        <span class="attr">required:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">deployBackend:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">CD</span> <span class="bullet">-</span> <span class="string">AWS</span> <span class="string">codedeploy</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">strategy:</span></span><br><span class="line">      <span class="attr">matrix:</span></span><br><span class="line">        <span class="attr">appname:</span> <span class="string">['Your_Web_Service_Folder']</span></span><br><span class="line">        <span class="attr">deploy-group:</span> <span class="string">['Your_Deployment_Group_Name']</span></span><br><span class="line">        <span class="attr">repository:</span> <span class="string">['Your_Github_Repo']</span></span><br><span class="line">        <span class="attr">aws-region:</span> <span class="string">['us-east-1']</span></span><br><span class="line">        </span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Configure</span> <span class="string">AWS</span> <span class="string">credentials</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">aws-actions/configure-aws-credentials@v1</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">aws-access-key-id:</span> <span class="string">${{</span> <span class="string">secrets.AWS_ACCESS_KEY_ID</span> <span class="string">}}</span></span><br><span class="line">          <span class="attr">aws-secret-access-key:</span> <span class="string">${{</span> <span class="string">secrets.AWS_SECRET_ACCESS_KEY</span> <span class="string">}}</span></span><br><span class="line">          <span class="attr">aws-region:</span> <span class="string">${{</span> <span class="string">matrix.aws-region</span> <span class="string">}}</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">CommitId</span> <span class="string">to</span> <span class="string">be</span> <span class="string">deployed</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line">          <span class="string">echo</span> <span class="string">"Deploying code commit: $<span class="template-variable">{{ github.event.inputs.commitId }}</span>"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">AWS</span> <span class="string">Create</span> <span class="string">Deployment</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line">          <span class="string">aws</span> <span class="string">deploy</span> <span class="string">create-deployment</span> <span class="string">\</span></span><br><span class="line">          <span class="string">--application-name</span> <span class="string">${{</span> <span class="string">matrix.appname</span> <span class="string">}}</span> <span class="string">\</span></span><br><span class="line">          <span class="string">--deployment-config-name</span> <span class="string">CodeDeployDefault.OneAtATime</span> <span class="string">\</span></span><br><span class="line">          <span class="string">--deployment-group-name</span> <span class="string">${{</span> <span class="string">matrix.deploy-group</span> <span class="string">}}</span> <span class="string">\</span></span><br><span class="line">              <span class="string">--file-exists-behavior</span> <span class="string">OVERWRITE</span> <span class="string">\</span></span><br><span class="line">              <span class="string">--github-location</span> <span class="string">repository=${{</span> <span class="string">matrix.repository</span> <span class="string">}},commitId=${{</span> <span class="string">github.event.inputs.commitId</span> <span class="string">}}</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>手動執行這個 workflow 就會把目前的 Github Repo Deploy 到你的 EC2 上，在 CodeDeploy service 中的 Deployments 就能看到歷史紀錄，以及每筆 Deploy 的狀態</p>
+<img src="/post/Github-Action-Deploy-AWS/AW-CodeDeployment-History.png" class="">
+
+<h3 id="appspec-yml"><a href="#appspec-yml" class="headerlink" title="appspec.yml"></a>appspec.yml</h3><p>這是 <a href="https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file.html" target="_blank" rel="noopener">AWS CodeDeploy 的描述檔</a></p>
+<p>是指定 source (目前 repo 中的檔案) 與 destination (在 EC2 上要放的位置) 的重要檔案</p>
+<p>也是在 Deployed 到 EC2 後，能運用 Life cycle Hook 執行不同 script 的檔案</p>
+<p>比如我們需要停止目前的 web service，重新 launch，或是重新 build sources</p>
+<ul>
+<li>BeforeInstall</li>
+<li>AfterInstall</li>
+<li>ApplicationStart</li>
+<li>ApplicationStop</li>
+</ul>
+<p>我們在 appsepc 檔加的 hook 邏輯算是比較簡略的，畢竟不是太大的應用，是閒暇時做興趣的 side project 😬</p>
+<p>放在 aws-scripts 內的 .sh 就是供 AWS CodeDeploy 在不同 Life Cycle 執行用的</p>
+<figure class="highlight yml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="number">0.0</span></span><br><span class="line"><span class="attr">os:</span> <span class="string">linux</span></span><br><span class="line"><span class="attr">files:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">source:</span> <span class="string">/</span></span><br><span class="line">    <span class="attr">destination:</span> <span class="string">Your_Destination_Folder_on_EC2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Life cycle hooks once deployment is executed to EC2 instance</span></span><br><span class="line"><span class="attr">hooks:</span></span><br><span class="line">  <span class="attr">AfterInstall:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">location:</span> <span class="string">aws-scripts/after_install.sh</span></span><br><span class="line">      <span class="attr">runas:</span> <span class="string">root</span></span><br><span class="line">  <span class="attr">ApplicationStart:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">location:</span> <span class="string">aws-scripts/docker_up.sh</span></span><br><span class="line">      <span class="attr">runas:</span> <span class="string">root</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="Frontend-CD"><a href="#Frontend-CD" class="headerlink" title="Frontend CD"></a>Frontend CD</h2><p>前端的 CD 獨立出來紀錄是因為這包 Side project 是前後端放在一起，避免檔案複雜度，所以只放 codes，並不會放 frontend build 完後的 web sources</p>
+<p>換句話說，我們需要有個機制可以讓 Github Actions 搭配 AWS 能 Build + Deploy 前端</p>
+<p>在我們的 Case 中，因為是使用免費的 AWS，在各類資源不超過限制用量的考量下，我選擇將前端獨立拆開來做 CD preparation</p>
+<h3 id="S3-bucket"><a href="#S3-bucket" class="headerlink" title="S3 bucket"></a>S3 bucket</h3><p>嘗試了一些方法後，<strong>我的方式就是將 frontend build 上傳到 S3 bucket，在 CodeDeploy AfterInstall 中把 S3 bucket 的東西 sync 到 EC2 指定的位置，最後再重新 Launch web service</strong></p>
+<img src="/post/Github-Action-Deploy-AWS/AWS-S3-Create.png" class="">
+
+<p>基本上不需要改預設的選項，一路下一步下去就可以，<strong>存取的方式一樣透過 AWS Access Key，不需要特別設置成 Public bucket</strong></p>
+<p>建立好要存放資源的 S3 bucket 後，就到 IAM service 中 CodeDeploy User，<strong>Import 另一個打包好的 Policy “AmazonS3FullAccess”</strong>，我選擇用同一把 AWS Access Key 來執行上傳到 S3 的 Github Actions workflow</p>
+<p>這裡設置成手動執行，因為免費的 AWS 帳號有限制 S3 每月的上傳次數XD，不希望是每推一次 commit 就跑一次，腳本內選擇將 frontend build 先打包成 zip 再上傳到 S3 也是一樣的原因…因為傳一個檔案就算一次唷 😂</p>
+<h3 id="upload-yml-example"><a href="#upload-yml-example" class="headerlink" title="upload.yml example"></a>upload.yml example</h3><figure class="highlight yml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">Upload</span> <span class="string">Frontend</span> <span class="string">to</span> <span class="string">S3</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">workflow_dispatch:</span></span><br><span class="line">    <span class="attr">inputs:</span></span><br><span class="line">      <span class="attr">tags:</span></span><br><span class="line">        <span class="attr">description:</span> <span class="string">'tag - please input date MM/DD/YYYY'</span></span><br><span class="line">        <span class="attr">required:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">deployFrontend:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">Upload</span> <span class="bullet">-</span> <span class="string">Frontend</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">strategy:</span></span><br><span class="line">      <span class="attr">matrix:</span></span><br><span class="line">        <span class="attr">node-version:</span> <span class="string">['13.14.x']</span></span><br><span class="line">        <span class="attr">aws-region:</span> <span class="string">['us-east-1']</span></span><br><span class="line">        <span class="attr">s3-bucket:</span> <span class="string">['Your_S3_Bucket_Name']</span></span><br><span class="line">        <span class="attr">web-source:</span> <span class="string">['out.zip']</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="comment"># Checks out a copy of your repository on the ubuntu-latest machine</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span> <span class="string">code</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line"></span><br><span class="line">      <span class="comment"># Set up required dev env</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">Node.js</span> <span class="string">${{</span> <span class="string">matrix.node-version</span> <span class="string">}}</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/setup-node@v1</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">node-version:</span> <span class="string">${{</span> <span class="string">matrix.node-version</span> <span class="string">}}</span></span><br><span class="line"></span><br><span class="line">      <span class="comment"># Building</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">dependencies</span></span><br><span class="line">        <span class="attr">working-directory:</span> <span class="string">frontend</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line">          <span class="string">echo</span> <span class="string">"Tag: $<span class="template-variable">{{ github.event.inputs.tags }}</span>"</span></span><br><span class="line">          <span class="string">npm</span> <span class="string">install</span> <span class="string">--save-exact</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Building</span> <span class="string">Frontend</span></span><br><span class="line">        <span class="attr">working-directory:</span> <span class="string">frontend</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line">          <span class="string">npm</span> <span class="string">run</span> <span class="string">build</span></span><br><span class="line">          <span class="string">zip</span> <span class="string">-r</span> <span class="string">${{</span> <span class="string">matrix.web-source</span> <span class="string">}}</span> <span class="string">your_web_build_folder</span></span><br><span class="line">          <span class="string">ls</span> <span class="string">${{</span> <span class="string">matrix.web-source</span> <span class="string">}}</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Configure</span> <span class="string">AWS</span> <span class="string">credentials</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">aws-actions/configure-aws-credentials@v1</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">aws-access-key-id:</span> <span class="string">${{</span> <span class="string">secrets.AWS_ACCESS_KEY_ID</span> <span class="string">}}</span></span><br><span class="line">          <span class="attr">aws-secret-access-key:</span> <span class="string">${{</span> <span class="string">secrets.AWS_SECRET_ACCESS_KEY</span> <span class="string">}}</span></span><br><span class="line">          <span class="attr">aws-region:</span> <span class="string">${{</span> <span class="string">matrix.aws-region</span> <span class="string">}}</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Uploading</span> <span class="string">to</span> <span class="string">S3</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">aws</span> <span class="string">s3</span> <span class="string">cp</span> <span class="string">frontend/${{</span> <span class="string">matrix.web-source</span> <span class="string">}}</span> <span class="string">s3://${{</span> <span class="string">matrix.s3-bucket</span> <span class="string">}}/frontend/</span> <span class="string">--acl</span> <span class="string">bucket-owner-full-control</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p><a href="https://docs.aws.amazon.com/cli/latest/reference/s3/" target="_blank" rel="noopener">AWS S3 指令可以直接參考官方文件</a>，來看你需要怎麼樣的指令，我是用 <code>aws s3 cp</code> 來上傳</p>
+<h3 id="AfterInstall-hook"><a href="#AfterInstall-hook" class="headerlink" title="AfterInstall hook"></a>AfterInstall hook</h3><p>執行完上傳 frontend build 到 S3 bucket 後，我們在 CodeDeploy 完成後的第一步要做的事就是把 frontend build 從 S3 bucket 抓下來，才有辦法重新執行 web service 去反應最新的狀態</p>
+<p>想法其實直覺的，不過實務上是測試了好幾次，確定有照預定的路線走下去…😅</p>
+<p><strong>after_install.sh example</strong></p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"[AfterInstall] downloading frontend sources from S3"</span></span><br><span class="line">aws s3 cp s3://Your_S3_Bucket_Name/Your_zip_file /Target_folder_on_EC2/</span><br><span class="line">unzip -o /Target_folder_on_EC2/Your_zip_file -d /Target_folder_on_EC2/</span><br></pre></td></tr></tbody></table></figure>
+
+<p>所以 CodeDeploy 不止可以搭配 EC2，有 hook 的幫助，指令能做的事情基本上都能夠做到，<strong>要注意的就是 AWS IAM 權限</strong>，當初因為不熟一直碰壁，要多玩個幾次才比較有感覺</p>
+<h3 id="ApplicationStart-hook"><a href="#ApplicationStart-hook" class="headerlink" title="ApplicationStart hook"></a>ApplicationStart hook</h3><p>這邊我們做的事情就是到 destination folder 把前後端都重新 build 一次，然後讓整個 web service launch 起來</p>
+<p>Note: hook 執行的位置在 EC2 root 底下，跟 <code>appspec.yml</code> 中定義的 destination 一樣</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> Your_Destination_Folder_on_EC2 </span><br><span class="line"><span class="comment">## Execute your building process and launch the application</span></span><br></pre></td></tr></tbody></table></figure>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>這邊就不特別談 Docker 的部分，因為是負責後端的朋友把 Docker build 引入 side project 的，應該很多 web service 不一定需要跑 Docker build</p>
+<p>總而言之就是把需要啟動網頁應用的步驟變成在 AWS service 上來執行，並透過 Github Actions 的腳本來幫我們一鍵到位 🤟</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/Github-Action-Deploy-AWS/">http://havincy.github.io/post/Github-Action-Deploy-AWS/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/GithubActions/">#GithubActions</a>
+                    
+                        <a href="/tags/AWS/">#AWS</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/iOS-Safari-14-6-IndexedDB-Bug/">怎麼解決 iOS 14.6 IndexedDB Hanging Bug</a>
+            
+            
+            <a class="next" rel="next" href="/post/Wisdom-Teeth-Extraction-Review/">一次拔除三顆智齒的心得</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/Github-Action-Deploy-AWS/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

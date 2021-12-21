@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>在 Angular 專案加入 Manifest | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">在 Angular 專案加入 Manifest</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: March 28, 2020
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Web/">Web</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>這篇主要講如何在 Angular 的專案中手動加入 Manifest 檔案，來達成 PWA 最基本的需求之一</p>
+<hr>
+<h2 id="什麼是-Manifest"><a href="#什麼是-Manifest" class="headerlink" title="什麼是 Manifest"></a>什麼是 Manifest</h2><p>類似像 Android APP 都會有的 <code>AndroidManifest.xml</code> 一樣，Web APP 也希望有一個檔案來集中管理應用程式的基本資訊，Web APP 的 manifest 檔案格式為 <code>.json</code></p>
+<blockquote>
+<p>The web app manifest provides information about a web application in a JSON text file, necessary for the web app to be downloaded and be presented to the user similarly to a native app.</p>
+</blockquote>
+<p>範例</p>
+<figure class="highlight json"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">{</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"HackerWeb"</span>,</span><br><span class="line">  <span class="attr">"short_name"</span>: <span class="string">"HackerWeb"</span>,</span><br><span class="line">  <span class="attr">"scope"</span>:<span class="string">"/"</span></span><br><span class="line">  <span class="string">"start_url"</span>: <span class="string">"."</span>,</span><br><span class="line">  <span class="attr">"display"</span>: <span class="string">"standalone"</span>,</span><br><span class="line">  <span class="attr">"background_color"</span>: <span class="string">"#fff"</span>,</span><br><span class="line">  <span class="attr">"description"</span>: <span class="string">"A simply readable Hacker News app."</span>,</span><br><span class="line">  <span class="attr">"icons"</span>: [{</span><br><span class="line">    <span class="attr">"src"</span>: <span class="string">"homescreen48.png"</span>,</span><br><span class="line">    <span class="attr">"sizes"</span>: <span class="string">"48x48"</span>,</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"image/png"</span></span><br><span class="line">  }, {</span><br><span class="line">    <span class="attr">"src"</span>: <span class="string">"homescreen72.png"</span>,</span><br><span class="line">    <span class="attr">"sizes"</span>: <span class="string">"72x72"</span>,</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"image/png"</span></span><br><span class="line">  }, {</span><br><span class="line">    <span class="attr">"src"</span>: <span class="string">"homescreen96.png"</span>,</span><br><span class="line">    <span class="attr">"sizes"</span>: <span class="string">"96x96"</span>,</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"image/png"</span></span><br><span class="line">  }, {</span><br><span class="line">    <span class="attr">"src"</span>: <span class="string">"homescreen144.png"</span>,</span><br><span class="line">    <span class="attr">"sizes"</span>: <span class="string">"144x144"</span>,</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"image/png"</span></span><br><span class="line">  }, {</span><br><span class="line">    <span class="attr">"src"</span>: <span class="string">"ihomescreen168.png"</span>,</span><br><span class="line">    <span class="attr">"sizes"</span>: <span class="string">"168x168"</span>,</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"image/png"</span></span><br><span class="line">  }, {</span><br><span class="line">    <span class="attr">"src"</span>: <span class="string">"homescreen192.png"</span>,</span><br><span class="line">    <span class="attr">"sizes"</span>: <span class="string">"192x192"</span>,</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"image/png"</span></span><br><span class="line">  }],</span><br><span class="line">  <span class="attr">"related_applications"</span>: [{</span><br><span class="line">    <span class="attr">"platform"</span>: <span class="string">"play"</span>,</span><br><span class="line">    <span class="attr">"url"</span>: <span class="string">"https://play.google.com/store/apps/details?id=cheeaun.hackerweb"</span></span><br><span class="line">  }]</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="Deploy-on-Angular"><a href="#Deploy-on-Angular" class="headerlink" title="Deploy on Angular"></a>Deploy on Angular</h2><h3 id="src"><a href="#src" class="headerlink" title="src/"></a>src/</h3><p>在要啟用 PWA 的 app/src 底下新增 <code>manifest.json</code> 檔案，通常會跟 index.html 同個 path</p>
+<h3 id="html"><a href="#html" class="headerlink" title="html"></a>html</h3><p>在網頁的入口檔案比如 <code>index.html</code> 中的 <code>&lt;head&gt;</code> 欄位內加入</p>
+<figure class="highlight html"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"manifest"</span> <span class="attr">href</span>=<span class="string">"/manifest.json"</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure>
+<h3 id="angular-json"><a href="#angular-json" class="headerlink" title="angular.json"></a>angular.json</h3><p>通常 <code>angular.json</code> 會由 Angular CLI 自動幫你建好，但因為 Angular build app 的時候會將檔案打包到指定的 output path 下 (比如說 <code>dist/</code>)，會在 <code>angular.json</code> 中根據給定的設定做打包，有可能你 link manifest 的 <code>index.html</code> 與 <code>manifest.json</code> 最後在不一樣的路徑，看你的設定怎麼寫</p>
+<p>所以如果希望 <code>manifest.json</code> build 完會在正確的相對路徑上，比如說應該要和 <code>index.html</code> 在同個路徑，就有可能需要修改 <code>angular.json</code></p>
+<p>在 <code>angular.json</code> 中找到 <code>projects</code>  property，底下會列出所有包含的 application，找到對應的 application 的欄位</p>
+<p>假設你的 application name = “my-app”，在 “my-app” 這個 property 底下找到 “architect” 欄位</p>
+<figure class="highlight"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">"my-app": {</span><br><span class="line">  "root": "",</span><br><span class="line">  "sourceRoot": "src",</span><br><span class="line">  "projectType": "application",</span><br><span class="line">  "prefix": "app",</span><br><span class="line">  "schematics": {},</span><br><span class="line">  "architect": {}</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>在 “architect” 底下找到 “build”</p>
+<figure class="highlight"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">"architect": {</span><br><span class="line">  "build": { },</span><br><span class="line">  "serve": { },</span><br><span class="line">  "e2e" : { },</span><br><span class="line">  "test": { },</span><br><span class="line">  "lint": { },</span><br><span class="line">  "extract-i18n": { },</span><br><span class="line">  "server": { },</span><br><span class="line">  "app-shell": { }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>在 “build” 內 找到 “options”，然後裡面會有 “assets”，在這邊加上 manifest 的 output 設定</p>
+<ul>
+<li>“options” 內有個設定叫 “outputPath”</li>
+<li>如果 “output” 設為 “/”，會放在 “outputPath” 下，也就是 <code>dist/practice/demo/</code></li>
+<li>如果 “output” 設為 “/assets/”，會放在  <code>dist/practice/demo/assets/</code> 下</li>
+</ul>
+<figure class="highlight"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">"outputPath": "dist/practice/demo/",</span><br><span class="line">...</span><br><span class="line">"assets": [</span><br><span class="line">    ...</span><br><span class="line">    {</span><br><span class="line">      <span class="attr">"glob"</span>: <span class="string">"favicon.ico"</span>,</span><br><span class="line">      <span class="attr">"input"</span>: <span class="string">"projects/my-app/src"</span>,</span><br><span class="line">      <span class="attr">"output"</span>: <span class="string">"/"</span></span><br><span class="line">    },</span><br><span class="line">    {</span><br><span class="line">      <span class="attr">"glob"</span>: <span class="string">"fonts"</span>,</span><br><span class="line">      <span class="attr">"input"</span>: <span class="string">"styles/"</span>,</span><br><span class="line">      <span class="attr">"output"</span>: <span class="string">"/assets/"</span></span><br><span class="line">    },</span><br><span class="line">    {</span><br><span class="line">      <span class="attr">"glob"</span>: <span class="string">"manifest.json"</span>,</span><br><span class="line">      <span class="attr">"input"</span>: <span class="string">"projects/my-app/src/"</span>,</span><br><span class="line">      <span class="attr">"output"</span>: <span class="string">"/"</span></span><br><span class="line">    }</span><br><span class="line">],</span><br></pre></td></tr></tbody></table></figure>
+
+<p>可以參考 <a href="https://angular.io/guide/workspace-config" target="_blank" rel="noopener">Angular workspace configuration</a> 查詢更多這些關於 Angular workspace 屬性設置的資料</p>
+<h2 id="Manifest-屬性"><a href="#Manifest-屬性" class="headerlink" title="Manifest 屬性"></a>Manifest 屬性</h2><p>陳列介紹一下在 Manifest 內幾個重要的設定</p>
+<h3 id="Splash-screens"><a href="#Splash-screens" class="headerlink" title="Splash screens"></a>Splash screens</h3><p>載入應用的畫面，Chrome 支援開啟應用的前置動畫，會根據 manifest 的內容自動配置一個開啟畫面</p>
+<p>由 Manifest 中裡面的三種屬性組成</p>
+<ul>
+<li>name</li>
+<li>background_color</li>
+<li>icons</li>
+</ul>
+<p>以 Twitter 為例，<code>background_color</code> 就是白色，<code>icons</code> 就是 Twitter 的 icon，從手機桌面開啟 Twitter 的 PWA 會先看到左邊的畫面後，才進入右邊的入口頁面(未登入)</p>
+<img src="/post/AddManifestInAngular/twitter-pwa-splash.png" class="">
+
+<h3 id="Display-mode"><a href="#Display-mode" class="headerlink" title="Display mode"></a>Display mode</h3><figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">"standalone"</span><br><span class="line">"fullscreen"</span><br><span class="line">"minimal-ui"</span><br><span class="line">"browser"</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="Standalone"><a href="#Standalone" class="headerlink" title="Standalone"></a>Standalone</h4><p>Web APP 看起來會像 Native APP 一樣，運行在一個全螢幕的視窗<br>Address bar 和 Navigation bar 會設成隱藏，Status bar (battery, time, etc.) 還是可見</p>
+<h4 id="Fullscreen"><a href="#Fullscreen" class="headerlink" title="Fullscreen"></a>Fullscreen</h4><p>跟 Standalone 的差別就是不會顯示 Status bar </p>
+<h4 id="Minimal-UI"><a href="#Minimal-UI" class="headerlink" title="Minimal-UI"></a>Minimal-UI</h4><p>跟 Standalone 的差別是會視 browser 的類別來選擇支援最小的 UI，比如說在 Chrome，Address bar 會顯示出來，但不能被點擊</p>
+<h4 id="Browser"><a href="#Browser" class="headerlink" title="Browser"></a>Browser</h4><p>只會跟一般網頁一樣，從 Launcher 打開的模樣就像普通 Bookmark， 在 Chrome 上使用這個 mode 開啟網頁不會有 “Add to Home Screen” 的提示</p>
+<h3 id="start-url"><a href="#start-url" class="headerlink" title="start url"></a>start url</h3><p>指定開啟 Web APP 時希望看到的網頁畫面</p>
+<h4 id="absolute-url"><a href="#absolute-url" class="headerlink" title="absolute url"></a>absolute url</h4><figure class="highlight html"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">"start_url":"https://yourwebsite.com"</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="relative-url"><a href="#relative-url" class="headerlink" title="relative url"></a>relative url</h4><p>根據 <code>manifest.json</code> 放的位置來指定想開啟的網頁路徑</p>
+<figure class="highlight html"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">"start_url":"../index.html"</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="scope"><a href="#scope" class="headerlink" title="scope"></a>scope</h3><p>決定 Web APP 的 navigation scope，如果使用者瀏覽在指定的範圍外的網頁就會變成一般的網頁</p>
+<h4 id="absolute-url-1"><a href="#absolute-url-1" class="headerlink" title="absolute url"></a>absolute url</h4><figure class="highlight html"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">"scope":"https://yourwebsite.com"</span><br><span class="line">"scope":"https://yourwebsite.com/subdirectory"</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="relative-url-1"><a href="#relative-url-1" class="headerlink" title="relative url"></a>relative url</h4><pre><code class="html">"scope":"/app"</code></pre>
+<hr>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>其實也沒有什麼好講的，就是純粹紀錄，主要是 manifest 的 build path 的地方比較需要注意，當初馬上轉上工前端專案後，沒有很了解 Angular 專案整個的脈絡，所以花了一兩天時間卡在那邊，希望這篇有幫助到人囉</p>
+<p>至於 Manifest 在 iOS Safari 怎麼配置之後有空再來寫了，因為比較少東西需要講，而且網路上也比較多資料了</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/AddManifestInAngular/">http://havincy.github.io/post/AddManifestInAngular/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/PWA/">#PWA</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/ManacherAlgorithm/">Manacher's Algorithm 迴文演算法介紹</a>
+            
+            
+            <a class="next" rel="next" href="/post/HowToUseAngularNGSW/">在 Angular 專案加入內建的 Service Worker</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/AddManifestInAngular/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

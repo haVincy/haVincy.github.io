@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>Optical Flow 光流法概述 | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Optical Flow 光流法概述</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: August 8, 2017
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Image-Processing/">Image Processing</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>主要參考論文：<em>Two-frame motion estimation based on polynomial expansion (Farnbäck), 2003</em></p>
+<hr>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>OpenCV 就有提供不同<a href="http://docs.opencv.org/3.2.0/d7/d8b/tutorial_py_lucas_kanade.html" target="_blank" rel="noopener">光流法</a>的函式供開發者使用，基本上沒什麼太大的實作困難，等於是直接 call function<br>除非有要在加寫優化或是直接去改 OpenCV 的源碼</p>
+<p>其實光流法背後的數學模型有很多種，我也並沒有每個都深掘，這邊就大概描述下原理</p>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>光流法目的是在一連串影像中找到相鄰影像在時間域上的變化，通常會應用在影片上，找到上一個 frame 與當前的 frame 存在的對應關係，然後計算出物體的運動資訊。把每個影像中每個像素的運動速度和運動方向找出來</p>
+<p>假設要追蹤影像中的A像素的流向，我們必須要知道A像素在下一個 frame 的位置在哪，也就是說我們要有辦法辨認出 A 像素才能得知他的位置，通常會是一個近似解</p>
+<p>光流法最基本的假設是：光流場幾乎是光滑的，基於此假設用數學去分析像素的運動方向</p>
+<h2 id="稀疏光流與稠密光流"><a href="#稀疏光流與稠密光流" class="headerlink" title="稀疏光流與稠密光流"></a>稀疏光流與稠密光流</h2><p>光流法有很多種實現方式，以結果來分類的話一個是稀疏光流，一個是稠密光流</p>
+<p>Lucas-Kanade 的方法是稀疏光流，只考慮部分像素的方向，通常會是特徵明顯的像素，像是角點或是邊界點</p>
+<p>特徵點可以讓OpenCV幫你定義或是看需求自定義</p>
+<p>我所採用的 Farnback 的方法是屬於稠密光流，考慮所有像素的方向</p>
+<p>Lucas 和 Farnback 都有利用影像金字塔來解決無法找到動量太大的向量<br>就是把影像解析度降低，像素量減少來讓大動量能夠被偵測到，因為 Lucas 是稀疏光流，運算速度比 Farnback 的稠密光流快</p>
+<p>左邊是 LK，右邊是 Farnback</p>
+<p><img src="http://i.imgur.com/k0yuvOa.png?1" alt="OpticalFlow1"></p>
+<h2 id="Farnback-optical-flow"><a href="#Farnback-optical-flow" class="headerlink" title="Farnback optical flow"></a>Farnback optical flow</h2><p>用二次多項式對於二維圖像建模，將影像的二維座標 $(x,y)$ 當成是二維信號的函數，轉換到以 $(1,x^2,y^2,x,y,xy)$ 做為基函數的空間</p>
+<p>代表影像需要一個六維向量來帶入不同位置求出像素值，Farnback將每個像素周圍都設定一個 $(2n+1)*(2n+1)$ 的鄰近區域</p>
+<p>利用區域內的像素點當作最小誤差平方法的樣本點，再利用高斯分布賦予樣本點不同的權重，求解後近似得到中心像素的六維向量</p>
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><p>我用了兩種視覺化的方式，一種就是箭頭方向，另一種是塗色的方式</p>
+<p><img src="http://i.imgur.com/XhLSgth.png?1" alt="OpticalFlow2"> </p>
+<h3 id="使用箭頭方向視覺化-flow"><a href="#使用箭頭方向視覺化-flow" class="headerlink" title="使用箭頭方向視覺化 flow"></a>使用箭頭方向視覺化 flow</h3><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">drawArrow</span><span class="params">(cv::Mat&amp; img, cv::Point pStart, cv::Point pEnd, <span class="keyword">int</span> len, <span class="keyword">int</span> alpha, cv::Scalar&amp; color, <span class="keyword">int</span> thickness)</span></span>{</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">double</span> PI = <span class="number">3.1415926</span>;</span><br><span class="line">	Point arrow;</span><br><span class="line">	 </span><br><span class="line">	<span class="keyword">double</span> angle = <span class="built_in">atan2</span>((<span class="keyword">double</span>)(pStart.y - pEnd.y), (<span class="keyword">double</span>)(pStart.x - pEnd.x));</span><br><span class="line">	<span class="built_in">line</span>(img, pStart, pEnd, color, thickness);</span><br><span class="line">	</span><br><span class="line">	arrow.x = pEnd.x + len * <span class="built_in">cos</span>(angle + PI * alpha / <span class="number">180</span>);</span><br><span class="line">	arrow.y = pEnd.y + len * <span class="built_in">sin</span>(angle + PI * alpha / <span class="number">180</span>);</span><br><span class="line">	<span class="built_in">line</span>(img, pEnd, arrow, color, thickness);</span><br><span class="line">	arrow.x = pEnd.x + len * <span class="built_in">cos</span>(angle - PI * alpha / <span class="number">180</span>);</span><br><span class="line">	arrow.y = pEnd.y + len * <span class="built_in">sin</span>(angle - PI * alpha / <span class="number">180</span>);</span><br><span class="line">	<span class="built_in">line</span>(img, pEnd, arrow, color, thickness);</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">drawLines</span><span class="params">(Mat flow, Mat &amp;target)</span> </span>{</span><br><span class="line">    <span class="comment">// By y += 5, x += 5 you can specify the grid </span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; target.rows; y += <span class="number">10</span>) {</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; target.cols; x += <span class="number">10</span>)</span><br><span class="line">        {</span><br><span class="line">            Vec2f flow_at_point = flow.at&lt;Vec2f&gt;(y, x);</span><br><span class="line">            <span class="keyword">float</span> fx = flow_at_point[<span class="number">0</span>];</span><br><span class="line">            <span class="keyword">float</span> fy = flow_at_point[<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">if</span> ((<span class="built_in">fabs</span>(fx) &gt; UNKNOWN_FLOW_THRESH) || (<span class="built_in">fabs</span>(fy) &gt;  UNKNOWN_FLOW_THRESH))</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            <span class="comment">// get the flow from y, x position * 10 for better visibility</span></span><br><span class="line">            <span class="keyword">const</span> Point2f flowatxy = flow.at&lt;Point2f&gt;(y, x) * <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// draw initial point</span></span><br><span class="line">            <span class="comment">//circle(target, Point(x, y), 1, Scalar(255, 0, 0), -1);</span></span><br><span class="line">            <span class="comment">// draw line at flow direction</span></span><br><span class="line">            Point startP = Point(x, y);</span><br><span class="line">			Point endP = Point(cvRound(x + flowatxy.x), cvRound(y + flowatxy.y));</span><br><span class="line">            <span class="keyword">if</span> (startP == endP)</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">                </span><br><span class="line">            <span class="built_in">line</span>(target, startP, endP, Scalar(<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>), <span class="number">1</span>);</span><br><span class="line">            <span class="comment">// draw arrow </span></span><br><span class="line">            drawArrow(target, startP, endP, <span class="number">5</span>, <span class="number">30</span>, Scalar(<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>), <span class="number">1</span>);</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="使用塗色的方式視覺化flow"><a href="#使用塗色的方式視覺化flow" class="headerlink" title="使用塗色的方式視覺化flow"></a>使用塗色的方式視覺化flow</h3><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> UNKNOWN_FLOW_THRESH 1e9</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">makecolorwheel</span><span class="params">(<span class="built_in">vector</span>&lt;Scalar&gt; &amp;colorwheel)</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">	<span class="keyword">int</span> RY = <span class="number">15</span>;</span><br><span class="line">	<span class="keyword">int</span> YG = <span class="number">6</span>;</span><br><span class="line">	<span class="keyword">int</span> GC = <span class="number">4</span>;</span><br><span class="line">	<span class="keyword">int</span> CB = <span class="number">11</span>;</span><br><span class="line">	<span class="keyword">int</span> BM = <span class="number">13</span>;</span><br><span class="line">	<span class="keyword">int</span> MR = <span class="number">6</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">int</span> i;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; RY; i++) colorwheel.push_back(Scalar(<span class="number">255</span>, <span class="number">255</span> * i / RY, <span class="number">0</span>));</span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; YG; i++) colorwheel.push_back(Scalar(<span class="number">255</span> - <span class="number">255</span> * i / YG, <span class="number">255</span>, <span class="number">0</span>));</span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; GC; i++) colorwheel.push_back(Scalar(<span class="number">0</span>, <span class="number">255</span>, <span class="number">255</span> * i / GC));</span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; CB; i++) colorwheel.push_back(Scalar(<span class="number">0</span>, <span class="number">255</span> - <span class="number">255</span> * i / CB, <span class="number">255</span>));</span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; BM; i++) colorwheel.push_back(Scalar(<span class="number">255</span> * i / BM, <span class="number">0</span>, <span class="number">255</span>));</span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; MR; i++) colorwheel.push_back(Scalar(<span class="number">255</span>, <span class="number">0</span>, <span class="number">255</span> - <span class="number">255</span> * i / MR));</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">motionToColor</span><span class="params">(Mat flow, Mat &amp;color)</span></span>{</span><br><span class="line">    <span class="keyword">if</span> (color.empty())</span><br><span class="line">        color.create(flow.rows, flow.cols, CV_8UC3);</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">static</span> <span class="built_in">vector</span>&lt;Scalar&gt; colorwheel; <span class="comment">//Scalar r,g,b   </span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (colorwheel.empty())</span><br><span class="line">        makecolorwheel(colorwheel);</span><br><span class="line">        </span><br><span class="line">    <span class="comment">// determine motion range:   </span></span><br><span class="line">    <span class="keyword">float</span> maxrad = <span class="number">-1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Find max flow to normalize fx and fy   </span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; flow.rows; ++i){</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; flow.cols; ++j){</span><br><span class="line">            Vec2f flow_at_point = flow.at&lt;Vec2f&gt;(i, j);</span><br><span class="line">            <span class="keyword">float</span> fx = flow_at_point[<span class="number">0</span>];</span><br><span class="line">            <span class="keyword">float</span> fy = flow_at_point[<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">if</span> ((<span class="built_in">fabs</span>(fx) &gt; UNKNOWN_FLOW_THRESH) || (<span class="built_in">fabs</span>(fy) &gt;  UNKNOWN_FLOW_THRESH))</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">float</span> rad = <span class="built_in">sqrt</span>(fx * fx + fy * fy);</span><br><span class="line">            maxrad = maxrad &gt; rad ? maxrad : rad;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; flow.rows; ++i){</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; flow.cols; ++j){</span><br><span class="line">            uchar *data = color.data + color.<span class="built_in">step</span>[<span class="number">0</span>] * i + color.<span class="built_in">step</span>[<span class="number">1</span>] * j;</span><br><span class="line">            Vec2f flow_at_point = flow.at&lt;Vec2f&gt;(i, j);</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">float</span> fx = flow_at_point[<span class="number">0</span>] / maxrad;</span><br><span class="line">            <span class="keyword">float</span> fy = flow_at_point[<span class="number">1</span>] / maxrad;</span><br><span class="line">            <span class="keyword">if</span> ((<span class="built_in">fabs</span>(fx) &gt; UNKNOWN_FLOW_THRESH) || (<span class="built_in">fabs</span>(fy) &gt;  UNKNOWN_FLOW_THRESH)){</span><br><span class="line">                data[<span class="number">0</span>] = data[<span class="number">1</span>] = data[<span class="number">2</span>] = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            }</span><br><span class="line">            <span class="keyword">float</span> rad = <span class="built_in">sqrt</span>(fx * fx + fy * fy);</span><br><span class="line">            <span class="keyword">float</span> angle = <span class="built_in">atan2</span>(-fy, -fx) / CV_PI;</span><br><span class="line">            <span class="keyword">float</span> fk = (angle + <span class="number">1.0</span>) / <span class="number">2.0</span> * (colorwheel.<span class="built_in">size</span>() - <span class="number">1</span>);</span><br><span class="line">            <span class="keyword">int</span> k0 = (<span class="keyword">int</span>)fk;</span><br><span class="line">            <span class="keyword">int</span> k1 = (k0 + <span class="number">1</span>) % colorwheel.<span class="built_in">size</span>();</span><br><span class="line">            <span class="keyword">float</span> f = fk - k0;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> b = <span class="number">0</span>; b &lt; <span class="number">3</span>; b++){</span><br><span class="line">                <span class="keyword">float</span> col0 = colorwheel[k0][b] / <span class="number">255.0</span>;</span><br><span class="line">                <span class="keyword">float</span> col1 = colorwheel[k1][b] / <span class="number">255.0</span>;</span><br><span class="line">                <span class="keyword">float</span> col = (<span class="number">1</span> - f) * col0 + f * col1;</span><br><span class="line">                <span class="keyword">if</span> (rad &lt;= <span class="number">1</span>)</span><br><span class="line">                    col = <span class="number">1</span> - rad * (<span class="number">1</span> - col); <span class="comment">// increase saturation with radius   </span></span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    col *= <span class="number">.75</span>; <span class="comment">// out of range   </span></span><br><span class="line">                data[<span class="number">2</span> - b] = (<span class="keyword">int</span>)(<span class="number">255.0</span> * col);</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="主程式"><a href="#主程式" class="headerlink" title="主程式"></a>主程式</h3><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>{</span><br><span class="line">    </span><br><span class="line">    <span class="function">VideoCapture <span class="title">cap</span><span class="params">(<span class="string">"video.mp4"</span>)</span></span>;  <span class="comment">// load your video</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!cap.isOpened()){</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"Video Capture Fail"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">double</span> frameNum = cap.<span class="built_in">get</span>(CV_CAP_PROP_FRAME_COUNT);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; frameNum &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">	Mat flow;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// some faster than mat image container</span></span><br><span class="line">    UMat  flowUmat, prevgray;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">500</span>; i++) {   <span class="comment">// loop number depends on you (&lt;= frames)</span></span><br><span class="line">        Mat img;</span><br><span class="line">        Mat original;</span><br><span class="line">        <span class="comment">// capture frame from video file</span></span><br><span class="line">        cap &gt;&gt; img;</span><br><span class="line">        imshow(<span class="string">"original"</span>, img);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">/* save original for later */</span></span><br><span class="line">        img.copyTo(original);</span><br><span class="line">        <span class="comment">/* just make current frame gray */</span></span><br><span class="line">        cvtColor(img, img, COLOR_BGR2GRAY);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">/* not a fisrt frame, do optical flow */</span></span><br><span class="line">        <span class="keyword">if</span> (prevgray.empty() == <span class="literal">false</span>) {</span><br><span class="line">            <span class="comment">// calculate optical flow </span></span><br><span class="line">            calcOpticalFlowFarneback(prevgray, img, flowUmat, <span class="number">0.5</span>, <span class="number">3</span>, <span class="number">15</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">1.2</span>, <span class="number">0</span>);</span><br><span class="line">            <span class="comment">// copy Umat container to standard Mat</span></span><br><span class="line">            flowUmat.copyTo(flow);</span><br><span class="line">            </span><br><span class="line">            <span class="comment">/* -------------- visulize flow ----------------*/</span></span><br><span class="line">            Mat motion2color;</span><br><span class="line">            motionToColor(flow, motion2color);</span><br><span class="line">            imshow(<span class="string">"visualize flow 1"</span>, motion2color);</span><br><span class="line">            <span class="function">Mat <span class="title">blackbg</span><span class="params">(original.rows, original.cols, CV_8UC3, cv::Scalar(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>))</span></span>;</span><br><span class="line">            </span><br><span class="line">            drawLines(flow, original);</span><br><span class="line">            imshow(<span class="string">"optical flow"</span>, original);</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// fill previous image again</span></span><br><span class="line">            img.copyTo(prevgray);</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">else</span> {  <span class="comment">// first frame, fill previous image</span></span><br><span class="line">            img.copyTo(prevgray);</span><br><span class="line">        }</span><br><span class="line">        waitKey(<span class="number">1</span>);</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/OpticalFlow/">http://havincy.github.io/post/OpticalFlow/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/OpenCV/">#OpenCV</a>
+                    
+                        <a href="/tags/OpticalFlow/">#OpticalFlow</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/TemplateMatching/">Template matching 模板匹配</a>
+            
+            
+            <a class="next" rel="next" href="/post/AlphaMatting/">Alpha matting, 摳圖去背</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/OpticalFlow/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

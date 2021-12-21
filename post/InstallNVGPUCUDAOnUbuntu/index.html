@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>Ubuntu 16.04 安裝 NVIDIA GPU driver &amp; Cuda | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Ubuntu 16.04 安裝 NVIDIA GPU driver &amp; Cuda</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: March 6, 2020
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Tips/">Tips</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前從 14.04 升級成 16.04 後沒有特別檢查 GPU Driver，後來需要用到才發現原來我少了一些 library</p>
+<p>這篇記錄下要如何在 Ubuntu 安裝 NVIDIA GPU 的驅動程式，還有啟用 Cuda</p>
+<h2 id="NVIDIA-GPU-driver"><a href="#NVIDIA-GPU-driver" class="headerlink" title="NVIDIA GPU driver"></a>NVIDIA GPU driver</h2><p>到官網找到對應顯卡跟作業系統的驅動程式<br><a href="https://www.geforce.cn/drivers" target="_blank" rel="noopener">https://www.geforce.cn/drivers</a></p>
+<p>先選系列，再選該系列的型號，然後再來選擇作業系統，像我的 Ubuntu 系統是 x86-64，就選擇 Linux 64-bit，下載最新的版本，我是下載 <code>NVIDIA-Linux-x86_64-440.59.run</code></p>
+<p>執行 run 前先解除安裝舊版本的驅動程式以防萬一</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove --purge nvidia*</span><br></pre></td></tr></tbody></table></figure>
+
+<p>安裝可能需要的依賴</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install dkms build-essential linux-headers-generic</span><br><span class="line">sudo apt-get install gcc-multilib xorg-dev</span><br><span class="line">sudo apt-get install freeglut3-dev libx11-dev libxmu-dev install libxi-dev libgl1-mesa-glx libglu1-mesa libglu1-mesa-dev</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="Nouveau"><a href="#Nouveau" class="headerlink" title="Nouveau"></a>Nouveau</h3><p>執行 run 檔時，NVIDIA 的安裝程式會偵測可能的問題點，這時候應該會跳出失敗</p>
+<p>假如沒有禁用 Nouveau 驅動的話，安裝程式會要求使用者手動操作，或是選擇讓他幫你在 <code>/etc/modprobe.d/</code> 底下建立好 <code>nvidia-installer-disalbe-nouveau.conf</code> 檔</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// nvidia-installer-disalbe-nouveau.conf</span><br><span class="line"># generated by nvidia-installer</span><br><span class="line">blacklist nouveau</span><br><span class="line">options nouveau modeset=0</span><br></pre></td></tr></tbody></table></figure>
+
+<p>在 terminal 下 reboot 重新開機後就會套用這個 conf</p>
+<p>重開後的畫面解析度會有點怪怪的，等安裝完驅動就正常了</p>
+<h3 id="X-service"><a href="#X-service" class="headerlink" title="X-service"></a>X-service</h3><p>一般來說要先進入終端機模式關閉 Ubuntu 的圖形介面，也就是關閉 X-service，沒有關閉的話安裝程式也會再次失敗提醒你</p>
+<p>但其實在執行安裝程式時可以下 option <code>--no-x-check</code> 來忽略這個檢查</p>
+<p>選擇不忽略要手動關閉的話，就要按住 CTRL + ALT + F1 進入 tt1 終端來關閉</p>
+<p>進入 tt1 後會要求你再輸入一次使用者帳密登入系統，登入完後打</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service lightdm stop</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果沒有效果的話將 <code>lightdm</code> 換成 <code>systemctl</code></p>
+<h3 id="安裝"><a href="#安裝" class="headerlink" title="安裝"></a>安裝</h3><p>下一步就是安裝</p>
+<p>變更執行檔的權限然後用 root 執行</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">chmod 755 NVIDIA-Linux-x86_64-440.59.run</span><br><span class="line">sudo ./NVIDIA-Linux-x86_64-440.59.run</span><br><span class="line"></span><br><span class="line">// --no-opengl-files: 只安裝驅動不安裝 OpenGL 檔案</span><br><span class="line">// --no-x-check: 安裝驅動時不檢查 X 服務</span><br><span class="line">// --no-nouveau-check: 不檢查 nouveau</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果前面沒有選擇忽略 X-service check，這時候會是在 tt1 模式下(也就是整個螢幕都是終端機模式)，一樣可以進行這步，只要打指令然後重新開機就好了</p>
+<h3 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h3><p>重開機後，下以下指令驗證驅動程式是否安裝成功</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvidia-smi</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果有列出 GPU 的資訊表格表示安裝成功，沒有成功就再從清除舊資料那一步重頭開始</p>
+<h2 id="安裝-CUDA"><a href="#安裝-CUDA" class="headerlink" title="安裝 CUDA"></a>安裝 CUDA</h2><p>到官網<br><a href="https://developer.nvidia.com/cuda-downloads" target="_blank" rel="noopener">https://developer.nvidia.com/cuda-downloads</a></p>
+<p>選擇對應的 CUDA 版本，像我的話就是</p>
+<ul>
+<li>Linux x86_64 </li>
+<li>Ubuntu 16.04</li>
+<li>installer Type 我選擇 runfile</li>
+</ul>
+<p>選完後網頁會挑出安裝指令，複製 <code>wget</code> 那行指令照著抓下來就可以了</p>
+<p>抓下來後一樣用 root 權限執行 run 檔，這時候會跳出安裝選項，記得<em>把 Driver 的選項的勾勾拿掉</em>，因為已經裝好驅動了，如果再選擇安裝 Cuda 安裝程式提供的驅動會有問題</p>
+<p>這時候應該就能安裝成功了</p>
+<p>更詳細的 Installation Guide 可以參考官方文件<br><a href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/#axzz4WNL7OgLr" target="_blank" rel="noopener">https://docs.nvidia.com/cuda/cuda-installation-guide-linux/#axzz4WNL7OgLr</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/InstallNVGPUCUDAOnUbuntu/">http://havincy.github.io/post/InstallNVGPUCUDAOnUbuntu/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Cuda/">#Cuda</a>
+                    
+                        <a href="/tags/GPU/">#GPU</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/ExportNotesFromKoboEReader/">輸出 Kobo 電子閱讀器的註記</a>
+            
+            
+            <a class="next" rel="next" href="/post/ImproveCarpalTunnelSyndrome/">如何改善滑鼠手</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/InstallNVGPUCUDAOnUbuntu/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

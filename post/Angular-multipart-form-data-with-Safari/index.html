@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>Safari POST multipart/form-data 遇到的問題 | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Safari POST multipart/form-data 遇到的問題</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: December 23, 2020
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Web/">Web</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在 Angular 用 Typescript 做 POST 上傳檔案的時候，在 Safari POST <code>multipart/form-data</code> 時遇到了 501 error code 的問題，但在 Chrome 傳送一樣的檔案卻一切都正常</p>
+<p>當時在 Trace/Debug 這個問題時卡了三週多，剛好有時間特地來紀錄回顧一下</p>
+<h2 id="multipart-form-data"><a href="#multipart-form-data" class="headerlink" title="multipart/form-data"></a>multipart/form-data</h2><p>先簡要說明 <code>multipart/form-data</code> 這個格式</p>
+<p>是由文件 <a href="https://tools.ietf.org/html/rfc7578" target="_blank" rel="noopener">RFC 7578</a> 定義</p>
+<blockquote>
+<p>The encoding type application/x-www-form-urlencoded is inefficient for sending large quantities of binary data or text containing non-ASCII characters. Thus, a new media type,multipart/form-data, is proposed as a way of efficiently sending the values associated with a filled-out form from client to server.</p>
+</blockquote>
+<p>顧名思義是傳送多媒體檔案 (MIME data streams)，初衷是為了傳送 HTML form-based 的檔案 (也就是網頁開發常使用的 <code>&lt;form&gt;</code> 表單)，由這個格式定義的內容可能包含多種不同的格式，比如 text string, integer number, img, pdf 檔案等等</p>
+<p>在 <a href="https://tools.ietf.org/html/rfc2388" target="_blank" rel="noopener">RFC 2388</a> 也闡述了 <code>multipart/form-data</code> 的格式</p>
+<blockquote>
+<p>“multipart/form-data” contains a series of parts. Each part is expected to contain a content-disposition header [RFC 2183] where the disposition type is “form-data”, and where the disposition contains an (additional) parameter of “name”, where the value of that parameter is the original field name in the form. For example, a part might contain a header:<br>Content-Disposition: form-data; name=”user”<br>with the value corresponding to the entry of the “user” field.</p>
+</blockquote>
+<p>在做 HTTP POST <code>multipart/form-data</code> 時，Browser 會自動在每個不同欄位的資料之間插入一個 boundary string 來方便讓後端的 Server side 做 split</p>
+<p>e.g. <code>------WebKitFormBoundaryqYpuu3ZL3RyPf0S9</code> 是由 Browser 自己加上去的</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">------WebKitFormBoundaryqYpuu3ZL3RyPf0S9</span><br><span class="line">Content-Disposition: form-data; name="offset"</span><br><span class="line"></span><br><span class="line">48392</span><br><span class="line">------WebKitFormBoundaryqYpuu3ZL3RyPf0S9</span><br><span class="line">Content-Disposition: form-data; name="id"</span><br><span class="line"></span><br><span class="line">b0fdcdcc-5cf9-4b4e-b972-423aa72fdb1d</span><br><span class="line">------WebKitFormBoundaryqYpuu3ZL3RyPf0S9</span><br><span class="line">Content-Disposition: form-data; name="size"</span><br><span class="line"></span><br><span class="line">10238</span><br><span class="line">------WebKitFormBoundaryqYpuu3ZL3RyPf0S9</span><br><span class="line">Content-Disposition: form-data; name="checksum"</span><br><span class="line">...</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="問題分析"><a href="#問題分析" class="headerlink" title="問題分析"></a>問題分析</h2><p>我們發現 <strong>Safari 在 POST 我們其中一筆檔案時，Server 會 return 501 error code</strong></p>
+<p>對應的可能 cause 就是 “checksum mismatch”</p>
+<p>Flow of calculating checksum:</p>
+<ul>
+<li>Client 針對 “name=data” 這一欄位會去算一個 checksum，然後將結果放到 “name=checksum” 欄位供 Server 做比對</li>
+<li>Server 接收檔案後，會去抓 “name=data”，用一樣的演算法去算 checksum，然後看看結果是不是跟 “name=checksum” 一樣</li>
+</ul>
+<h3 id="初分析"><a href="#初分析" class="headerlink" title="初分析"></a>初分析</h3><p><strong>Q: 可能是我們用的演算法 library 在 Safari 算出來的結果不一樣?</strong><br>A: NO. 讓 Safari/Chrome POST 完全一模一樣的檔案，算出來的 Checksum 是一樣的</p>
+<p><strong>Q: Safari 在 POST 的瞬間，在 “name=data” 內加了料?</strong><br>A: NO. 拿 POST 後的檔案與 POST 前的比對並沒有不一樣的字符</p>
+<p><strong>確認以上兩種可能都是 NO 之後，我的人生就陷入了大卡關XD</strong></p>
+<h3 id="深入分析"><a href="#深入分析" class="headerlink" title="深入分析"></a>深入分析</h3><p>在跟俄羅斯主掌 Server 端的 Engineer 一起 Debug 了快兩週後終於越來越接近問題的核心</p>
+<p>關鍵就是我們後來發現了 <strong>Safari 跟 Chrome 在計算 “name=data” 這個區塊 POST 出去放的 Content-Length 不一樣</strong>，才導致 Server return 501 error code</p>
+<p>並不是單純的 “checksum mismatch”，但一開始他們看見是 501 error code，跟我們說是 Safari 算錯 checksum 😓，這一點我們 Server side 的 error response 應該要再嚴謹一點，這樣也會讓 Debug 少走點彎路</p>
+<h3 id="encoding-差異"><a href="#encoding-差異" class="headerlink" title="encoding 差異"></a>encoding 差異</h3><p>我開始去看<strong>是不是 Safari 在 POST multipart/form-data 時編碼 (encoding) 的問題</strong></p>
+<p>發現我們為了要讓檔案格式容易閱讀，在蒐集的 Text strings 之間都適當的加入了 <code>\n</code>, <code>\t</code></p>
+<p>採納了俄羅斯同事的建議，把最容易有編碼差異的 End of line strings 通通都移除，Safari 就成功 POST 該檔案到 Server 了(???)… 當下真是既開心又傻眼XD</p>
+<p>不過這樣不算是解決問題，是一個 Work around，於是我又繼續搗鼓到底是為什麼，我發現<strong>並不是 EOL 導致 Safari POST 出問題</strong>，因為我有試過在另外兩個較為單純的檔案 (Content-Type: text/string &amp; json) 加入 EOL 去 POST 給 Server，它還是可以 return 200 ok</p>
+<p>最後原因是 <strong>Safari 在 POST <code>multipart/form-data</code> Type 的檔案時，如果 String 含有 Line breaks，會算出錯誤的 Content-Length</strong>，這代表 Safari 可能跟 Chrome 用的 post script 在處理 Line breaks 計算上不太一樣</p>
+<blockquote>
+<p>Data which includes too long segments without CRLF sequences must be encoded with a suitable content-transfer-encoding.</p>
+</blockquote>
+<p>(天曉得我當初啃了多少 RFC 文件= =)</p>
+<h2 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h2><p>如果要 POST 的多媒體檔案裡面有需要插入 Line breaks，<strong>安全的做法是先把字串都轉成單純的 “Binary Data”，而不是直接去傳 “String” 給 Server</strong>，其實在很多 Messaging 架構上都是傳輸單純的 Binary 然後再做 deserialize，比如 Google 的 <a href="https://developers.google.com/protocol-buffers" target="_blank" rel="noopener">Protocol buffers</a></p>
+<blockquote>
+<p>The recommended action for an implementation that receives an “application/octet-stream” entity is to simply offer to put the data in a file, with any Content-Transfer-Encoding undone, or perhaps to use it as input to a user-specified process.</p>
+</blockquote>
+<p>在 Typescript 內將 “name=data” 的部分包成 <code>blob</code> type，也就是 <code>application/octet-stream</code> 的形式</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// FormData() is multipart/form-data type</span><br><span class="line">const formData = new FormData();</span><br><span class="line">formData.append('data', new Blob([data]));</span><br></pre></td></tr></tbody></table></figure>
+
+<p>這邊也需要 Server side 改一下 Parse script，針對 “name=data” 這個欄位的資料做相對應的處理，變成 String 後正確的算出 checksum</p>
+<p>所以這個問題確實需要 Both Client/Server 的 effort 才有辦法解掉!</p>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>一開始跟俄羅斯的同事有點小誤會</p>
+<p>當時經過上面提到的初步分析後，我很肯定的回報說不是 Client code 算錯 Checksum 的問題，還附上了一堆 log &amp; screenshots，但 Server 端也認為決不是他們的問題(這點大概也沒說錯)，他可能認為我在推責任給他們 Team，事實上我只是想要 Server 端可以一起來確認到底怎麼回事，比如提供一下我們一傳過去的該檔案到 Server 後是怎麼被 Parsing 的 log</p>
+<p>所幸一來一往也慢慢越來越接近 root cause，對方後來眉頭一皺發現案情不單純🧐，態度也比較客氣了</p>
+<p>這次在解這個 issue，更有感於溝通技巧真的很重要，俄羅斯大佬不好惹捏，那位同事名字還叫 Vladimir lol</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/Angular-multipart-form-data-with-Safari/">http://havincy.github.io/post/Angular-multipart-form-data-with-Safari/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Angular/">#Angular</a>
+                    
+                        <a href="/tags/multipart-form-data/">#multipart/form-data</a>
+                    
+                        <a href="/tags/Safari/">#Safari</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/How-To-Practice-Listening-Indian-Accent/">如何練習聽懂印度腔英文</a>
+            
+            
+            <a class="next" rel="next" href="/post/Serve-Https-iOS-Devices-By-Proxy/">用 mitmproxy 讓手機測試本地端網頁</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/Angular-multipart-form-data-with-Safari/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

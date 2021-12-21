@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>Knapsack problem 背包問題 | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Knapsack problem 背包問題</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: June 27, 2016
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Algorithm/">Algorithm</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>有名的背包問題是說，有一個固定重量的背包，和幾件不同重量不同價值的物品，在不超過背包重量的情況，將這些物品放到背包的最佳解(達到最大價值)是多少</p>
+<p>背包問題又有好幾種變形</p>
+<h2 id="1-fractional-knapsack"><a href="#1-fractional-knapsack" class="headerlink" title="1. fractional knapsack"></a>1. fractional knapsack</h2><p><strong>每樣物品可切割</strong></p>
+<p>此情況是最簡單的，可以用 Greedy 解決</p>
+<blockquote>
+<p>先計算物品價值與重量的比值，會得到每個物品在1個單位的重量的價值，每次取比值最大的物品先塞入背包，</p>
+</blockquote>
+<p>假如有3樣物品</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">A (5 kg, 10 value)</span><br><span class="line">B (6 kg, 6 value)</span><br><span class="line">C (7kg, 21 value)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>先計算價值與重量的比值會得到</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">A = 2 value / 1kg</span><br><span class="line">B = 1 value / 1kg</span><br><span class="line">C = 3 value / 1kg</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="Greedy-Example"><a href="#Greedy-Example" class="headerlink" title="Greedy Example"></a>Greedy Example</h3><h4 id="背包重量為15kg"><a href="#背包重量為15kg" class="headerlink" title="背包重量為15kg"></a>背包重量為15kg</h4><p>選擇比值最大的C先塞<br>因為背包重量大於C的整體重量，所以可以將C全部放入，15 - 7 = 8<br>背包重量剩8kg，價值為0 + 21 = 21</p>
+<p>因為背包還沒滿，選擇第二大的 A 放入<br>背包剩餘的重量大於A的整體重量，所以可以將 A 全部放入，8 - 5 = 3<br>背包重量剩 3kg，價值為 21 + 10 = 31</p>
+<p>繼續放，B沒辦法全部放入，只能放 3kg 的 B</p>
+<p>最後總價值為31 + 3 = 34</p>
+<h4 id="背包重量為6kg"><a href="#背包重量為6kg" class="headerlink" title="背包重量為6kg"></a>背包重量為6kg</h4><p>放 6kg 的 C，3 value * 6, 總價值為 18</p>
+<h2 id="2-discrete-knapsack"><a href="#2-discrete-knapsack" class="headerlink" title="2. discrete knapsack"></a>2. discrete knapsack</h2><p><strong>每樣物品不可分割</strong></p>
+<blockquote>
+<p>沒辦法用greedy的方式解決，因為每樣物品不可分割，先放入價值較高的物品到背包可能會造成空間不必要的浪費，反而不是最佳解</p>
+</blockquote>
+<p>discrete knapsack 又有分可以重複放同一件物品或是每件物品不能重複放的情況</p>
+<ul>
+<li>with repetition</li>
+<li>without repetition</li>
+</ul>
+<h3 id="Greedy-Example-1"><a href="#Greedy-Example-1" class="headerlink" title="Greedy Example"></a>Greedy Example</h3><h4 id="背包重量13kg"><a href="#背包重量13kg" class="headerlink" title="背包重量13kg"></a>背包重量13kg</h4><figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">A(8kg, 12 value)</span><br><span class="line">B(6kg, 6 value)</span><br><span class="line">C(7kg, 7 value)</span><br><span class="line"></span><br><span class="line">A = 1.5 value / 1kg</span><br><span class="line">B = 1 value / 1kg</span><br><span class="line">C = 1 value / 1kg</span><br></pre></td></tr></tbody></table></figure>
+
+<p>用 Greedy 的方式會先選擇 A，全部放入後，背包重量變 5kg，價值 12<br><strong>但 5kg 無法再放入 B 或 C，總價值最後為 12，這不是最佳解</strong></p>
+<p>最佳解應為，放 B 之後再放 C，總價值為 13</p>
+<p>這類型的背包問題是屬於 <code>NP-complete</code>，無法快速求得精確解，只能折衷求得近似解<br>但是如果N不大的情況下可以用 DP 得到最佳解</p>
+<h3 id="With-Repetition"><a href="#With-Repetition" class="headerlink" title="With Repetition"></a>With Repetition</h3><p><strong>可以重複放同一件物品</strong></p>
+<p>假設有一最佳解 W 含有 Wi 個重量<br>如果把 Wi 拿掉，會得到 W-Wi 的最佳解 (cut and paste trick)</p>
+<p>這句話可以想像成一個背包已經是最佳解的情況，重量是W<br>把其中一個物品拿出來，這個背包的重量變成(W - 該物品重量)，在這個重量之下的背包還是處於最佳解</p>
+<p>概念：<br><em>Let value(w) be the maximum value of knapsack of weight w</em></p>
+<blockquote>
+<p>value(w) = max{value(w - wi) + vi}</p>
+</blockquote>
+<p>Example</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">W = 10 </span><br><span class="line"></span><br><span class="line">// (value, weight)</span><br><span class="line">($30, 6) ($14, 3) ($16, 4) ($9, 2)</span><br><span class="line"></span><br><span class="line">w = [6, 3, 4, 2]</span><br><span class="line">v = [30, 14, 16, 9]</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Knapsack(W)</span><br><span class="line">value(<span class="number">0</span>) ← <span class="number">0</span>    <span class="comment">// 一維陣列, 大小為背包重量上限 W+1</span></span><br><span class="line"><span class="keyword">for</span> w from <span class="number">1</span> to W:</span><br><span class="line">   value(w) ← <span class="number">0</span>   <span class="comment">// 先把每個重量 1~W 填0</span></span><br><span class="line">   <span class="keyword">for</span> i from <span class="number">1</span> to n:</span><br><span class="line">      <span class="keyword">if</span> wi &lt;= w:</span><br><span class="line">         val ← value(w - wi) + vi</span><br><span class="line">         <span class="keyword">if</span> val &gt; value(w):</span><br><span class="line">            value(w) ← val</span><br><span class="line"><span class="keyword">return</span> value(W)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>直接看例子圖解會比較快理解<br>開 W+1 大小的陣列，運用 DP 的概念逐漸填滿，陣列最後一個數值就是最佳解<br>每一格是放最佳解，所以 W[4] 會是 value 18，而不是 14</p>
+<p><img src="http://i.imgur.com/y1D4C7k.png" alt="knapsack1"></p>
+<p>重點在第二層 for 迴圈裡面的 if，會逐一檢查 <code>w[]</code> 的值是否 <code>&lt;=</code> 目前跑到的背包重量 (1~W)</p>
+<p>此題的情況，直到外層 w 跑到 2 時 (weigh = 2 的物品)<br>第二層的 for 迴圈才開始進入 if 條件式</p>
+<p>(i = 3時，w[3] = 2，wi &lt;= w)</p>
+<p>此時第二層的for迴圈在計算 value[2] 的值時只有一種可能 val = value[2 - 2] + 9</p>
+<ul>
+<li>val &gt; value[2]  (初始值是0)</li>
+<li>value[2] = 9</li>
+</ul>
+<p>當外層w跑到3時，第二層的 for 迴圈會有兩次 if 的機會<br>就是發生在 <code>w[1]=3</code> 和 <code>w[3]=2</code>，這兩個都小於等於 w=3<br>這時候就會發生取最佳解的比較了</p>
+<p>第一次 if 會先評估 w[1]</p>
+<ul>
+<li>val = value[3-3] + 14</li>
+<li>val &gt; value[3] </li>
+<li>value[3] = 14</li>
+</ul>
+<p>第二次 if 評估 w[3]</p>
+<ul>
+<li>val = value[3-2] + 9</li>
+<li>val &lt; value[3] , 不會update</li>
+</ul>
+<p>所以value[3]的最佳解是14</p>
+<p>以此類推下去就會慢慢推出value[10]的值</p>
+<p>簡單來說就是<strong>考慮組合成 value[n] 的所有可能</strong><br>要塞滿 n，可以從 n-k或是 n-h 再放重量 k 或是重量 h 的東西<br>(假設要塞的物品有 k 重量和 h 重量可選)</p>
+<blockquote>
+<p>此時就要比較(value[n-k] + 重量k的value) 以及 (value[n-h] + 重量h的value)，哪個比較高</p>
+</blockquote>
+<p>實作時可以把每樣物品的 weight 和 value 包在一個 structure 內，會比較直觀且好寫</p>
+<h3 id="Without-Repetition"><a href="#Without-Repetition" class="headerlink" title="Without Repetition"></a>Without Repetition</h3><p><strong>不能重複放同一件物品</strong></p>
+<p>考慮兩種情況，有包含 last item 或沒包含 (放 or 不放)</p>
+<p>概念:<br><em>The i-th item is either used or not</em></p>
+<blockquote>
+<p>value(i, w) = max{value(i-1, w-wi) + vi, value(i-1, w)}  // 放或不放</p>
+</blockquote>
+<p>這個情況的演算法 Coursera 的課是開二維陣列做 DP<br>但<a href="http://www.csie.ntnu.edu.tw/~u91029/KnapsackProblem.html#3" target="_blank" rel="noopener">演算法筆記有展示用一維就能解的方法</a></p>
+<p>不過基本上都需要雙層迴圈啦，只是一維看起來比較舒服</p>
+<p>這邊我就直接放當初寫 Coursera 背包問題作業的 code，註解應該滿清楚了</p>
+<p><em>若是正在修這門課的請尊重Coursera的榮譽協定，不要直接抄襲上傳!</em><br><em>If you are attending this class of Coursera please do not copy and paste the solution code. Respect to Coursera’s honor code.</em></p>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* ------------------- knapsack without repetitions ----------------------- */</span></span><br><span class="line"><span class="comment">/* take as much gold as possible into your bag.</span></span><br><span class="line"><span class="comment">/* just one of each you can either take it or not (cannot take a fraction of a bar).</span></span><br><span class="line"><span class="comment">/* 1 &lt;= W &lt;= 10^4, 1 &lt;= n &lt;= 300, 0 &lt;= w0,...,wn-1 &lt;= 10^5</span></span><br><span class="line"><span class="comment">/* input format: capacity W and number n of bars of gold</span></span><br><span class="line"><span class="comment">/* output format: maximum weight of gold that fits W</span></span><br><span class="line"><span class="comment">/* ------------------------------------------------------------------------ */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 0/1 knapsack problem, c(n, w) = max(c(n-1, w), c(n-1, w-weight[n]) + cost[n])</span></span><br><span class="line"><span class="comment">   對某一件物品來說, 選擇放或不放, </span></span><br><span class="line"><span class="comment">   一件物品放進背包, cost上升, 耐重下降, </span></span><br><span class="line"><span class="comment">   不放就是原有的cost跟耐重都不變, </span></span><br><span class="line"><span class="comment">   上述式子的意思是取放or不放後的c(n)最大值, 是背包問題中關鍵的式子 */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">optimal_weight</span><span class="params">(<span class="keyword">int</span> W, <span class="keyword">const</span> <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; w)</span></span>{</span><br><span class="line">    <span class="comment">// use 1-D array from n to (n - weight) to fill the array</span></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; c(W+<span class="number">1</span>);</span><br><span class="line">    <span class="comment">// 可用一維陣列由後面往前填數字, 節省使用DP的空間</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; w.<span class="built_in">size</span>(); ++i){</span><br><span class="line">        <span class="comment">// 選擇放與不放兩種情況中, c[j]的最大值</span></span><br><span class="line">        <span class="comment">// 需要注意的是j不可能由比第i個物品價值還小的地方填數字</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = W; j &gt;= w[i]; --j){</span><br><span class="line">            <span class="comment">// in this problem, cost and weight is equal</span></span><br><span class="line">            c[j] = <span class="built_in">max</span>(c[j], c[j-w[i]] + w[i]);</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="comment">// c[W] is the maximum value of knapsack with W weight</span></span><br><span class="line">    <span class="keyword">return</span> c[W];</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>{</span><br><span class="line">    <span class="keyword">int</span> n, W;</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; W &gt;&gt; n;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; w(n);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++){</span><br><span class="line">        <span class="built_in">cin</span> &gt;&gt; w[i];</span><br><span class="line">    }</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; optimal_weight(W, w) &lt;&lt; <span class="string">'\n'</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/Knapsack-Problem/">http://havincy.github.io/post/Knapsack-Problem/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/DP/">#DP</a>
+                    
+                        <a href="/tags/KnapsackProblem/">#KnapsackProblem</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/Leetcode-digit-root/">digital root 數根 / 生命靈數 ? </a>
+            
+            
+            <a class="next" rel="next" href="/post/EditDistance/">Edit Distance 最小編輯距離</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/Knapsack-Problem/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

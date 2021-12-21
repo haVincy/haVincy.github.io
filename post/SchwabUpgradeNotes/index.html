@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>Schwab 嘉信理財-帳戶申請升級心得 | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Schwab 嘉信理財-帳戶申請升級心得</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: September 8, 2020
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%94%9F%E6%B4%BB%E9%9B%9C%E8%A8%98/">生活雜記</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在投了台股快滿一年，了解自己的投資屬性跟偏好，比較有概念後，就想投投看美股</p>
+<p>因為任職的外商有開放員工認股的權益(ESPP)，on board 的時候公司就幫員工在 Schwab 嘉信理財上面開個人的美國證券戶，不過公司幫開的戶頭只限於放置 <a href="https://en.wikipedia.org/wiki/Employee_stock_purchase_plan" target="_blank" rel="noopener">ESPP (Employ Stock Purchase Plan)</a> 跟 <a href="https://www.schwab.com/public/eac/resources/articles/rsu_facts.html" target="_blank" rel="noopener">RSU (Restricted Stock Units)</a> 的公司股票，也就是說你<strong>只能被動持有</strong>公司股票然後<strong>只能在特定時間主動賣出</strong></p>
+<p>如果想要交易其他嘉信證券提供的股票，或股票型基金(ETF)，就得額外送申請做帳戶升級成 Full Trading</p>
+<p>今年 3 月初我送了嘉信理財的帳戶升級申請，其中有些注意事項可以記錄下</p>
+<p>(沒錯就是美股熔斷前沒多久，但申請足足跑了一個月，錯過了最低點 OTZ，就是沒有這個命XD)</p>
+<h2 id="基本背景"><a href="#基本背景" class="headerlink" title="基本背景"></a>基本背景</h2><h3 id="ESPP"><a href="#ESPP" class="headerlink" title="ESPP"></a>ESPP</h3><p>ESPP 是公司每隔一段時間，會幫你以在該段時間中最低的收盤價再打 75 折購入公司股票的計畫</p>
+<p>購入的資金是從員工每個月的薪水<strong>至多</strong> 10% 而來(可自行調整 % 數，也可以不參與)</p>
+<blockquote>
+<p>例如每季一次 ESPP 的話，設定 10% 認股，三個月的最低收盤價假設是每股 123 USD，這次認的股數就會是 (三個月的薪水 * 10%) / (123 USD * 0.75)</p>
+</blockquote>
+<h3 id="RSU"><a href="#RSU" class="headerlink" title="RSU"></a>RSU</h3><p>RSU 是公司直接發股份給你，通常股價越低，公司發的數目就越多，不管是高還是低，直接拿到股票比 ESPP 還要好</p>
+<p>但是天下哪有白吃的午餐，RSU 是有條件的，比如要求你必須待滿一定年數，你才能拿到這次簽發的全部股數</p>
+<blockquote>
+<p>例如答應給你 100 股，但是這 100 股中拆成 20, 35, 45，分別在你待滿一年、二年、三年後拿到，萬一你滿第二年不滿三年時離職，是領不到前兩年累積的 55 股的，就是全部都沒有</p>
+</blockquote>
+<h2 id="前置作業"><a href="#前置作業" class="headerlink" title="前置作業"></a>前置作業</h2><p>我是有先打去嘉信理財的中文服務專線，先問了一些事前準備的問題，聽完專員解釋後，發現整個升級過程比起申請帳戶來說簡單很多，只是表格跟證明比較多眉角</p>
+<blockquote>
+<p>手機直撥號碼 00801-13-6758，<strong>中文服務時間是台灣週一到週五的 21:00 ~ 13:00</strong><br>選擇 2 中文服務，然後輸入你的 8 位數帳戶號，專員會先問你一些基本的問題確認身份</p>
+</blockquote>
+<h3 id="水電費帳單"><a href="#水電費帳單" class="headerlink" title="水電費帳單"></a>水電費帳單</h3><p>嘉信的文件申請都需要附上你是真的住在該地址的證明，會要求提供<strong>掛你名字的水電費帳單</strong>的掃描，如果沒辦法提供，比如你是租屋或是房子名字是爸媽的，專員告訴我有下列幾種替代方案</p>
+<ol>
+<li>其他有辦法證明住處的本人名字帳單</li>
+<li>信用卡帳單或月結單上有地址的 (至少兩家不同銀行的)</li>
+<li>台灣駕照</li>
+</ol>
+<p><strong>我是採用汽車駕照的替代方式</strong>，還跑了一趟監理站換了新的</p>
+<p>要附上原因講述一下為什麼沒辦法給水電費帳單，而是用替代文件</p>
+<ul>
+<li>房子是爸媽的名字所以水電費帳單不是寫自己名字</li>
+<li>租屋處是房東的名字所以水電費帳單不是自己的名字</li>
+<li>其他</li>
+</ul>
+<p>不知道怎麼用英文描述原因，可以直接用中文就好</p>
+<p>專員說他們會有懂中文的人先審中文的表格提案再轉成英文給上面的 sign off</p>
+<h3 id="地址要填戶籍地還是租屋處"><a href="#地址要填戶籍地還是租屋處" class="headerlink" title="地址要填戶籍地還是租屋處"></a>地址要填戶籍地還是租屋處</h3><p><strong>不一定要是戶籍地</strong>，schwab 只是要核對個人目前正在居住的住所，跟去台灣的銀行開戶時要求填寫的戶籍地不一樣</p>
+<p>重點是個人資料欄位的 Home Address 要跟附上證明資料的地址是一樣的就好</p>
+<p><strong>W-8BEN 上的地址要跟附上的資料的住所是同一個</strong></p>
+<h3 id="W-8BEN-是什麼"><a href="#W-8BEN-是什麼" class="headerlink" title="W-8BEN 是什麼"></a>W-8BEN 是什麼</h3><p>如果是已經開過戶的應該都知道，如果不是美國人就要用另一種稅率，因為美國公民股票利得(賣差)是要繳稅的，非美國人只要繳交股利的稅，因為台灣與美國沒有租稅協定所以台灣人要被扣 30% (schwab會幫你預扣)，中國的話只要繳 10% !!!</p>
+<p>不過不用擔心，美股跟台股不一樣，殖利率都很低，股利少得可憐，尤其科技股根本沒什麼在發股利，所以安心的給他扣吧</p>
+<p>對稅務還是不清楚可以去<a href="https://rich01.com/what-is-w-8ben/" target="_blank" rel="noopener">市場先生的這篇</a>，寫的很好</p>
+<h3 id="W-8BEN-還需要再填一次嗎"><a href="#W-8BEN-還需要再填一次嗎" class="headerlink" title="W-8BEN 還需要再填一次嗎"></a>W-8BEN 還需要再填一次嗎</h3><p>如果是當初公司因為要發 ESPP &amp; RSU 幫忙開的戶，當初就已經把基本資料都填寫完了，包含 W-8BEN 表格</p>
+<p>跟客服確認過，如果之前已經填過，做升級的時候就不必再填</p>
+<p>如果收到要求要再填寫，打電話告知客服你收到系統訊息叫你再填一次，客服會查詢你的個人資料，如果有查到已經填過他就會幫你再跟審核的人確認</p>
+<h2 id="文件填寫"><a href="#文件填寫" class="headerlink" title="文件填寫"></a>文件填寫</h2><p>在 Services → Account Servicing → Forms 找到 <strong>Update your Schwab One International Account</strong> PDF</p>
+<p>去年開始有提供英文、中文與西班牙文 (以前只有英文)</p>
+<img src="/post/SchwabUpgradeNotes/update-schwab-account-doc.png" class="">
+
+<p>內容主要就是個人資料，住址等等，有分公司住址，收件住址(mail address)，家裡住址(Home address)</p>
+<ul>
+<li><p>家裡住址其實就是戶籍地的概念，確保你永久的居所，收件住址方便在沒有住在戶籍地的人</p>
+</li>
+<li><p>因為很不想填 Republic of China，國籍欄位我通通是填寫 <strong>TAIWAN (R.O.C.)</strong></p>
+</li>
+<li><p>第六個欄位有一個 <strong>“Your Consent Enroll in Schwab’s Cash Features Program”</strong></p>
+<ul>
+<li>我只有勾選第二項 <strong>“Schwab One Interest Feature” 嘉信第一利息功能</strong></li>
+<li>第一項是資金很大的客戶才會用到的，證券資產沒破千萬的不需要考慮這項</li>
+</ul>
+</li>
+</ul>
+<h3 id="Debit-card"><a href="#Debit-card" class="headerlink" title="Debit card"></a>Debit card</h3><p>要申請 Debit card，記得要在第四項的內容勾選要一張卡</p>
+<p>兩張卡的申請是前面有申請共同持有人才能勾</p>
+<img src="/post/SchwabUpgradeNotes/schwab-debit-card.png" class="">
+
+<h3 id="本人簽名"><a href="#本人簽名" class="headerlink" title="本人簽名"></a>本人簽名</h3><p><strong>文件最後一頁要有本人的中文簽名</strong>，可以把最後一頁列印下來再掃描回去，然後做分割與合併 pdf</p>
+<p>我自己的做法是用手機掃我的簽名然後用 PS 放進去，至於英文簽名可以用大寫 Key 上去沒問題</p>
+<p>推薦 Google 出的手機掃描 APP : PhotoScan</p>
+<h3 id="文件上傳"><a href="#文件上傳" class="headerlink" title="文件上傳"></a>文件上傳</h3><p>上傳檔案時附註 <strong>STS conversion</strong></p>
+<ul>
+<li>到 Service → Message Center 上傳所有需要的文件，選擇分類為 ” Forms or Account Documents” <ul>
+<li>內容就寫 <blockquote>
+<p>Request STS conversion, I’d like to upgrade my current account to have full trading function</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>駕照跟護照的影本檔案可以放在同一頁</li>
+<li>我總共上傳的文件也就兩份，一份是升級帳戶用的，一份是護照與駕照的影本檔案</li>
+</ul>
+<h2 id="升級帳戶處理時間"><a href="#升級帳戶處理時間" class="headerlink" title="升級帳戶處理時間"></a>升級帳戶處理時間</h2><p>從 3/7 號上傳文件到 Message Center ，到 4/9 收到線上回覆說請我檢查個人資料</p>
+<p>若沒問題那帳戶就沒問題了，也是歷經一個月的時間，我算是滿幸運沒碰到什麼問題</p>
+<p>跟客服說得差不多，<strong>升級的話至少都要三週的等待</strong>，因為新開戶的客人會優先處理</p>
+<h3 id="Schwab-Debit-card-金融卡"><a href="#Schwab-Debit-card-金融卡" class="headerlink" title="Schwab Debit card 金融卡"></a>Schwab Debit card 金融卡</h3><p>升級確定成功後，隔一週左右就有 FedEx 急件送嘉信的 Visa 金融卡快遞到你的收件地址</p>
+<p>收到卡後上面會指示號碼請你開卡，需要注意的是<strong>這個號碼是要用 Skype 撥通</strong>，我一開始還傻傻用手機打XD</p>
+<p>用 Skype 撥通信件上告訴你的號碼，就會進入答錄機模式，跟在台灣辦信用卡開卡一樣，請你輸入</p>
+<ol>
+<li>VISA 金融卡上的 16 位卡號</li>
+<li>你的 schwab 8 位帳號</li>
+<li>要設置個人 pin 碼就跟著指示繼續操作，會再要求你輸入到期月年和卡片背面的三位數字</li>
+<li>設置完畢就成功開通了</li>
+</ol>
+<p>這張卡好用的地方是你能在世界各地提領當地貨幣，而且免手續費，貨幣匯率又比台灣的卡好</p>
+<p>被盜刷的話怎麼處理</p>
+<ul>
+<li><a href="https://ribtw.blogspot.com/2015/06/schwab-debit-card-visa.html" target="_blank" rel="noopener">https://ribtw.blogspot.com/2015/06/schwab-debit-card-visa.html</a></li>
+</ul>
+<h3 id="Schwab-支票"><a href="#Schwab-支票" class="headerlink" title="Schwab 支票"></a>Schwab 支票</h3><p>6/4 收到兩本支票跟一個皮套</p>
+<img src="/post/SchwabUpgradeNotes/schwab-check.jpeg" class="">
+
+<p>人生第一次看到支票，這篇有人提供了 <a href="https://paper.dropbox.com/ep/redirect/external-link?url=http%3A%2F%2Fgreenhornfinancefootnote.blogspot.tw%2F2012%2F06%2Fhow-to-write-check.html&amp;hmac=gZ8HW%2BaE4dAwpCE%2BF9zkJglt3VeBY34gFcnXDF5wi%2Bo%3D" target="_blank" rel="noopener">如何開立美金支票</a> 的簡單教學</p>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>要長期投資美股的話，嘉信理財是不錯的選擇，除了很好用的 Debit card 外，去年嘉信剛<a href="https://news.cnyes.com/news/id/4415967" target="_blank" rel="noopener">併購 TD Ameritrade</a>，2020 年底前會完成整個收購案，到時嘉信理財就正式成為美股市場最大證券商，也代表有更多種商品能夠交易</p>
+<p>嘉信的開戶門檻是 &gt;= 25000 美金，帳戶內資產需保持在 10000 美金以上，低於 10000 美金可能會被關閉戶頭，想看台灣人怎麼開嘉信戶頭的話，這邊<a href="https://readingoutpost.com/charles-schwab-open-account/" target="_blank" rel="noopener">有篇很棒的教學文</a>可以參考</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/SchwabUpgradeNotes/">http://havincy.github.io/post/SchwabUpgradeNotes/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Schwab/">#Schwab</a>
+                    
+                        <a href="/tags/Invest/">#Invest</a>
+                    
+                        <a href="/tags/ESPP/">#ESPP</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/NodeHeapOutOfMemory/">建置 Angular 時發生 Heap out of memory</a>
+            
+            
+            <a class="next" rel="next" href="/post/TakeCareSurgicalScar/">手術後疤痕的平疤</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/SchwabUpgradeNotes/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

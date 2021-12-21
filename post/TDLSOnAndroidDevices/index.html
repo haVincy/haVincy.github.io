@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>Android 啟用 Tunneled Direct Link Setup | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Android 啟用 Tunneled Direct Link Setup</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: January 6, 2020
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Android/">Android</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>剛進公司工作第一年接觸到的就是 Android 相關的產品開發</p>
+<p>要搞 Android 產品需要看的東西滿多的，很難短時間內上手，加上有手機也有平板還有 Android TV，算是囫圇吞棗般的開始栽入 Android 這塊領域，所以不敢說自己很懂 Android，從底層到上層的範圍實在太大，投入比例最多的還是在應用層面</p>
+<p>在公司參與了一個專案是關於兩台 Android Device 之間遠端連線操控的應用，在同一個網域下讓 Android Devices 用 TCP socket 的方式連接來傳送資料，也可以用 Bluetooth 的方式來連接</p>
+<p>那時候為了要改善，使用網路作連線下的品質跟速度，用到了 TDLS 這個技術，網路資料其實不多，加上啟用 TDLS 時遇到了一些問題，這邊把當時紀錄的一些筆記放上來，希望對在查找 Android TDLS 的人會有幫助</p>
+<h2 id="Wi-Fi-Direct"><a href="#Wi-Fi-Direct" class="headerlink" title="Wi-Fi Direct"></a>Wi-Fi Direct</h2><p>Wi-Fi Direct 又叫作 Wi-Fi P2P，是一種讓具備 Wi-Fi 的裝置在不需要路由器與熱點的情況下，可以進行點對點的無線連接，速度最高為 250MbP，最遠距離為 300m，採用 <a href="https://zh.wikipedia.org/wiki/WPA#WPA2" target="_blank" rel="noopener">WPA2</a> 的方式加密</p>
+<h3 id="P2P-Group-Owner"><a href="#P2P-Group-Owner" class="headerlink" title="P2P Group Owner"></a>P2P Group Owner</h3><p>簡稱 GO，是類似於 AP 的角色，能允許被其他設備偵測發現並連線近來，一個 P2P Group 只能有一個 Owner</p>
+<h3 id="P2P-Client"><a href="#P2P-Client" class="headerlink" title="P2P Client"></a>P2P Client</h3><p>類似於 STA（Station) 的角色，本身不提供連接的功能，但能連接到 Group Owner</p>
+<p>而 TDLS 建立在 Wi-Fi Direct 的基礎上，來建立兩個 Device 之間的 link</p>
+<blockquote>
+<p>TDLS links can be established between two devices that are communicating to a Group Owner (GO) on a Wi-Fi Direct connection. In this case, the link is activated the same way as in a Wi-Fi network, only the GO acts as the AP in that situation</p>
+</blockquote>
+<img src="/post/TDLSOnAndroidDevices/P2P-components-and-topology-of-a-Wi-Fi-Direct-network.png" class="">
+
+<p>更多關於 Wi-Fi Direct 的資料可以參考 <a href="https://developer.android.com/guide/topics/connectivity/wifip2p" target="_blank" rel="noopener">Android Wi-Fi Direct overview</a></p>
+<h2 id="TDLS"><a href="#TDLS" class="headerlink" title="TDLS"></a>TDLS</h2><p>TDLS(Tunneled Direct Link Setup) 可以在同個網路下直接建立起兩個 Device 之間的 communication link，來減少封包被傳遞的次數，因為在基本的 Wifi 網路架構下，封包需要透過 AP(Access Point) 來當中介人傳遞，也就是說封包是被二次傳遞的，透過 TDLS 的技術可以有效提升速度，特別是兩個很近的 Device</p>
+<blockquote>
+<p>A seamless way to stream media and other data faster between devices already on the same Wi-Fi network. Devices using it communicate directly with one another, without involving the wireless network’s router.</p>
+</blockquote>
+<p>TDLS 能夠使傳輸效率在最佳的 Level 而不必管 AP 的支援程度</p>
+<ul>
+<li>e.g. 如果 AP 只支援 802.11g，但兩個 TDLS Enabled Device 可以支援到 802.11n，那就能夠傳輸在比 802.11g 更高的 data rates 上</li>
+</ul>
+<p>關於傳輸效率的 Level，參考 <a href="https://zh.wikipedia.org/wiki/IEEE_802.11" target="_blank" rel="noopener">IEEE 802.11 的維基百科</a></p>
+<h3 id="TDLS-如何運作"><a href="#TDLS-如何運作" class="headerlink" title="TDLS 如何運作"></a>TDLS 如何運作</h3><p>大略描述下在兩個 Device 之間， TDLS 是如何傳輸資料和運作的 (frame exchanges)</p>
+<h4 id="DISCOVERY"><a href="#DISCOVERY" class="headerlink" title="DISCOVERY"></a>DISCOVERY</h4><ol>
+<li><p>Initiator 會透過 AP or GO 送出 <code>TDLS Discovery Request</code> 給 Target</p>
+</li>
+<li><p>如果 Target 具備 TDLS，那就送出 <code>TDLS Discovery Response</code> 給 Initiator，這段 data frame 內的資訊會夾帶 Taget 的通訊能力，包含 support rates 還有 support channels</p>
+</li>
+<li><p><code>TDLS Discovery</code> 也會評估目前的 AP 與其他可連接的 TDLS Device 的訊號強度，藉此來決定是否要建立 TDLS link，所以有可能不會建立 TDLS link</p>
+<blockquote>
+<p>Comparing: AP 與 Initiator 之間的訊號強度 vs Target 與 Initiator 之間的訊號強度</p>
+</blockquote>
+</li>
+</ol>
+<h4 id="Setup-and-Teardown"><a href="#Setup-and-Teardown" class="headerlink" title="Setup and Teardown"></a>Setup and Teardown</h4><ol>
+<li><p>Initiator 透過 AP 送出 <code>TDLS Setup Request</code> 給 Target，這段 data frame 內的資訊會夾帶了 Initiator 的通訊能力</p>
+</li>
+<li><p>Target 一樣會透過 AP 回應 <code>TDLS Setup Response</code>，資訊夾帶了 Target 的通訊能力以及 status code (accept or reject the setup request)</p>
+</li>
+<li><p>如果 Setup Request 被接受了，Initiator 會送出 <code>TDLS Confirm Frame</code> 給 AP</p>
+</li>
+<li><p>兩個裝置間開始用 TDLS link 溝通，兩個裝置都有可能送出 <code>TDLS Teardown Frame</code> 來中斷 TDLS link，如果送不出去會改交由給 AP</p>
+</li>
+</ol>
+<h3 id="啟用-TDLS"><a href="#啟用-TDLS" class="headerlink" title="啟用 TDLS"></a>啟用 TDLS</h3><p>Android 有提供 API 讓我們輸入 remote device 的 IP/Mac address 來 enable 網卡的 TDLS</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// WifiManager</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTdlsEnabled</span> <span class="params">(InetAddress remoteIPAddress, <span class="keyword">boolean</span> enable)</span></span></span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DeviceInfo deviceInfo = getCurrentDeviceInfo();</span><br><span class="line">InetAddress inetAddress = deviceInfo.getHostAddress();</span><br><span class="line">mWifiManager.setTdlsEnabled(inetAddress, <span class="keyword">false</span>);</span><br><span class="line">mWifiManager.setTdlsEnabled(inetAddress, <span class="keyword">true</span>);</span><br></pre></td></tr></tbody></table></figure>
+
+<p>也有另個 API 是查看目前裝置的網卡有沒有支援 TDLS</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isTdlsSupported</span> <span class="params">()</span></span></span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="如何檢查-TDLS-的狀態"><a href="#如何檢查-TDLS-的狀態" class="headerlink" title="如何檢查 TDLS 的狀態"></a>如何檢查 TDLS 的狀態</h3><p>先確認 Android Device 有支援 TDLS</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell iw list</span><br></pre></td></tr></tbody></table></figure>
+
+<p>兩台裝置連線後可以用 dmesg log 分別察看 Owner &amp; Client 的 TDLS 相關的 log</p>
+<p>應該會出現 <code>TDLS_DISCOVER</code>, <code>TDLS_CONNECTED</code> 等等的在 dmesg log 中</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell dmesg log</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="TDLS-的連線問題"><a href="#TDLS-的連線問題" class="headerlink" title="TDLS 的連線問題"></a>TDLS 的連線問題</h3><p>TDLS 的標準已經釋出很久, 基本上大多 Android 手機都有支援, 但是對於 TDLS 我們只能讓他被啟用, 無法決定目前裝置要走原本的 AP 路線還是直接透過 TDLS 來溝通</p>
+<p>根據文件上所描述的是 TDLS 是看情況執行的, 網卡會自己判斷走那一條路比較適合, 如果現在無線網路的連線品質不佳, 在 TDLS 被啟用的狀態下就會使用 TDLS 的方式連線</p>
+<p>無論有沒有要用 TDLS, Call <code>setTdlsEnabled</code> 的那方都會送出 <code>TDLS_DISCOVERY</code> 來 check 是否能連上 TDLS peer, 一旦發現不需要 TDLS, 也會自行 Tear down</p>
+<p>所以基本上啟用 TDLS 並不能保證裝置之間就一定會在 TDLS link 上溝通，還是要看網路環境和 AP 決定</p>
+<p><a href="https://www.wi-fi.org/system/files/20120808_TDLS_White_Paper_FINAL.pdf" target="_blank" rel="noopener">TDLS White Paper (2012)</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/TDLSOnAndroidDevices/">http://havincy.github.io/post/TDLSOnAndroidDevices/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/TDLS/">#TDLS</a>
+                    
+                        <a href="/tags/Network/">#Network</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/SharingKeyboardMouse/">Sharing input devices, 在不同電腦上共享鍵盤滑鼠</a>
+            
+            
+            <a class="next" rel="next" href="/post/MoveBlogFromJekyllToHexo/">Hexo + GitHubPage & 從 Jekyll 移到 Hexo</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/TDLSOnAndroidDevices/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>成為軟體工程師前該有的三個習慣 | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">成為軟體工程師前該有的三個習慣</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: December 27, 2019
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%94%9F%E6%B4%BB%E9%9B%9C%E8%A8%98/">生活雜記</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>這篇其實是先發在 <a href="https://medium.com/@yellowverse/%E5%9C%A8%E6%88%90%E7%82%BA%E8%BB%9F%E9%AB%94%E5%B7%A5%E7%A8%8B%E5%B8%AB%E5%89%8D%E8%A9%B2%E6%9C%89%E7%9A%84%E4%B8%89%E5%80%8B%E7%B0%A1%E5%96%AE%E7%BF%92%E6%85%A3-e8bffa0f01af" target="_blank" rel="noopener">Medium</a> 上的，突然考古了過去，決定還是搬來這邊放</p>
+</blockquote>
+<p>歷經了一段低潮與自我懷疑期，邁入 2020 前想重拾以前寫技術 Blog 的習慣，在此之前先讓我不才的在這邊分享下個人認為，邁入職場成為軟體工程師前，在學生時期每天只要花一點點努力即可建立的心態與習慣，不必等出社會了，人生越來越複雜之後才惡補</p>
+<hr>
+<h2 id="1-盡可能追求最優最有效率的解法"><a href="#1-盡可能追求最優最有效率的解法" class="headerlink" title="1. 盡可能追求最優最有效率的解法"></a>1. 盡可能追求最優最有效率的解法</h2><p>相信很多本科生在學生時期，都會經歷作業海與趕不完的死線，準備不完的考試，雖然我不清楚現在學校的考試比例是不是有下降了，但我相信以資工的課業來看還是相對繁重，這邊我不講考試，因為本人考試也不是很厲害，這邊我想分享的是：如何練習用好的心態去面對作業與各種需要實作程式的 Project，而所謂好的心態就是</p>
+<p><strong>不停思考與挑戰現有問題的答案</strong></p>
+<p>不要只是把作業或專案的功能完成，看到正確結果確定能拿分就提交了</p>
+<p>在提交前應盡可能多想想不同的解法，或是程式碼能不能漂亮一點，這邊說的程式碼漂亮絕對不是行數多寡，是乾淨與易維護的程度，這部分有很多書籍已經講得非常好，但在學生時期不一定有開發很大型的專案的機會，所以這一點看個人</p>
+<p>如果在學生時期就稍微對 KISS (<a href="https://zh.wikipedia.org/wiki/KISS%E5%8E%9F%E5%88%99" target="_blank" rel="noopener">Keep It Simple, Stupid</a>) 還有 <a href="https://en.wikipedia.org/wiki/Don' target=" _blank"="" rel="noopener" t_repeat_yourself"="">Don’t repeat yourself</a> 有概念，那麼就該把這個 sense 用在每個你 submit 出去的作業上</p>
+<p>重要的事保持這樣的心態，不是一定要追求完美，當培養與習慣了這樣的 mindset，你就會發現自己腦子對程式碼怎樣算好看的敏銳度慢慢提升</p>
+<p>最後真的想不到要改什麼也沒關係，就欣賞下自己的辛勞產出，稱讚下自己好棒棒，多寫點註解以便未來的自己會需要參考也是很不錯的</p>
+<h3 id="個人經驗淺談：為什麼我會覺得重要"><a href="#個人經驗淺談：為什麼我會覺得重要" class="headerlink" title="個人經驗淺談：為什麼我會覺得重要"></a>個人經驗淺談：為什麼我會覺得重要</h3><p>出社會工作後，我最不習慣的就是要讓程式碼保持品質，因為已經養成功能做好就等於完成事情的心態太久了，我花了一段時間去適應這個轉變，尤其是在我不少次快速地做好任務要求，功能測試沒問題，上傳到 code base 後卻被 review 到幾乎要大改的時候，受到了小小的打擊，瞬間明白原來我沒有真的搞懂寫程式這件事</p>
+<p>這段適應期完全不用等畢業工作後才經歷，甚至是可以縮短的，關鍵就在於是否能每次寫程式都這樣自我要求</p>
+<p>不是要追求完美，而是追求完善，畢竟在軟體內並沒有存在最優解，只有最適解，我們可以像<a href="../AtomicHabitsReview/">原子習慣</a>(大推這本書) 說的，只要每天進步一點點，久了就是一大步</p>
+<p>另外不管是不是碰到自己擅長或喜歡的平台與語言，都應該要堅持這一點，這大概是我也需要成長的部分了</p>
+<h2 id="2-請想辦法測爆自己寫的東西"><a href="#2-請想辦法測爆自己寫的東西" class="headerlink" title="2. 請想辦法測爆自己寫的東西"></a>2. 請想辦法測爆自己寫的東西</h2><p>出社會工作，如果在大公司，會有 QA 部門做功能測試，但身為負責任的 RD，就該確保沒有嚴重的 Bug 被抓出來</p>
+<p>除非想給 QA KPI 賺人情，或是很認真的覺得：This is not a bug, it’s a feature ，多產點 bug 其實也行啦</p>
+<p>好了回歸正題XD</p>
+<p>這一點也是我認為在學生時期就能慢慢培養的心態之一，我所謂測出程式的弱點跟上面第一點打磨程式碼不太一樣，也許部份概念重疊，可能更接近相輔相成吧</p>
+<p>這裡我想提的是，應提早訓練讓自己先簡單的從使用者角度去使用產品，以簡單的 I/O 處理來說，要防範的地方就相當多，比如輸入不預期的字串，要怎麼處理跟反應，你只有問數字型態，某些運算是利用輸入的這些數字去做，但偏偏就輸入了非數字型態，這時候程式碼就會出錯，更嚴重的話會 crash</p>
+<img src="/post/Three-things-should-know-in-student-time/programming-jokes-1.jpeg" class="">
+
+<h3 id="個人經驗淺談：為什麼我會覺得重要-1"><a href="#個人經驗淺談：為什麼我會覺得重要-1" class="headerlink" title="個人經驗淺談：為什麼我會覺得重要"></a>個人經驗淺談：為什麼我會覺得重要</h3><p>還是一樣，出社會工作後學到的慘痛教訓，在思考整體的缺陷與防範錯誤的心態上不夠，導致花了一些時間在填自己以前無意間造的坑，如果你一週花太多時間在太多小 bug 與在某些特定情形下才會發生的錯誤，事實上就失去很多產出與深化任務的時間，因為這些本來可以在你提交程式碼之前就能避免的，為什麼沒有多想想？</p>
+<p>當然，大家都會跟以前的我一樣，區區作業幾行程式碼而已，有必要防呆嗎？又不會有這些 case</p>
+<p>目的是培養心態，從最看似不起眼最簡單的地方著手，未來你不管接手多大多複雜的系統就會潛意識的會去考慮這些了，這會讓你成為一個能比別人更快看到潛藏爆炸點的可靠 RD</p>
+<h2 id="3-養成讓別人批你程式碼的習慣"><a href="#3-養成讓別人批你程式碼的習慣" class="headerlink" title="3. 養成讓別人批你程式碼的習慣"></a>3. 養成讓別人批你程式碼的習慣</h2><p><em>警告：這邊不是說傳下去給大家抄寫喔!</em></p>
+<p><del>當然有時同學之間互相幫忙度過難關也無傷大雅啦XD</del></p>
+<p>我這邊想提的是，可以找一位甚至是兩位你認為 coding 水平跟你差不多或是比你強一點的人來 review 你寫的東西，請他們給點意見，或是你也可以請他們把你當 reviewer 來看他們寫的，最後一定會互相成長</p>
+<p>至於沒朋友的話就是另外一個議題了…QQ</p>
+<p>如果是同個作業，前提當然是他們也完成了這次作業才開始互相交流，我還是要強調照抄是非常不好的學習心態啦，我學生時期也有幾次外務太忙，只好無腦抄別人的東西，<strong>最後都無法變成自己的，事後回頭惡補並沒有比較省時</strong></p>
+<p>不可避免是有時自己的程度真的不足時，就只能請人幫忙….在這個情況下，請確保有認真想過一遍了，理解問題並知道卡在哪裡，這樣最後才能慢慢內化，而不是 copy/paste 就結束</p>
+<h3 id="個人經驗淺談：為什麼我會覺得重要-2"><a href="#個人經驗淺談：為什麼我會覺得重要-2" class="headerlink" title="個人經驗淺談：為什麼我會覺得重要"></a>個人經驗淺談：為什麼我會覺得重要</h3><p>關鍵就是擺脫主觀，另外撇除在工作上 reviewer 是為了把關程式碼品質這件事，我認為把程式碼給別人看，會讓自己下意識的把程式碼變好看一點，有一點心理學的概念在</p>
+<p>以前學生時期交作業給助教打分數，自己當過助教也明白，不會真的認真去看同學的程式碼品質，都是直接看結果對不對，特殊測資有沒有過就給分了，所以真的沒有人認真來看你的程式碼</p>
+<p>在這種心態下，剛出社會被 review 時就是一個震撼打擊</p>
+<p><em>啊原來別人看我的程式碼是這樣想的啊？</em></p>
+<p>但已經以自己主觀的習慣寫程式太久，也沒有給人批判的習慣，一時之間也很難一次到位，這部分又花了一段時間適應</p>
+<p>還有一個重要的點是，可以學習如何從每個人對程式碼品質的主觀中找到客觀的共識，這是需要練習的一種工作溝通技能，如果在學生時期就能跟同學一起建立起這種共學模式，彼此都會非常受益！</p>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><img src="/post/Three-things-should-know-in-student-time/programming-jokes-2.png" class="">
+
+<p>最後來一張心領神會的梗圖XD</p>
+<p>技術面或是什麼讓 coding 變強並不是本篇的重點，我相信已經有很多技術文章了，這篇是純粹分享下個人認為可以提早培養的習慣，慢慢養成心態，變成潛意識的行為與思考，會讓剛出社會在工作時更有效率更少挫折感</p>
+<p>其實仔細思考就會發現這三個習慣彼此之間息息相關，這也是一種習慣的乘數效應，也不容易都做得很好，但我見識過做得很好的同事，所以我本身也還在持續努力中，希望這篇有幫助到各位！</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/Three-things-should-know-in-student-time/">http://havincy.github.io/post/Three-things-should-know-in-student-time/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Software-Engineer/">#Software Engineer</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/MoveBlogFromJekyllToHexo/">Hexo + GitHubPage & 從 Jekyll 移到 Hexo</a>
+            
+            
+            <a class="next" rel="next" href="/post/TemplateMatching/">Template matching 模板匹配</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/Three-things-should-know-in-student-time/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

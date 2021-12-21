@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>粉瘤切除手術心得 | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">粉瘤切除手術心得</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: January 21, 2020
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Health-Care/">Health Care</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在 2020 年的過年前終於把右腳膝蓋上存在好多年的粉瘤切掉了，分享下心得跟粉瘤的相關資料</p>
+<h2 id="什麼是粉瘤"><a href="#什麼是粉瘤" class="headerlink" title="什麼是粉瘤"></a>什麼是粉瘤</h2><p>粉瘤其實是皮膚囊腫的一種，外觀上跟青春痘很像卻不一樣，如果有開口的話會有白色且有惡臭的分泌物，沒有開口的話就很像膿包，即使把分泌物都擠掉，但粉瘤的囊袋還在的話還是會不斷變大復發</p>
+<p>在平常的情況下是不會痛也不影響生活的，除非越長越大顆甚至某天破掉，開始不斷發炎紅腫，就要考慮去皮膚科看醫生進行處理，把囊袋整個切除</p>
+<p>更詳細可以參考早安健康的<a href="https://www.edh.tw/article/20241/2" target="_blank" rel="noopener">這篇</a>，手術相關的可以參考美的好朋友的<a href="https://www.medpartner.club/epidermoid-cyst-removal-surgery/" target="_blank" rel="noopener">這篇</a></p>
+<h2 id="手術"><a href="#手術" class="headerlink" title="手術"></a>手術</h2><h3 id="動刀原因"><a href="#動刀原因" class="headerlink" title="動刀原因"></a>動刀原因</h3><p>粉瘤其實是滿常見的，前面說過沒有影響生活的話不一定要做手術</p>
+<p>我選擇做手術的原因，是在研究所的時候粉瘤突然變得比平常大，我手賤就去擠，一開始都沒什麼事，後來擠上癮，不小心整個擠破後的那一週我的右腳只要走路就會很痛，當時也是心臟滿大顆什麼處理都沒做，現在回想起來應該有傷到真皮層甚至有一點感染吧，所幸沒有演變成破傷風</p>
+<p>自從我的粉瘤破掉過後，時不時就會充血發炎紅腫，我的處理方式也很隨便，就是不斷擠破它把膿血都擠乾淨再貼上 OK 蹦了事，後來患部自然越來越糟，還有色素沈澱的問題</p>
+<p>這件事直到去年三月左右，發炎頻率變高，才去一般皮膚科診所看，醫生一看就說這是粉瘤，而且已經破過</p>
+<p>摸完後還說有可能不只一顆(嚇)，請我去掛大醫院的皮膚科做手術處理，傷口發炎的情況下是不能開刀的，所以就開了外用藥膏，跟口服抗生素，請我等待發炎緩和傷口復原</p>
+<p>去年有乖乖的去掛皮膚診所醫師推薦的長庚醫師的診，長庚那邊也是建議切除，但恰巧去年四月要去紐西蘭跳傘，運動計畫實行也才不到一年，膝蓋這個部位如果動刀，很多事情都會停滯，於是我還是拖了快一年，直到昨天才終於去台北長庚做手術</p>
+<h4 id="如何護理發炎破掉的粉瘤"><a href="#如何護理發炎破掉的粉瘤" class="headerlink" title="如何護理發炎破掉的粉瘤"></a>如何護理發炎破掉的粉瘤</h4><p>擦抗葡萄球菌的藥膏(中文叫膚喜定或褐黴素)，使用<strong>嬰兒專用</strong>的透氣膠帶貼在患部上，一天換兩次</p>
+<h3 id="手術過程"><a href="#手術過程" class="headerlink" title="手術過程"></a>手術過程</h3><p>基本上是小手術所以當天早上看診的話，接近中午就能做完手術了，如果人很多應該下午也能排到</p>
+<p>診間醫生有跟我解釋說因為我的粉瘤破過，所以即便做完手術取出粉瘤，復發機率會比完整的粉瘤還高一點，但基本上復發機率都不高，也很看個人體質</p>
+<p>長庚的皮膚科是醫師看診後送診單到皮膚治療科(應該就是皮膚外科)，給外科醫師做處理，我的手術醫師看起來不過三十出頭，一開始怕怕的，後來過程中感覺到他滿細心跟專心的就又鬆了口氣</p>
+<p>因為部位是膝蓋附近，皮肉薄的很，一開始麻醉針打下去真的痛到不行，還挨了四針，因為在關節處，為了方便縫合，開口也要開大一點，所以縫完後的傷口看起來很像膝蓋上挨了一刀</p>
+<p>取出後的粉瘤比想像中還大而且不太規則，有一公分左右，手術醫師說因為破掉過，分泌物跟周圍的組織沾黏起來，形成硬塊，他有幫我把周圍清理(割肉)過了XD，降低復發還有發炎的可能性</p>
+<p>整體手術時間大概半小時左右，醫生也沒有開口服消炎藥或抗生素藥膏給我，診單建議是每次換藥時用生理食鹽水清理後，塗上少許凡士林，再貼上紗布或防水敷料就可以了</p>
+<p>取出後的粉瘤醫院會送去化驗，大概等回診拆線時就會知道結果</p>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>沒有想像中的麻煩，真的就是常見的小手術，術後的處理反而比較麻煩一點，拆線前就是一天換兩次藥，不能碰水保持乾燥，注意不要劇烈活動扯到還沒癒合的皮肉，拆線後可能要貼一陣子美容膠</p>
+<p>術後的 12 小時內，我基本上是沒什麼感覺，做完手術後我下午還去了一些地方處理事情，但等到晚上洗澡換藥完，傷口就開始隱隱作疼，縫合處也一直滲出血水</p>
+<p>如果不做手術的話平時就是不要去擠壓，有開口的話盡量保持皮膚乾淨，如果有突然變大的趨勢或是非人為的弄破，就趕快找一般皮膚科診所先就診，至少能先消炎，不要自己處理，因為照顧不好是有可能會破傷風的</p>
+<p>術後傷口的處理心得在這邊：<a href="../TakeCareSurgicalWound/">粉瘤手術後的傷口照護與換藥材料推薦</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/SebaceousCystSurgeryExp/">http://havincy.github.io/post/SebaceousCystSurgeryExp/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E7%B2%89%E7%98%A4/">#粉瘤</a>
+                    
+                        <a href="/tags/%E5%8F%B0%E5%8C%97%E9%95%B7%E5%BA%9A/">#台北長庚</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/BluetoothLowEnergyOnAndroid/">在 Android 上使用 BLE 連線</a>
+            
+            
+            <a class="next" rel="next" href="/post/CustomHexoNewPost/">自訂 Hexo new post 的預設內容</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/SebaceousCystSurgeryExp/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

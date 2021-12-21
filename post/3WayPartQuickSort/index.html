@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>3-way Partition Quick Sort 快速排序法 | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">3-way Partition Quick Sort 快速排序法</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: June 4, 2016
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Algorithm/">Algorithm</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><a href="../QuickSort/">一般的Quick Sort</a> 都是做 2-way partition，不斷的把資料根據 pivot 位置，切割成兩邊，但在資料有很多相同數值時，效率會下降</p>
+<p>因為切割成兩邊是指 <code>&gt;pivot</code> 與 <code>&lt;=pivot</code> 或是 <code>&gt;=pivot</code> 與 <code>&lt;pivot</code> 的情況，並沒有嚴格定義當 <code>=pivot</code> 的情況發生時應該怎麼做，所以當有很多一樣的數值出現在陣列中，就會發現做了一些不必要的交換而降低速度</p>
+<p>3-way Quick sort 平均時間複雜度為 $O(NlogN)$，一樣屬於 unstable sorting</p>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>Dijkstra 提出了新的演算法，從 2-way partition 變成 3-way partition<br>可以到 Toptal 的<a href="https://www.toptal.com/developers/sorting-algorithms/quick-sort-3-way" target="_blank" rel="noopener">這個網頁</a>觀看不同 case 的視覺化排序過程</p>
+<p>將範圍嚴格定義成 <code>&lt;pivot</code>、<code>=pivot</code>、<code>&gt;pivot</code>，就能以原有的效率處理 special case</p>
+<blockquote>
+<p>把小於pivot的數值往左堆，大於pivot的數值往右堆，一樣的數值都擺在中間不要動到，就能避免發生不必要的交換了</p>
+</blockquote>
+<p>做完往左堆和往右堆後，會紀錄兩個index回傳，而不是回傳 pivot 的最終位置</p>
+<p>這兩個 index，一個是 <code>lt</code> (less than)，另一個是 <code>gt</code> (greater than)，而介於 lt 與 gt 之間的就是一樣的數值</p>
+<p>想法上看起來是容易理解，網路上也有不少資料說明，可是真正在實作程式時卻有一點眉眉角角要注意</p>
+<p><strong>lt和gt之間的那一塊並不會丟進去做遞迴</strong>(就是一樣的數值)，每次做遞迴的只有 &lt; lt 與 &gt; gt 那兩塊陣列</p>
+<p>大致的想法圖如下 (有點簡陋XD，修圖時不小心蓋到 <code>i--</code> 和 <code>gt--</code> )</p>
+<p><img src="http://i.imgur.com/tadie9g.png" alt="3Way image"></p>
+<p>pivot 一樣都是選在陣列最左邊，只是分堆的判定少了等於，需要非常注意的是 lt 跟 gt 的位置</p>
+<h2 id="pseudo-code"><a href="#pseudo-code" class="headerlink" title="pseudo code"></a>pseudo code</h2><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">QuickSort(A[<span class="number">1.</span>.n], left, right)</span><br><span class="line"><span class="keyword">if</span> left &gt;= right:</span><br><span class="line">　<span class="keyword">return</span></span><br><span class="line"><span class="comment">// 隨機挑選pivot, 因為Partition內的流程是每次都選left的值</span></span><br><span class="line"><span class="comment">// 所以只要這邊傳進去的left位置的數值, 從array裡面隨機挑選然後交換就好</span></span><br><span class="line">k ← rand()% (right) + left  <span class="comment">// range left~right</span></span><br><span class="line">swap A[left] <span class="keyword">and</span> A[k]</span><br><span class="line"></span><br><span class="line"><span class="comment">// 得到lt和gt的位置, 開一個2格的陣列或vector吃回傳值</span></span><br><span class="line">pivotFinalPos(lt, gt) ← Partition3(A, left, right)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 根據lt和gt的位置, Array最前面跟最後面的兩塊做遞迴, Array中間的部分是一樣的數值</span></span><br><span class="line"><span class="comment">// pivotFinalPos(0):lt, pivotFinalPos(1):gt</span></span><br><span class="line">QuickSort(A, left, pivotFinalPos(<span class="number">0</span>)<span class="number">-1</span>)</span><br><span class="line">QuickSort(A, pivotFinalPos(<span class="number">1</span>)+<span class="number">1</span>, right)</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Partition2(A[<span class="number">1.</span>.n], left, right)</span><br><span class="line">x ← A[left]   <span class="comment">// x = pivot, 在array的最左方</span></span><br><span class="line">gt ← right    <span class="comment">// gt一開始設在array最右方</span></span><br><span class="line">lt ← left     <span class="comment">// lt一開始設在array最左方</span></span><br><span class="line"><span class="keyword">for</span> i from left to gt:</span><br><span class="line">　<span class="comment">// 比pivot小的數值堆到pivot的左邊</span></span><br><span class="line">　<span class="keyword">if</span> A[i] &lt; x</span><br><span class="line">　　swap A[i] <span class="keyword">and</span> A[lt]</span><br><span class="line">　　lt++</span><br><span class="line">　<span class="comment">// 比pivot大的數值先不斷放到最右邊(gt)</span></span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> A[i] &gt; x </span><br><span class="line">    swap A[i] <span class="keyword">and</span> A[gt]</span><br><span class="line">    i--  <span class="comment">// 從A[gt]換來的數值不一定比pivot小, 要在下一次迴圈檢查目前A[i]的值, i要先--</span></span><br><span class="line">    gt--</span><br><span class="line">pos(lt, gt)  <span class="comment">// pos[0] = lt, pos[1] = gt</span></span><br><span class="line"><span class="keyword">return</span> pos</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="複雜度比較"><a href="#複雜度比較" class="headerlink" title="複雜度比較"></a>複雜度比較</h2><p>大致上與 2-way Quick sort 一樣，差別在於情況如果只有 $O(1)$ 獨立數值，時間複雜度可達到 $O(N)$</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/3WayPartQuickSort/">http://havincy.github.io/post/3WayPartQuickSort/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Sorting/">#Sorting</a>
+                    
+                        <a href="/tags/QuickSort/">#QuickSort</a>
+                    
+                        <a href="/tags/UnstableSorting/">#UnstableSorting</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/BinarySearch/">Binary Search 中值搜尋法</a>
+            
+            
+            <a class="next" rel="next" href="/post/Cplus-2DVector/">2D vector in C++</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/3WayPartQuickSort/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>在 Angular 專案加入內建的 Service Worker | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">在 Angular 專案加入內建的 Service Worker</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: March 26, 2020
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Web/">Web</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>終於要來補一下怎麼在 Angular 專案中，使用 Angular 自己提供的 Service Worker package</p>
+<p>如果還不清楚 PWA &amp; Service Worker 在幹嘛可以左轉到另一篇 <a href="../ProgressiveWebApplicationOverview/">PWA 的文章</a> 了解一下大概，裡面也有闡述一些在 iOS Safari 的限制</p>
+<p>由於我是將 Service Worker 加入既有的專案，所以可能步驟上會跟從零開始建立專案時，就順便先引入 Service Worker 有點不一樣，但應該不會是什麼大問題，因為 Angular 幾乎都把困難的事情做完了，雖然還是有些地方要自己調整</p>
+<hr>
+<h2 id="Angular-Service-Worker"><a href="#Angular-Service-Worker" class="headerlink" title="Angular Service Worker"></a>Angular Service Worker</h2><p>從 Angular 5.0.0 開始，提供了 service worker 的 package 直接讓開發者使用，好處就是不需要自己刻一個 service worker 來做 Caching strategy 之外，也不需要自己去處理 compile/build 的設置，Angular 幾乎都幫你打包整理好了</p>
+<p>Angular 設計 service worker 時的幾項準則如下</p>
+<ul>
+<li>Caching 一個應用程式像是安裝原生的應用一樣，一個應用程式會被 Cache 為一個單位，所有包含在內的檔案會一起被更新</li>
+<li>正在被執行的應用程式會繼續執行現在的版本，他不會馬上收到新版本的更新檔案，因為有可能有相容性的問題</li>
+<li>使用者在同個頁面重新整理應用程式後，會先看到最近的 fully cached 版本，新開一個 tab 也是一樣</li>
+<li>更新會在背景執行，當更新完全結束之前，應用程式還是跑舊的版本</li>
+<li>Service worker 會盡可能保留 bandwidth，只有在 Resources 被改變的時候才會被下載 </li>
+</ul>
+<h3 id="angular-pwa"><a href="#angular-pwa" class="headerlink" title="@angular/pwa"></a>@angular/pwa</h3><p>使用 CLI 來引入 <code>@angular/pwa</code> 到專案中，Angular 會幫你建立 PWA 需要的檔案</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng add @angular/pwa --project &lt;project-name&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果你的專案架構比較龐大，有不止一個 application，去 <code>angular.json</code> 中找到你要加入的專案對應的 <code>&lt;project-name&gt;</code>，然後要確認他的 <code>projectType</code> 是屬於 <code>application</code> </p>
+<p>打完 command line 後會看到以下訊息</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Skipping installation: Package already installed</span><br><span class="line">CREATE projects/&lt;your-project-path&gt;/ngsw-config.json (592 bytes)</span><br><span class="line">CREATE projects/&lt;your-project-path&gt;/src/manifest.webmanifest (1073 bytes)</span><br><span class="line">CREATE projects/&lt;your-project-path&gt;/src/assets/icons/icon-128x128.png (1253 bytes)</span><br><span class="line">CREATE projects/&lt;your-project-path&gt;/src/assets/icons/icon-144x144.png (1394 bytes)</span><br><span class="line">CREATE projects/&lt;your-project-path&gt;/src/assets/icons/icon-152x152.png (1427 bytes)</span><br><span class="line">CREATE projects/&lt;your-project-path&gt;/src/assets/icons/icon-192x192.png (1790 bytes)</span><br><span class="line">CREATE projects/&lt;your-project-path&gt;/src/assets/icons/icon-384x384.png (3557 bytes)</span><br><span class="line">CREATE projects/&lt;your-project-path&gt;/src/assets/icons/icon-512x512.png (5008 bytes)</span><br><span class="line">CREATE projects/&lt;your-project-path&gt;/src/assets/icons/icon-72x72.png (792 bytes)</span><br><span class="line">CREATE projects/&lt;your-project-path&gt;/src/assets/icons/icon-96x96.png (958 bytes)</span><br><span class="line">UPDATE angular.json (80032 bytes)</span><br><span class="line">UPDATE package.json (4868 bytes)</span><br><span class="line">UPDATE projects/&lt;your-project-path&gt;/src/app/app.module.ts (6556 bytes)</span><br><span class="line">UPDATE projects/&lt;your-project-path&gt;/src/index.html (1802 bytes)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>裝好 PWA 套件， <code>@angular/service-worker</code> 也會隨之被加入到你的專案中</p>
+<h4 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a>package.json</h4><p>在 <code>package.json</code> 中可以看到下列這行</p>
+<figure class="highlight"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// package.json</span></span><br><span class="line"> "@angular/service-worker": "8.2.0",</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="angular-json"><a href="#angular-json" class="headerlink" title="angular.json"></a>angular.json</h4><p>在 <code>angular.json</code> 找到你的的 project name，在裡面的 configurations 中應該會看到 production 的屬性中 <code>serviceWorker</code> 是 true，然後也定義了 <code>ngswConfigPath</code> 的位置</p>
+<figure class="highlight"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// angular.json</span></span><br><span class="line">"&lt;project-name&gt;": {</span><br><span class="line">      "root": "...",</span><br><span class="line">      "sourceRoot": "...",</span><br><span class="line">      ...</span><br><span class="line">          "configurations": {</span><br><span class="line">            "prod-mock": {</span><br><span class="line">             ...</span><br><span class="line">            },</span><br><span class="line">            "production": {</span><br><span class="line">              ...</span><br><span class="line">              "serviceWorker": true,</span><br><span class="line">              "ngswConfigPath": "projects/gfn/mall/ngsw-config.json"</span><br><span class="line">            },</span><br><span class="line">        ...</span><br></pre></td></tr></tbody></table></figure>
+
+<p><code>ngsw-config.json</code> 是管理 service worker cache 策略的設定檔</p>
+<h4 id="app-module-ts"><a href="#app-module-ts" class="headerlink" title="app.module.ts"></a>app.module.ts</h4><p>在 <code>app.module.ts</code> 中會自動幫你 import Service Worker module，在 <code>@NgModule</code> decorator 內也會自動幫你加上 module 的配置</p>
+<figure class="highlight ts"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> { ServiceWorkerModule } <span class="keyword">from</span> <span class="string">'@angular/service-worker'</span>;</span><br><span class="line">...</span><br><span class="line"><span class="meta">@NgModule</span>({</span><br><span class="line">    declarations: [AppComponent],</span><br><span class="line">    imports: [</span><br><span class="line">        ...</span><br><span class="line">        ...</span><br><span class="line">        ServiceWorkerModule.register(<span class="string">'ngsw-worker.js'</span>, { enabled: environment.production })</span><br><span class="line">    ],</span><br><span class="line">    providers: [</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">})</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="index-html"><a href="#index-html" class="headerlink" title="index.html"></a>index.html</h4><p>自動幫你在專案 <code>src/</code> 底下的 <code>index.html</code> 中引入 manifest path</p>
+<figure class="highlight html"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">   ...</span><br><span class="line">   <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"manifest"</span> <span class="attr">href</span>=<span class="string">"manifest.json"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>BTW，我把 <code>manifest.webmanifest</code> 的副檔名改成 <code>.json</code></p>
+<h3 id="production-build"><a href="#production-build" class="headerlink" title="production build"></a>production build</h3><p>需要注意的是 <strong>Angular service worker 只有在 production build 的時候才會被啟用</strong></p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ng build --prod</span><br><span class="line">or</span><br><span class="line">npm run &lt;your-script-commend&gt; // which includes prod build</span><br></pre></td></tr></tbody></table></figure>
+<p>在 production build 的過程中，Angular 就會生成跟 service worker 有關的 <code>ngsw.json</code> 和 <code>ngsw-worker.js</code> 到 <code>dist/</code> (output folder) 底下</p>
+<h3 id="ngsw-json"><a href="#ngsw-json" class="headerlink" title="ngsw.json"></a>ngsw.json</h3><p><code>ngsw.json</code> 這個檔案事實上是根據 <code>ngsw-config.json</code> 生成出來的，作用是告訴 service worker 怎麼去 cache，跟要 cache 哪些 resources</p>
+<p>所以 Angular 是把 service worker script 跟 cache strategy 分開管理，cache strategy 留給開發者做調整，service worker 的實作與如何採用策略，則留給 Angular 幫你處理</p>
+<h3 id="ngsw-worker-js"><a href="#ngsw-worker-js" class="headerlink" title="ngsw-worker.js"></a>ngsw-worker.js</h3><p><code>ngsw-worker.js</code> 就是 Angular service worker 本身，也就是我們加入的 <code>ServiceWorkerModule</code></p>
+<p>在 <code>app.module.ts</code> 加入的 <code>ServiceWorkerModule.register()</code> 實際上是去 trigger 在 <code>ngsw-worker.js</code> 的 <code>navigation.serviceWorker.register()</code></p>
+<p>這個檔案沒意外在每次 build 都會長一樣，除非更新的 Angular 版本中有了新的 Angular Service Worker 版本</p>
+<h3 id="serve"><a href="#serve" class="headerlink" title="serve"></a>serve</h3><p>另外還要注意的點是 <strong>Service Worker 只有應用程式運行在 <code>localhost</code> or <code>https</code> 下才會被啟用</strong></p>
+<p>如果是想自己加密，我的另一篇文章:<a href="../ServeHttpsWebLocally/">在 Angular 專案下將本地端網站加密</a>裡面有說到用 <code>ng serve</code> 可以加自己 gen 出來的 certificate &amp; key 沒錯，但不幸的是 Service Worker 無法被用 <code>ng serve</code> 的方式啟用，</p>
+<p>所以只能選擇用 <code>npm</code> package 的 <code>http-server</code> 或是 <code>python http-server</code> 之類的指令，到你的專案 <code>dist/</code> 的位置，開始執行應用程式在你的 <code>localhost</code> 上</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http-server -p &lt;port-number&gt; // 8080 or other number</span><br></pre></td></tr></tbody></table></figure>
+
+<p>到 Google dev tool 的左側 Application 的 section 中，就能成功看到 Service worker 在運行了，沒意外的話你的 Manifest 應該也是正常運作的</p>
+<img src="/post/HowToUseAngularNGSW/service-worker-chrome-dev-tool.png" class="">
+
+<h2 id="manifest-不存在"><a href="#manifest-不存在" class="headerlink" title="manifest 不存在?"></a>manifest 不存在?</h2><p>這一步可能不是大家都需要做，但如果你做完 prod build 然後開始執行你的 Angular 應用程式，在 Google 的 dev tool 卻發現 Service worker 沒有被啟動，然後 <strong>dev tool 告訴你他沒有偵測到 manifest file</strong></p>
+<p>那就很有可能你的 <code>manifest.json</code> 在 compile/build 打包完後，沒有在想要的 output folder 下面，也就是 <code>dist/&lt;your-project-path&gt;/</code> 下並不存在 <code>manifest.json</code> </p>
+<p>可以到 <code>dist/</code> 底下檢查看看，如果如上述所說，那就需要移駕到我另一個文章: <a href="../AddManifestInAngular/">在 Angular 專案加入 Manifest</a> 中看如何設置好 build path</p>
+<h2 id="Cache-Strategy"><a href="#Cache-Strategy" class="headerlink" title="Cache Strategy"></a>Cache Strategy</h2><p>這邊要講的就是如何制定 Angular service worker 的 Cache 策略，也是 PWA 中最重要的環節</p>
+<p>不管哪種策略，Service worker 都是在背景執行載入資料</p>
+<p>當應用程式<strong>第一次啟動</strong>時，Service worker 就會同時被註冊，而當使用者<strong>下次再啟動</strong>應用程式時(refresh or revisit)，Service worker 這時才開始發揮它的作用，他會根據策略選擇要不要 intercept HTTP requests，從 Cache 拿資料，或是直接發出 HTTP requests 更新 Cache 的資料</p>
+<h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><p>只要在 <code>ngsw-config.json</code> 中調整參數就可以了</p>
+<p>在 <code>ngsw-config.json</code> 中的 <code>assetGroups</code> 就是用來指定你要 cache 哪些 resources</p>
+<p>預設的設定是建立一個 Group 取名為 “app”，將在 build output root folder <code>dist/</code> 下的<code>index.html</code>、<code>favicon.ico</code> 、所有 <code>.css</code> 與所有 <code>.js</code> 列為一個 Group，然後設 <code>installMode</code> 為 prefetch 的狀態</p>
+<p>另外也建立了一個 Group，取名為 “assets”，使用 <code>installMode</code> 為 lazy，<code>updateMode</code> 為 prefetch</p>
+<p>你也可以自己分類，Group 的用意就是將使用同一種策略的檔案集合在一起，利用 regular expression 來指定檔案們，可以到這個<a href="https://www.regextester.com/" target="_blank" rel="noopener">網站</a>來簡單測試一下或是練習</p>
+<figure class="highlight json"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">{</span><br><span class="line">  <span class="attr">"$schema"</span>: <span class="string">"../../../node_modules/@angular/service-worker/config/schema.json"</span>,</span><br><span class="line">  <span class="attr">"index"</span>: <span class="string">"/index.html"</span>,</span><br><span class="line">  <span class="attr">"assetGroups"</span>: [</span><br><span class="line">    {</span><br><span class="line">      <span class="attr">"name"</span>: <span class="string">"app"</span>,</span><br><span class="line">      <span class="attr">"installMode"</span>: <span class="string">"prefetch"</span>,</span><br><span class="line">      <span class="attr">"resources"</span>: {</span><br><span class="line">        <span class="attr">"files"</span>: [</span><br><span class="line">          <span class="string">"/favicon.ico"</span>,</span><br><span class="line">          <span class="string">"/index.html"</span>,</span><br><span class="line">          <span class="string">"/*.css"</span>,</span><br><span class="line">          <span class="string">"/*.js"</span></span><br><span class="line">        ]</span><br><span class="line">      }</span><br><span class="line">    }, {</span><br><span class="line">      <span class="attr">"name"</span>: <span class="string">"assets"</span>,</span><br><span class="line">      <span class="attr">"installMode"</span>: <span class="string">"lazy"</span>,</span><br><span class="line">      <span class="attr">"updateMode"</span>: <span class="string">"prefetch"</span>,</span><br><span class="line">      <span class="attr">"resources"</span>: {</span><br><span class="line">        <span class="attr">"files"</span>: [</span><br><span class="line">          <span class="string">"/assets/**"</span>,</span><br><span class="line">          <span class="string">"/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"</span></span><br><span class="line">        ]</span><br><span class="line">      }</span><br><span class="line">    }</span><br><span class="line">  ]</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="assetGroup"><a href="#assetGroup" class="headerlink" title="assetGroup"></a>assetGroup</h3><p>Angular 提供了兩個 Modes: <code>installMode</code> &amp; <code>updateMode</code> 給每個 assetGroup 使用 </p>
+<p>而在不同 Mode 中可以指定兩個 options: prefetch or lazy</p>
+<h4 id="installMode"><a href="#installMode" class="headerlink" title="installMode"></a>installMode</h4><p>這個選項決定應用程式啟動後要如何 cache 指定的 resources，是要用 prefetch or lazy</p>
+<h4 id="updateMode"><a href="#updateMode" class="headerlink" title="updateMode"></a>updateMode</h4><p>這個選項決定當 resources 已經在 cache 時的執行方式，當 Angular 發現檔案有更動要更新時是要用 prefetch or lazy</p>
+<h4 id="prefetch"><a href="#prefetch" class="headerlink" title="prefetch"></a>prefetch</h4><p>Service worker 會下載所有在 assetGroup 中被指定的 resources，然後盡快將它們放到 cache 中</p>
+<p>簡單來說就是不管有沒有要用到，通通先 cache 起來，或是通通都 update</p>
+<h4 id="lazy"><a href="#lazy" class="headerlink" title="lazy"></a>lazy</h4><p>Service worker 只會在 assetGroup 中被指定的 resources 被需要時才下載他們</p>
+<h3 id="dataGroup"><a href="#dataGroup" class="headerlink" title="dataGroup"></a>dataGroup</h3><p>適合用來處理需要透過 API 做 request 的 resources，像是 fonts 或是 fetch 遠端的網站的資源等等</p>
+<figure class="highlight"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">"dataGroups": [</span><br><span class="line">    {</span><br><span class="line">        <span class="attr">"name"</span>: <span class="string">"random.org"</span>,</span><br><span class="line">        <span class="attr">"urls"</span>: [<span class="string">"https://www.random.org/**"</span>],</span><br><span class="line">        <span class="attr">"cacheConfig"</span>: {</span><br><span class="line">            <span class="attr">"maxSize"</span>: <span class="number">3</span>,</span><br><span class="line">            <span class="attr">"maxAge"</span>: <span class="string">"7d"</span>,</span><br><span class="line">            <span class="attr">"strategy"</span>: <span class="string">"freshness"</span></span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">]</span><br></pre></td></tr></tbody></table></figure>
+
+<p>在 dataGroup 中一樣是可以自定義箇個 Group 來管理使用同樣的 <code>cacheConfig</code> 的 API request，也有參數供開發者做調整</p>
+<p>Typescript interface</p>
+<figure class="highlight ts"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> DataGroup {</span><br><span class="line">  name: <span class="built_in">string</span>;</span><br><span class="line">  urls: <span class="built_in">string</span>[];</span><br><span class="line">  version?: <span class="built_in">number</span>;</span><br><span class="line">  cacheConfig: {</span><br><span class="line">    maxSize: <span class="built_in">number</span>;</span><br><span class="line">    maxAge: <span class="built_in">string</span>;</span><br><span class="line">    timeout?: <span class="built_in">string</span>;</span><br><span class="line">    strategy?: <span class="string">'freshness'</span> | <span class="string">'performance'</span>;</span><br><span class="line">  };</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="urls"><a href="#urls" class="headerlink" title="urls"></a>urls</h4><p>放置 URLs，一樣可以用 regular expression，可是不接受 negate glob pattern <code>!</code> (e.g. https/website/lib/!fileName)，只能 cache non-mutating 的 request (GET ＆ HEAD)，</p>
+<h4 id="version"><a href="#version" class="headerlink" title="version"></a>version</h4><p><strong>可加也可不加</strong></p>
+<p>控制 API 在 cache 的版本，原因是當 cache 下來的 API 版本如果更新了可能會有 backward-incompatible 的問題，是一個整數值，而預設值是 1</p>
+<blockquote>
+<p>version provides a mechanism to indicate that the resources being cached have been updated in a backwards-incompatible way, and that the old cache entries—those from previous versions—should be discarded.</p>
+</blockquote>
+<h4 id="cacheConfig"><a href="#cacheConfig" class="headerlink" title="cacheConfig"></a>cacheConfig</h4><p>定義如何 cache 這些 API requests 回傳的資料</p>
+<ul>
+<li>maxSize: 指定最多要 cache 多少 entry or response</li>
+<li>maxAge: 要存多久的時間在 cache，是一個字串型態，e.g. 1d2h3m4s<ul>
+<li>d: days</li>
+<li>h: hours</li>
+<li>m: minutes</li>
+<li>s: seconds</li>
+<li>u: milliseconds</li>
+</ul>
+</li>
+<li>timeout: network timeout，超過這個等待時間後，Service worker 就會放棄不會繼續等待 network 的 response</li>
+<li>strategy: 提供兩種方式<ul>
+<li>performance（像是 Google 定義的 cache falling back to network): 預設值，如果 cache 有就從 cache 拿直到這個 cache 過期為止(maxAge)，不會發出 network request，會儲存新的 entry 到 cache 直到達到 maxSize 為止；<strong>這個策略適合不常會更新的資料</strong></li>
+<li>freshness (像是 Google 定義的 network falling back to cache): 拿最新的，所以會先發出 network request，如果 timeout 則變成從 cache 拿，從 cache 拿的時候也是直到 cache 過期為止，會將新的 entry 放到 cache 直到達到 maxSize；<strong>這個策略適合常常需要更新的資料</strong></li>
+</ul>
+</li>
+</ul>
+<p>當應用程式 offline 時，不管是 performance 還是 freshness，都會從 cache 拿資料</p>
+<h3 id="檢查被-cache-的檔案"><a href="#檢查被-cache-的檔案" class="headerlink" title="檢查被 cache 的檔案"></a>檢查被 cache 的檔案</h3><p>到 run time configuration 的檔案，<code>ngsw.json</code> (會在 output folder dist/ 下)，就會看到哪些檔案會被 Service worker cache 起來</p>
+<blockquote>
+<p>所有 asset 都會有一個 hash entry 在 hash table，如果只是改變了一點東西，就算是一個字，都會有不一樣的 hash 在之後的 prod build</p>
+</blockquote>
+<hr>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>Angular Service Worker 套件雖然引入起來方便，但會發現它不夠彈性，上述介紹的 Cache strategies 並沒有完全考慮 Google 文件中描述的所有策略，只有提供簡單的幾種選項讓我們組合，所以有時後情況變得比較複雜的話就沒辦法符合比較大型的專案需求，不過應付大部分簡單的情況很足夠了，也省去不少麻煩</p>
+<p>References:</p>
+<ul>
+<li><a href="https://angular.io/guide/service-worker-config" target="_blank" rel="noopener">https://angular.io/guide/service-worker-config</a></li>
+<li><a href="https://codinglatte.com/posts/angular/service-worker-angular-performance/" target="_blank" rel="noopener">https://codinglatte.com/posts/angular/service-worker-angular-performance/</a></li>
+<li><a href="https://christianlydemann.com/how-to-cache-http-requests-in-an-angular-pwa/" target="_blank" rel="noopener">https://christianlydemann.com/how-to-cache-http-requests-in-an-angular-pwa/</a></li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/HowToUseAngularNGSW/">http://havincy.github.io/post/HowToUseAngularNGSW/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/PWA/">#PWA</a>
+                    
+                        <a href="/tags/Service-Worker/">#Service Worker</a>
+                    
+                        <a href="/tags/Angular/">#Angular</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/AddManifestInAngular/">在 Angular 專案加入 Manifest</a>
+            
+            
+            <a class="next" rel="next" href="/post/PromiseAsyncAwaitOverview/">Promise & async & await 機制</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/HowToUseAngularNGSW/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

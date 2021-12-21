@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>在 Android 上啟用 Wifi Multicast | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">在 Android 上啟用 Wifi Multicast</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: January 14, 2020
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Android/">Android</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在開發 Android 相關產品時碰到的一個 issue 是有些使用者的 Android 手機連不上我們的產品，而且是在少數一兩家特定廠牌的特定型號的手機發生，QA 測不出來，我們開發端這邊也測不出來，由於公司不是靠開發 Android 賺錢，所以並不像台灣的一些手機廠商公司有各類牌子跟各類型號的手機能測試</p>
+<p>最後我們懷疑是跟 Multicast 有關</p>
+<p>原因是 Android 的 application 可以選擇讓裝置接收或不接收 Multicast packets，如果選擇接收，會比較耗電，所以有些製造商會 block 掉 Multicast，我們猜測也許是某廠牌的某型號的手機有啟用這個功能讓家裡的 AP 傳送 Multicast packets 給我們的機器，但我們的機器是關閉這個功能的</p>
+<p>總之最後是有點死馬當活馬醫，就來嘗試讓我們的機器啟用 Multicast，看會不會讓連線問題漸少</p>
+<h2 id="Multicast"><a href="#Multicast" class="headerlink" title="Multicast"></a>Multicast</h2><p>顧名思義就是多點傳播</p>
+<p>但是跟 Broadcast 不同的是他不是針對全民做廣播服務，是針對特定的團體，在相同時間傳播相同的 Packet</p>
+<h3 id="sender-receiver"><a href="#sender-receiver" class="headerlink" title="sender / receiver"></a>sender / receiver</h3><p>在 Multicast 中，傳送者並不知道接收者是誰也不知道有幾個接收者，傳送者就是把封包傳給 Multicast group</p>
+<p><a href="https://www.iana.org/" target="_blank" rel="noopener">IANA</a> (Internet Assigned Numbers Authority) 保留了 224.0.0.0 - 239.255.255.255 的 IP 位址給 Multicast groups 使用</p>
+<p>接收者要用 IGMP (Internet Group Management Protocol) 來註冊 Multicast group</p>
+<p>市面上大多的路由器使用 IGMP snooping 來偵測 IGMP packets，然後根據 IGMP 的資訊讓這些 packet 能被傳送到對應的 Multicast group</p>
+<p>在不同的網路連線方式下也有不太一樣的運作細節(Ethernet or Wireless)，詳情可看<a href="https://en.wikipedia.org/wiki/Multicast" target="_blank" rel="noopener">維基百科</a></p>
+<h2 id="Android-Multicast"><a href="#Android-Multicast" class="headerlink" title="Android Multicast"></a>Android Multicast</h2><p>Android 官方文件<br><a href="https://developer.android.com/reference/android/net/wifi/WifiManager.MulticastLock" target="_blank" rel="noopener">https://developer.android.com/reference/android/net/wifi/WifiManager.MulticastLock</a></p>
+<p>前面有提到 Android 可以選擇開啟或關閉這個功能，要讓 application 可以接收 Multicast packets 就要讓他可以獲取 Multicast lock</p>
+<h3 id="Manifest"><a href="#Manifest" class="headerlink" title="Manifest"></a>Manifest</h3><p>在 <code>AndroidManifest.xml</code> 內加入 <code>uses-permission</code></p>
+<figure class="highlight xml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.CHANGE_WIFI_MULTICAST_STATE"</span> /&gt;</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="java-file"><a href="#java-file" class="headerlink" title="java file"></a>java file</h3><p>在你的 java 檔案中 import</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.net.wifi.WifiManager;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>宣告好變數</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> WifiManager mWifiManager;</span><br><span class="line"><span class="keyword">private</span> WifiManager.MulticastLock mMulticastLock;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>在 <code>onCreate()</code> 內</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mWifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);</span><br><span class="line"><span class="keyword">if</span> (mWifiManager != <span class="keyword">null</span>) {</span><br><span class="line">    mMulticastLock = mWifiManager.createMulticastLock(<span class="string">"My Multicast lock"</span>);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>在需要開啟 Multicast 的地方放入</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (mMulticastLock != <span class="keyword">null</span>) {</span><br><span class="line">    mMulticastLock.acquire();</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>不需要時記得釋放 lock</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (mMulticastLock != <span class="keyword">null</span> &amp;&amp; mMulticastLock.isHeld()) {</span><br><span class="line">     mMulticastLock.release();</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="如何檢查裝置有無支援"><a href="#如何檢查裝置有無支援" class="headerlink" title="如何檢查裝置有無支援"></a>如何檢查裝置有無支援</h3><figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adb shell netcfg</span><br><span class="line">adb shell ipconfig eth/wlan</span><br></pre></td></tr></tbody></table></figure>
+
+<p>大概會看到如下，找到 <code>MULTICAST</code> 關鍵字</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">eth0      ...</span><br><span class="line">          UP BROADCAST MULTICAST  MTU:1500  Metric:1</span><br><span class="line">          ...</span><br><span class="line">wlan0     ...</span><br><span class="line">          UP BROADCAST RUNNING MULTICAST  MTU:1500 </span><br><span class="line">          ...</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="Multicast-over-WiFi"><a href="#Multicast-over-WiFi" class="headerlink" title="Multicast over WiFi"></a>Multicast over WiFi</h2><p>在有線網路下使用比較沒什麼太大的影響，有線網路是有界限的，所以在大量傳送 Multicast packets 的情況下比較不會發生碰撞 (collision)，但在無線網路下就不同了，傳送大量的 Multicast packets 會有一定的負擔</p>
+<p>如前面所說有些製造商會刻意 block 掉這個功能，因為怕耗電</p>
+<p>原因就是，為了盡可能讓 Group 內的接收者都能收到 Multicast packet，AP 在送出 data frame 時會以符合目前最低需求的 data-rate 來傳輸，對於有 high-bandwidth 要求的應用來說就不是這麼穩定</p>
+<p>使用 low data-rate 來傳輸，就代表會使用更多時間來完成傳輸，會造成不必要的 latency，也會耗電</p>
+<p>再來就是 Multicast 跟 Broadcast 一樣是在 <a href="https://en.wikipedia.org/wiki/Delivery_traffic_indication_message" target="_blank" rel="noopener">DTIM interval</a> 傳送，所有接收者都必須從睡眠時期醒來，然後等待特定的 data frame，會讓裝置耗電</p>
+<p>另外一個問題就是 Multicast 不會重傳失敗的 data frame，如果失敗率很低的網路環境下是沒什麼，但如果 loss rate 太高就會出現問題</p>
+<p>總結問題就是</p>
+<ol>
+<li>低傳輸效率，Low data rate transmitting</li>
+<li>耗電，Battery consumption </li>
+<li>不會重送失敗的訊框，Will not resend corrupt frames</li>
+</ol>
+<h3 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h3><p>解法都是在 AP 上，比如增加 minimum data rate </p>
+<p>或是將 Multicast packet 轉換成 Unicast packet 送出去(<a href="https://documentation.meraki.com/MR/Other_Topics/Multicast-Unicast_Conversion" target="_blank" rel="noopener">M-to-U</a>)，先用 IGMP snooping 確認位址後，就能將轉換後的 packet 以最好的 data rate 送出</p>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>可以去看看 <code>WifiManager.java</code> 的原始碼來決定要怎麼寫，當時有看到不同版本的原始碼在 Multicast lock 那邊有不同的寫法…不過最新的官方文件看起來是滿靠譜了</p>
+<p>關於 lock 的機制都是跟 multi-threading 有關，Multicast 的啟用在 Android 是 by system，不是 by application，從系統中取用了某項資源，避免多人同時讀寫會發生錯誤，就要有 lock 的機制來確保系統資料的一致性</p>
+<p>可以參考 Udacity 的<a href="https://www.youtube.com/watch?v=9lAuS6jsDgE" target="_blank" rel="noopener">小短片</a>講解關於 mutex lock 機制</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/MulticastOnAndroid/">http://havincy.github.io/post/MulticastOnAndroid/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Network/">#Network</a>
+                    
+                        <a href="/tags/Multicast/">#Multicast</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/AddDisqusInHexo/">在 Hexo 新增 Disqus 留言板功能</a>
+            
+            
+            <a class="next" rel="next" href="/post/SharingKeyboardMouse/">Sharing input devices, 在不同電腦上共享鍵盤滑鼠</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/MulticastOnAndroid/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>如何練習聽懂印度腔英文 | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">如何練習聽懂印度腔英文</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: January 10, 2021
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Tips/">Tips</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><del>聽力事故</del>是在 2020 年 4 月左右，我需要跟印度的一個團隊每天開 Scrum meeting，發現真的有溝通障礙，印度腔英文對當時的我的耳朵與腦袋來說就是一團亂😨😨😨</p>
+<p>不同印度人的模糊程度也不一樣，疫情關係大家都在家工作，有些印度人的背景音滿吵雜的，已經聽不懂的同時又有雜訊，超級崩潰的，每天開會對我來說變成巨大的壓力</p>
+<p>其實對於聽印度英文我一直沒有特別去加強，想說在公司有開會的時候多少會聽到印度腔英文，”應該“能練到吧，到了真的需要跟幾個印度人真的口說實戰時才發現自己有多廢</p>
+<p>只能說之前在印度腔會議能活得好好的是因為強者同事們在前排的緣故，等自己變成前排就悲劇了</p>
+<p>於是大概從 5 月底開始我就在思考到底要怎麼練習印度腔英文的聽力</p>
+<p>這篇就來分享我是如何在<strong>三個月內大幅增進印度腔聽力的</strong></p>
+<h2 id="秘訣分享"><a href="#秘訣分享" class="headerlink" title="秘訣分享"></a>秘訣分享</h2><p><del>其實是翻譯蒟蒻的功勞</del></p>
+<img src="/post/How-To-Practice-Listening-Indian-Accent/doraemon-translate.png" class="">
+
+<p>好啦，沒有什麼特別的，就是</p>
+<p><strong>逼自己每天睡前至少聽五分鐘印度腔英文</strong></p>
+<p>原因很簡單，要快速加強一個東西的學習，最快的方式就是<strong>不斷刺激+刻意練習</strong>，選擇睡前學習的原因是故意讓大腦建立深層記憶，讓他去習慣跟記憶這種腔調的英文</p>
+<p>我以前高中時也很常利用睡前背英文單字跟國文課文，這種學習方式在許多跟大腦神經有關的書本都有證實過，就不再贅述，有興趣可以自己 Google</p>
+<blockquote>
+<p>其實我以前求學時最討厭的科目就是英文，學測我的英文作文才拿6分XDD，在大四畢業前奮發，多益考到 895 分(其實多益還是考試技巧居多)，現在還在外商工作，這個心路歷程有空會再紀錄一下，同學說我真的很勵志XDD，雖然我的英文還是有很多地方要加強就是了！</p>
+</blockquote>
+<h3 id="印度腔頻道"><a href="#印度腔頻道" class="headerlink" title="印度腔頻道"></a>印度腔頻道</h3><p>分享下我的播放清單</p>
+<p><strong>推薦剛開始先看<a href="https://www.youtube.com/user/anparasan7" target="_blank" rel="noopener">這個人的印度腔影片系列</a></strong></p>
+<ul>
+<li>他有特別抓出幾個發音的差異，比較可惜的是他這個系列出到一半就沒做了</li>
+<li>How To Speak: INDIAN Accent</li>
+</ul>
+<p><a href="http://www.youtube.com/watch?v=z7MIyQS9p5E" target="_blank" rel="noopener" title="How To Speak: INDIAN Accent"><img src="http://img.youtube.com/vi/z7MIyQS9p5E/0.jpg" alt=""></a></p>
+<p><strong>然後 <a href="https://www.youtube.com/channel/UC2-_WWPT_124iN6jiym4fOw" target="_blank" rel="noopener">Asian Boss</a> 印度街訪系列</strong></p>
+<ul>
+<li>可以直接去他們頻道找印度相關街訪，不少主題也是頗有趣的</li>
+</ul>
+<p><a href="http://www.youtube.com/watch?v=dJgoTcyrFZ4" target="_blank" rel="noopener" title="Do Indians Know How Their English Accent Sounds? | ASIAN BOSS"><img src="http://img.youtube.com/vi/dJgoTcyrFZ4/0.jpg" alt=""></a></p>
+<p><strong>太乏味的話可以切換看這個<a href="https://www.youtube.com/channel/UCek57Is95suO63uuW3iOGQw" target="_blank" rel="noopener">印度大叔的脫口秀</a></strong></p>
+<ul>
+<li>他偶爾會用印度腔作梗，雖然他本身是印度籍且沒有口音XD</li>
+</ul>
+<p><a href="http://www.youtube.com/watch?v=78cDjLJDRgA" target="_blank" rel="noopener" title="Indian Tech Support | Russell Peters"><img src="http://img.youtube.com/vi/78cDjLJDRgA/0.jpg" alt=""></a></p>
+<h3 id="練習方法"><a href="#練習方法" class="headerlink" title="練習方法"></a>練習方法</h3><p>首先，你得先建立一個你自己的 YouTube 播放清單，看到可以練習用的影片就把他加入</p>
+<p>以下粗略分成第一與第二個月，我每天睡前做的事情</p>
+<p><strong>第一個月</strong></p>
+<ol>
+<li>先開字幕看跟聽一遍你要練習的影片，建立語感與語句的連結</li>
+<li>聽到有點奇怪的單字就暫停多聽幾遍</li>
+<li>有時候我會兩天換一次影片，等於一週同一個影片我看兩遍</li>
+</ol>
+<p><strong>第二個月</strong></p>
+<ol>
+<li><strong>單純用聽的，不看字幕</strong>，這步練習很重要，這才是真的在訓練聽力</li>
+<li>聽到無法辨認的單字或句子就暫停去看影片字幕</li>
+<li>初期我會同一部影片連續單純聽兩天，後期我就交換聽</li>
+</ol>
+<p><strong>第三個月後</strong></p>
+<ol>
+<li>發掘新的印度腔英文影片</li>
+<li>重複練習聽過的影片，單純聽</li>
+<li>根據個人情況縮短練習時間與頻率</li>
+</ol>
+<h2 id="個人成效與心得"><a href="#個人成效與心得" class="headerlink" title="個人成效與心得"></a>個人成效與心得</h2><p>如果有確實每天執行的話，應該會發現在印度腔&gt;聽力上有進步</p>
+<p>我個人的情況是在第一個月比較辛苦，通常要花上二十分鐘去 processing，加上平日的 Scrum meeting 還是很受挫，還是聽不太懂</p>
+<p>初期對自己相當失望…有一段厭世期😩，懷疑自己這一個月的努力是不是都白費，或是方法不對</p>
+<p>最心累的就是印度人會直接問你問題，你聽不懂不可能亂回，所以我就是不斷去問清楚，不止尷尬，某方面也有點拖台錢，因為你的問題不是在釐清疑惑，是很明顯沒聽懂對方的英文…</p>
+<blockquote>
+<p>「Sorry, Can you repeat again?」<br>「Sorry, I’m not hear you clearly, could you say again your question?」<br>「Are you asking …?」</p>
+</blockquote>
+<img src="/post/How-To-Practice-Listening-Indian-Accent/too-difficult.jpeg" class="">
+
+<p>接著第二個月後開始，狀況慢慢好轉了起來，是本身無法察覺的小進步，在 8 月的某一天開會時，我才驚覺居然聽懂了至少八成</p>
+<p>後來因為其他任務我從 9 月中開始就沒有再參加印度團隊的 Scrum，每日練習還是有持續，縮減為平日，週末停止練習</p>
+<p>我當時擔心沒有實戰回饋就不知道自己的成效，直到 11 月有機會再跟印度人開會時，我發現我對印度腔的障礙是真的消失了！🥳 可喜可賀，比預期的還快，當然還是有一點小地方會無法確定，但至少不會完全聽不懂對方到底在說什麼了!</p>
+<h2 id="額外知識-optional"><a href="#額外知識-optional" class="headerlink" title="額外知識(optional)"></a>額外知識(optional)</h2><p>我覺得我自己可能有一點強迫症傾向，走火入魔</p>
+<p>在 7 月底時我甚至在 Netflix 搜尋印度影集，看了 &lt;神聖遊戲&gt; (Sacred Games)，意外的好看</p>
+<ul>
+<li><a href="https://www.adaymag.com/2018/07/12/netflix-scared-games.html" target="_blank" rel="noopener">爛番茄網高分好評：驚慄影集 《Sacred Games》，大膽揭露印度幫派的犯罪內幕</a></li>
+<li>有點像印度版的&lt;毒梟&gt;，但含有較高的懸疑劇情，有什麼秘密在背後，不是單純的暴力與性</li>
+</ul>
+<img src="/post/How-To-Practice-Listening-Indian-Accent/sacred-games-banner.jpg" class="">
+
+<p>但裡面的印度腔英文以比例來說幾乎是零 🤣</p>
+<p>演員主要是講印度語，我後來覺得算有一點幫助，因為印度腔英文的語調其實跟他們印度語差不多</p>
+<p><del>重點還是在痛苦的練習過程中無意間發現好看的影集哈哈哈</del></p>
+<h4 id="種姓制度"><a href="#種姓制度" class="headerlink" title="種姓制度"></a>種姓制度</h4><p>後來查太多印度東西，我甚至認真研究了種姓制度兩個晚上，在歷史課本有看過，可是在實務上沒有概念</p>
+<img src="/post/How-To-Practice-Listening-Indian-Accent/india-level-system.png" class="">
+
+<p>我有查了下在美國的印度大老闆，與幾個在印度國內跟我合作比較密切的印度人可能是屬於什麼階級的XDD</p>
+<p>能在美國發展還講得一口流利英文的可能幾乎是婆羅門或是剎帝利，不然就是吠舍</p>
+<p>（資本主義的社會中，反而吠舍最有錢了欸，根本地主）</p>
+<p>有一種簡單判別的方式就是，<strong>姓氏如果越短，就越有可能屬於高階級</strong>，因為在以前的印度社會，奴僕階級的人都要加主人的姓氏，所以越低階級的人姓氏越長，還有如果你查這個印度人的<strong>姓氏有出現在他們印度教經典中，也有很大可能是屬於婆羅門</strong></p>
+<p>還有不同區域間也有差異，北印的膚色偏白，大多是屬於高種姓，南印膚色偏黑</p>
+<p>最後是宗教上的差異，通常<strong>信奉伊斯蘭教的印度人姓會改為 “Khan”</strong>，<strong>信奉錫克教的姓氏會叫做 “Singh”</strong></p>
+<p>知乎上有一些大神有分享身邊的印度人，高階級印度人在印度的資源簡直就是權貴</p>
+<p>雖然甘地的運動廢除了種姓制度的法律，可是在印度社會中種姓的分級還是存在，變成一種社會文化，所以有些過去屬於非常低階奴隸的印度人(遠不在四大階級內的)，在廢除種姓後，整個村莊就改姓</p>
+<p>詳細資料我沒有特別做筆記，有興趣的話可以查怎麼分辨印度人的姓可能是屬於哪一階級(誰跟你一樣瘋)</p>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>我的練習方法不一定能適用於每個人，僅供參考囉</p>
+<p>不管什麼練習方法，至少都要嘗試一段不短的時間才能斷言有沒有效，要是我在第一個月結束後就放棄，斷掉每天練習的複利累積，我大概無法在三個月內達成我的目標，在本來每次都頭痛的每日會議中生存下來 (???)</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/How-To-Practice-Listening-Indian-Accent/">http://havincy.github.io/post/How-To-Practice-Listening-Indian-Accent/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E5%8D%B0%E5%BA%A6%E8%85%94/">#印度腔</a>
+                    
+                        <a href="/tags/%E8%8B%B1%E6%96%87/">#英文</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/Typescript-ResizeObserver-usage/">使用 ResizeObserver 與 onResize() 的差別</a>
+            
+            
+            <a class="next" rel="next" href="/post/Angular-multipart-form-data-with-Safari/">Safari POST multipart/form-data 遇到的問題</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/How-To-Practice-Listening-Indian-Accent/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

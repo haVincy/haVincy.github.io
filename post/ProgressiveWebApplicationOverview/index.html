@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>PWA 與 Service Worker &amp; 在 iOS Safari 的限制 | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">PWA 與 Service Worker &amp; 在 iOS Safari 的限制</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: February 15, 2020
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Web/">Web</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>由於組織改組的關係，沒有想到最初決定不打算往前端發展的我，最終卻還是接觸了這塊，命運的造化XD</p>
+<p>對網頁開發不討厭，還可以說是滿喜歡的，因為可以立即看到效果，設計頁面也需要有一點美感，學生時期也有接觸過寫網頁，前後端都有(當時還是寫過氣的 php + ajax 哈哈)</p>
+<p>現在再回來看前端技術，真的比當初看到的又更五花八門了，一直在演進，框架除了常聽到的 Angular, React，現在還有時下最潮 Vue</p>
+<p>團隊給我工作的任務是希望我研究在 iOS Safari 上的 PWA，一研究才發現 PWA 是滿大的 Topic，且在 iOS 上有很多障礙還沒解決，稍微記錄下之前的一些筆記，實質上並不算太完整，因為目前來看 Apple 的 WebKit Team 對於完全支援 PWA 還有很多路要走</p>
+<p>由於公司專案是採用 Angular，所以 PWA 系列的筆記只針對 Angular 框架，因為其他的框架我也沒有深入研究，不過各個框架是因應不同專案需求，也沒有絕對的好壞之分</p>
+<p>Angular 生態系的學習曲線，聽前端工程師的同學說是比其他框架還陡峭QQ，實際體驗後確實如此…</p>
+<p>因為內容有一點多，這篇先給一個概略，下幾篇會寫多點在 iOS 上的實作面與一些碰到的問題</p>
+<h2 id="什麼是-PWA"><a href="#什麼是-PWA" class="headerlink" title="什麼是 PWA"></a>什麼是 PWA</h2><p>由 Google 的 Chrome team 在 <a href="https://www.youtube.com/playlist?list=PLNYkxOF6rcIDz1TzmmMRBC-kd8zPRTQIP" target="_blank" rel="noopener">2016 Google I/O</a> 大會上提出，但實際上 Web App 這個點子的發想卻是 Apple 早在 <a href="https://www.youtube.com/watch?v=QvQ9JNm_qWc" target="_blank" rel="noopener">2007 年首支 iPhone 的發表大會上由 Steve Jobs 展示</a></p>
+<p>PWA 全名是 Progressive Web Application，翻譯是”漸進式網頁”</p>
+<p>Application 的稱呼是希望他能像 native app 在手機上的行為一樣，讓使用者覺得自己不是瀏覽一個網頁，而是在使用一個應用程式的感覺</p>
+<p>網頁應用程式的優點比起原生的應用，除了跨平台外，還有不受應用程式商店的限制，有新版本只要在伺服器端發布後，使用者開啟網頁連進來就能享受新版本了，對開發者與使用者都很方便，也免去了應用程式上架的審核 (比如 Apple 的嚴格審核機制= =)</p>
+<ul>
+<li>Progressive - 漸進式體驗，環境越完善就提供越多服務，若是有所限制也能提供目前環境下最優的服務</li>
+<li>Responsive - 畫面與元件需要適應不同尺寸並因應不同的輸入方式給予相對的回饋</li>
+<li>Native APP like - 提供類原生模式的使用者介面與操作方式，還有資料處理的行為</li>
+<li>Fast update - 不需要透過應用程式平台來發佈軟體，開發者能快速提供最新版本的軟體給使用者</li>
+<li>Secure - 使用 TLS 加密，所以 PWA 只能運行在有 HTTPS 支援的 Server 上</li>
+<li>Installable - 透過 Add to home screen 的方式讓 PWA 像原生應用程式一樣能從桌面啟動</li>
+<li>Linkable - 只要分享 URL 即可分享 PWA</li>
+</ul>
+<p><strong>PWA 並不是一種技術</strong>，正確來講他是好多種網頁技術的結合後，透過這些技術來成為一個合格的漸進式網頁</p>
+<p>Google 對此有很好的一段解釋</p>
+<blockquote>
+<p>A PWA is not an API or a technology, but it is a web development approach that uses a combination of tools and technologies already available to create targeted, ideal user experiences. It shows how to use service workers, APIs, and an application shell architecture for meaningful offline experiences, fast first load, and easy user re-engagement upon repeat visits.</p>
+</blockquote>
+<h3 id="Lighthouse"><a href="#Lighthouse" class="headerlink" title="Lighthouse"></a>Lighthouse</h3><p>至於什麼樣才叫合格 PWA? 其實並沒有一個絕對，大多都是共識，大部分人也都是 Follow Google web team 的文件，目前可以參考 Google 推出的工具 <a href="https://developers.google.com/web/tools/lighthouse" target="_blank" rel="noopener">Lighthouse</a> 來檢驗</p>
+<p>Lighthouse 本身的功能並不只限於檢查 PWA 的標準，他還提供了很多面向的 Performance 數據來讓開發者檢視</p>
+<h3 id="Google-Training"><a href="#Google-Training" class="headerlink" title="Google Training"></a>Google Training</h3><p>Google 針對 PWA 有很好的線上文件加上 YouTube 課程影片，能讓第一次聽到 PWA 的人快速理解背後的概念跟如何實現</p>
+<p><a href="https://developers.google.com/web/ilt/pwa" target="_blank" rel="noopener">Google PWA Training</a></p>
+<p>Chrome 也是目前所有瀏覽器中支援 PWA 標準最多的，Google 團隊正持續開發更多功能，期許讓 PWA 的生態圈更大更穩定</p>
+<h2 id="Service-Worker"><a href="#Service-Worker" class="headerlink" title="Service Worker"></a>Service Worker</h2><p>Service Worker 是 PWA 最重要的技術之一，也是為何 PWA 稱為 Progressive 漸進式的關鍵</p>
+<p>他是一支獨立運行在 browser 後台的 Script (separate from main thread)，有自己的生命週期，可以讓 Web APP 在 Loading 時比原生 APP 快速且在離線時也能正常瀏覽</p>
+<blockquote>
+<p>Service workers enable applications to control network requests, cache those requests to improve performance, and provide offline access to cached content. Depends on Fetch/Cache web API to make app work offline.</p>
+</blockquote>
+<p>它的最大功用是能加速網頁重複瀏覽的載入速度，還有支援離線瀏覽，像是一個在 Web App, Browser 與 Network 之間的 proxy server </p>
+<ul>
+<li>被設計成 Fully asynchronous，所以不能使用 synchronous XHR 和 Local Storage，只能使用 Cache Storage</li>
+<li>不能直接使用 DOM object<ul>
+<li><code>postMessage()</code> method to send data and a “message” event listener to receive data.</li>
+</ul>
+</li>
+<li>可以接收 server 的 push notification (not support in Safari)</li>
+<li>必須在 HTTPS 或 localhost 的環境下執行，因為 Service Worker 可以 intercept network request / modify responses，會有中間人攻擊(<a href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%94%BB%E5%87%BB" target="_blank" rel="noopener">Man in the Middle</a>)的可能</li>
+<li>如果 Service Worker 不再被使用，會進入閒置狀態， 在下一次使用時會重啟狀態<ul>
+<li>要保存狀態的話 Google 建議使用  <a href="https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API" target="_blank" rel="noopener">IndexedDB</a> databases</li>
+</ul>
+</li>
+<li>event driven, 使用大量的 <code>promise</code> object<ul>
+<li>check out <a href="https://developers.google.com/web/fundamentals/primers/promises" target="_blank" rel="noopener">Promises, an introduction</a>.</li>
+</ul>
+</li>
+</ul>
+<h3 id="Life-cycle"><a href="#Life-cycle" class="headerlink" title="Life cycle"></a>Life cycle</h3><p>Service Worker 生命週期完全獨立於 Web App (Browser) 外，避免製造殭屍 worker，要小心控制好新舊 Service Worker 的產生與回收 </p>
+<blockquote>
+<p>If you decide to create a service worker yourself from scratch, do consider putting in a “kill-switch” – a way for the service worker to completely invalidate the cache and reinstall itself.</p>
+</blockquote>
+<img src="/post/ProgressiveWebApplicationOverview/service-worker-life-cycle.png" class="">
+
+<h4 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h4><p>當 Service Worker 註冊 (register) 完成，開啟 Web App 的時候 <code>install</code> event 就會被觸發，可以在這個 event handler 內做</p>
+<ul>
+<li>Set up cache</li>
+<li>Add static assets into cache</li>
+</ul>
+<h4 id="Activate"><a href="#Activate" class="headerlink" title="Activate"></a>Activate</h4><p>當新的 Service Worker 安裝 (install) 完且上一次的 Service Worker 也沒有再被使用的狀態下，新的 Service Worker 就會被 activated，這時候 <code>activate</code> event 被觸發，我們可以在這個 event handler 內刪除 cached data 或是移除整個 cache</p>
+<p>當 Service Worker 啟動後可以開始控制所有在 Service Worker 範圍內載入的頁面，監聽所有事件，但如果有頁面是在 Service Worker 啟用前被載入，那麼這些頁面不會受到 Service Worker 的控制，要立即控制這些頁面要用到 <code>clients.claim()</code> </p>
+<h4 id="Idle"><a href="#Idle" class="headerlink" title="Idle"></a>Idle</h4><p>當啟動後沒有使用，Service Worker 就會進入閒置狀態等待被使用</p>
+<h4 id="Fetch-Cache"><a href="#Fetch-Cache" class="headerlink" title="Fetch/Cache"></a>Fetch/Cache</h4><p>當有 fetch 請求發生，就會觸發 <code>fetch</code> event，在這個 event handler，我們可以開始實作 cache strategy，可以選擇讓 Service Worker 從 Cache 取出資料或是真的對 network 發出 fetch 來載入資料</p>
+<h3 id="Caching"><a href="#Caching" class="headerlink" title="Caching"></a>Caching</h3><p>既然是類似 Proxy server 的概念，那麼 Service Worker 的設計當然就跟暫存 Cache 機制有關</p>
+<blockquote>
+<p>You are responsible for implementing how your script (service worker) handles updates to the cache. All updates to items in the cache must be explicitly requested; items will not expire and must be deleted</p>
+</blockquote>
+<p>由於暫存的空間 (offline storage) 並不是無限大甚至還有點小 (iOS Safari 最多只提供 50MB 的容量，但桌面版的 Safari 卻不受限制)，選擇要儲存哪些檔案就很重要</p>
+<p>大概有以下幾種策略</p>
+<h4 id="Cache-only"><a href="#Cache-only" class="headerlink" title="Cache only"></a>Cache only</h4><p>When to use : 只有 static assets 需要被使用</p>
+<h4 id="Network-only"><a href="#Network-only" class="headerlink" title="Network only"></a>Network only</h4><p>When to use: 沒有任何離線的資料需求, 都需要網路，像是 analytics ping, non-GET request</p>
+<h4 id="Cache-falling-back-to-network"><a href="#Cache-falling-back-to-network" class="headerlink" title="Cache falling back to network"></a>Cache falling back to network</h4><p>最普遍與常用的策略</p>
+<p>先從 Cache 拿資料，失敗的話再從 Network 拿</p>
+<p>When to use: offline first Web app </p>
+<h4 id="Network-falling-back-to-cache"><a href="#Network-falling-back-to-cache" class="headerlink" title="Network falling back to cache"></a>Network falling back to cache</h4><p>先從 Network 拿資料，失敗的話再從 Cache 拿</p>
+<p>When to use: 需要高更新頻率的網站</p>
+<p>缺點是如果網路狀況不好，就要等到網路失敗後才從 Cache 拿資料，造成不好的 user experience</p>
+<h4 id="Cache-then-network"><a href="#Cache-then-network" class="headerlink" title="Cache then network"></a>Cache then network</h4><p>先從 Cache 拿資料，然後再從 Network 拿，會先呈現從 Cache 拿到的資料，接著再更新成從Netowork 拿到的最新資料</p>
+<p>When to use: 需要高更新頻率的網站</p>
+<p>Google web developer 頁面對於如何針對不同情況下做暫存設計，有更完整的文件參考: <a href="https://developers.google.com/web/ilt/pwa/caching-files-with-service-worker" target="_blank" rel="noopener">Caching Files With Service Worker</a></p>
+<h2 id="Application-shell"><a href="#Application-shell" class="headerlink" title="Application shell"></a>Application shell</h2><p>Google 提出要實現 PWA 應該 Base 的基本架構為何</p>
+<blockquote>
+<p>An application shell (or app shell) architecture is one way to build a Progressive Web App that reliably and instantly loads on your users’ screens, similar to what you see in native applications.</p>
+</blockquote>
+<p>將應用程式的 infrastructure, UI 與資料做分離，利用 Service Worker 將 infra &amp; UI cache 起來，就不需要重複載入了，也可以選擇將部分需要網路的資料先 cache 起來</p>
+<blockquote>
+<p>Shell - minimal HTML, CSS, and JavaScript required to power the UI and when cached offline, can ensure instant, reliably good performance to users on repeat visits.</p>
+</blockquote>
+<p>提供給使用者完善的離線體驗，第一次存取網頁時就要把 Static asset &amp; UI cache 起來</p>
+<p>有效率且最小化資料的存取次數，決定甚麼是常用或必要的資料，優先 cache 它們</p>
+<p>在這樣的設計架構下我們需要考量甚麼東西該放到 App Shell</p>
+<ul>
+<li>比如當網頁一啟動，最先看到的是哪些元件? 這些元件也許最適合 cache 起來</li>
+</ul>
+<p>The app shell should ideally:</p>
+<ul>
+<li>Load fast</li>
+<li>Use as little data as possible</li>
+<li>Use static assets from a local cache</li>
+<li>Separate content from navigation</li>
+<li>Retrieve and display page-specific content (HTML, JSON, etc.)</li>
+<li>Optionally, cache dynamic content</li>
+</ul>
+<p>Angular 框架下的 View/Component/Service 就符合 App shell 將 Data 與 UI 分離的概念</p>
+<h2 id="iOS-Safari"><a href="#iOS-Safari" class="headerlink" title="iOS Safari"></a>iOS Safari</h2><p>目前只有 Google 自家的 Chrome 達到最好的支援，最慢的就是 Apple 的 Safari，2018/3/30 的新版本才終於支援 Service Worker，而真正完全支援是到 iOS 12.2 (<a href="https://medium.com/@firt/whats-new-on-ios-12-2-for-progressive-web-apps-75c348f8e945" target="_blank" rel="noopener">What’s new on iOS 12.2 for Progressive Web Apps</a>)</p>
+<p>Is Service Work ready? </p>
+<ul>
+<li><a href="https://jakearchibald.github.io/isserviceworkerready/" target="_blank" rel="noopener">https://jakearchibald.github.io/isserviceworkerready/</a></li>
+</ul>
+<p>PWA Support Detector</p>
+<ul>
+<li><a href="https://tomayac.github.io/pwa-feature-detector/" target="_blank" rel="noopener">https://tomayac.github.io/pwa-feature-detector/</a></li>
+</ul>
+<h3 id="不支援的清單"><a href="#不支援的清單" class="headerlink" title="不支援的清單"></a>不支援的清單</h3><p>有空的話這清單應該會慢慢更新</p>
+<h4 id="Web-App-manifest"><a href="#Web-App-manifest" class="headerlink" title="Web App manifest"></a>Web App manifest</h4><p>對於一個應用程式而言最重要就是要有一個 manifest，方便集中做管理與針對不同應用情況做不同設定</p>
+<p>Chrome 是 fully support 但是 iOS Safari 還沒完全支援 manifest 的存在，目前是 In Development 的狀態</p>
+<p>參考這個頁面追蹤進度：<a href="https://webkit.org/status/#specification-web-app-manifest" target="_blank" rel="noopener">Apple Webkit Feature Status - Manifest</a></p>
+<p>在桌面上產生 App icon 的 Bug 追蹤 thread</p>
+<ul>
+<li><a href="https://bugs.webkit.org/show_bug.cgi?id=183937" target="_blank" rel="noopener">https://bugs.webkit.org/show_bug.cgi?id=183937</a></li>
+</ul>
+<h5 id="2020-08-22-start-url-安全疑慮"><a href="#2020-08-22-start-url-安全疑慮" class="headerlink" title="2020/08/22: start_url 安全疑慮"></a>2020/08/22: start_url 安全疑慮</h5><p>在 7 月底的時候，在 W3C Github 一個曾經討論過但被遺忘的安全疑問又浮出來，關於 <code>start_url</code> 是否應該開放給 user 自行編輯, <a href="https://github.com/w3c/manifest/issues/399" target="_blank" rel="noopener">Github issue thread</a></p>
+<p>原因在於，<code>start_url</code> 在 manifest 中可以由開發者自行指定，決定 web app 從 home screen 被 launch 起來時第一個到的地方，而 web app 這時候是全螢幕的狀態，user 有可能在不知情的情況下透過加入 query string 的方式被追蹤</p>
+<blockquote>
+<p>It’s conceivable that the start_url could be crafted to indicate that the application was launched from outside the browser (e.g., “start_url”: “index.html?launcher=homescreen”). This can be useful for analytics and possibly other customizations. However, it is also conceivable that developers could encode strings into the start_url that uniquely identify the user (e.g., a server assigned UUID). This is fingerprinting/privacy sensitive information that the user might not be aware of</p>
+</blockquote>
+<p>後來的討論結果趨向這不只是 PWA specific issue，任何建立 bookmark 的行為都有可能觸發此安全疑慮</p>
+<ul>
+<li><a href="https://www.theregister.com/2020/07/31/w3c_progressive_web_app_privacy/" target="_blank" rel="noopener">We give up, Progressive Web Apps can track you, says W3C: After 5 years, it decides privacy is too much bother</a></li>
+</ul>
+<h4 id="Launching-screen"><a href="#Launching-screen" class="headerlink" title="Launching screen"></a>Launching screen</h4><p>iOS 不支援從 manifest 設定應用程式的啟動畫面</p>
+<p>啟動畫面是指從桌面上打開 PWA 後，進入到主畫面之前的一小段畫面，又稱為 splash screen</p>
+<p>以 Twitter 的 PWA 為示意，splash screen 就如下圖，這個畫面結束後就會開啟 Twitter 首頁</p>
+<img src="/post/ProgressiveWebApplicationOverview/twitter-pwa-splash-screen.png" class="">
+
+
+<h4 id="Installation-prompt-API"><a href="#Installation-prompt-API" class="headerlink" title="Installation prompt API"></a>Installation prompt API</h4><p><code>beforeinstallprompt</code> 這個 <a href="https://developers.google.com/web/fundamentals/app-install-banners" target="_blank" rel="noopener">API 只有在 Chrome 支援</a>而已，目的是讓網頁可以自動跳出一個提示視窗建議使用者把網頁加到桌面上(像是一個應用程式一樣)，但是 iOS Safari 並沒有提供這個 API 讓我們直接使用</p>
+<p>相關的 bug 追蹤</p>
+<ul>
+<li><a href="https://bugs.webkit.org/show_bug.cgi?id=193959" target="_blank" rel="noopener">https://bugs.webkit.org/show_bug.cgi?id=193959</a></li>
+</ul>
+<p>w3c 關於 manifest 的 github issue 有針對 installation prompt API 做討論，有興趣可以看一下，要留著還是要移除的兩派說法</p>
+<ul>
+<li><a href="https://github.com/w3c/manifest/issues/835" target="_blank" rel="noopener">https://github.com/w3c/manifest/issues/835</a></li>
+<li><a href="https://github.com/w3c/manifest/pull/836" target="_blank" rel="noopener">https://github.com/w3c/manifest/pull/836</a></li>
+</ul>
+<h4 id="Push-notification"><a href="#Push-notification" class="headerlink" title="Push notification"></a>Push notification</h4><p>iOS 不支援網頁應用程式像原生應中一樣有推播提醒的功能</p>
+<p>Github尚有大神寫了個簡單的功能測試網頁來測試瀏覽器是否支持這個功能</p>
+<ul>
+<li><a href="https://tests.peter.sh/notification-generator/#image=1" target="_blank" rel="noopener">Tool for testing capabilities</a></li>
+</ul>
+<p>相關 bug 追蹤</p>
+<ul>
+<li><a href="https://bugs.webkit.org/show_bug.cgi?id=182566" target="_blank" rel="noopener">https://bugs.webkit.org/show_bug.cgi?id=182566</a></li>
+</ul>
+<h4 id="Background-Sync"><a href="#Background-Sync" class="headerlink" title="Background Sync"></a>Background Sync</h4><p>利用 Service Worker 的機制在後台去同步儲存一些重要的資料，比如一些 user 的設定或是訊息，一但網路不穩斷線時，仍然可以 restore 這些重要的狀態回來，雖然 Safari 已經支援 Service Worker，但還沒支援 Background sync</p>
+<p>相關 bug 追蹤</p>
+<ul>
+<li><a href="https://bugs.webkit.org/show_bug.cgi?id=182565" target="_blank" rel="noopener">https://bugs.webkit.org/show_bug.cgi?id=182565</a></li>
+</ul>
+<h4 id="In-App-Browser"><a href="#In-App-Browser" class="headerlink" title="In-App Browser"></a>In-App Browser</h4><p>PWA 在 iOS Safari 如果在 full-screen 的模式下，開啟外部網頁連結都會進到 In-App browser 的畫面，上面會有一個 address bar</p>
+<p>以 Twitter 的 PWA 開啟外部連結為例</p>
+<img src="/post/ProgressiveWebApplicationOverview/twitter-pwa-in-app-browser.png" class="">
+
+<h5 id="2020-08-22-更新"><a href="#2020-08-22-更新" class="headerlink" title="2020/08/22 更新"></a>2020/08/22 更新</h5><p>從 iOS 13.4 開始在 PWA In-APP Browser 中提供了 “Open in Safari” 的選項在底部</p>
+<img src="/post/ProgressiveWebApplicationOverview/in-app-browser-open-in-safari.png" class="">
+
+<h4 id="WebRTC"><a href="#WebRTC" class="headerlink" title="WebRTC"></a>WebRTC</h4><p>WebRTC(Web Real Time Communication)，網頁即時通訊，支援瀏覽器進行即時視訊的開源 API</p>
+<p>目前主流的瀏覽器都支援 WebRTC 了，但 iOS Safari 跟桌面版的 Safari 是不一樣的，在 iOS 上使用 Safari 是支援 WebRTC 的，但是其他家第三方的瀏覽器在 iOS 上沒有辦法支援 WebRTC (2019的事實)</p>
+<p>原因是因為在 iOS 上的第三方瀏覽器都是以 WkWebView 的形式在 iOS 上執行，PWA 如果以 full screen 的方式在 iOS 上執行也是以 WkWebView 的形式執行</p>
+<p>而 WkWebView 有一個 issue 是關於 getUserMedia() 的錯誤，導致 WebRTC 沒辦法順利運行，除非使用 WebRTC 進行即時串流的時候，不要獲取使用者的語音或視訊，而是讓使用者單純接收媒體資料的話就沒事(但這樣對於多數即時串流的互動應用來說毫無意義)</p>
+<p>相關 Bug 追蹤</p>
+<ul>
+<li><a href="https://bugs.webkit.org/show_bug.cgi?id=185448" target="_blank" rel="noopener">https://bugs.webkit.org/show_bug.cgi?id=185448</a></li>
+</ul>
+<p>好消息是 2020 的最新進度是這個問題似乎在 iOS 13.4 beta 1 (Build 17E5223h) 被修復了</p>
+<p>詳情可以爬 bug thread 大家的留言，裡面有一位一直 對 Apple WebKit Team push 這個 issue 的人叫 Thomas Steiner，目前是在德國 Google 的工程師，似乎就是在 Chrome Team 吧，可以搜尋他，也有 PWA 在 iOS 的相關文章可以看</p>
+<h6 id="2020-11-24-更新"><a href="#2020-11-24-更新" class="headerlink" title="2020/11/24 更新"></a>2020/11/24 更新</h6><p>超級好消息！<br>官方正式宣告 Safari 在 iOS 14.3 beta 的 WKWebView 中修正了 getUserMedia() API！</p>
+<ul>
+<li><a href="https://webkit.org/blog/11353/mediarecorder-api/" target="_blank" rel="noopener">https://webkit.org/blog/11353/mediarecorder-api/</a></li>
+<li><a href="https://bugs.webkit.org/show_bug.cgi?id=215884" target="_blank" rel="noopener">https://bugs.webkit.org/show_bug.cgi?id=215884</a> (跟這個 PWA bug 有關)</li>
+</ul>
+<blockquote>
+<p>navigator.mediaDevices.getUserMedia can now be exposed to WKWebView applications. navigator.mediaDevices.getUserMedia is automatically exposed if the embedding application is able to natively capture either audio or video. Please refer to Apple documentation to meet these requirements. Access to camera and microphone is gated by a user prompt similar to Safari and SafariViewController prompts. We hope to extend WKWebView APIs to allow applications to further control their camera and microphone management in future releases.</p>
+</blockquote>
+<h4 id="Cache-Limit"><a href="#Cache-Limit" class="headerlink" title="Cache Limit"></a>Cache Limit</h4><p>前面提到 iOS Safari 對於 Service Worker 的 cache storage 大概只有 50MB，更精確來說是 52MB</p>
+<p>另個廣泛推薦的選擇是使用 IndexedDB 來儲存，iOS Safari 的上限有到 500MB</p>
+<p>網上其他開發者有觀察到如果 PWA 過了幾週 (網上評估大概是兩週) 都沒有使用的話，iOS 裝置就會自動清理掉 PWA 儲存的資料</p>
+<p>也有開發者發現同一個網域下的 PWA， 以不同名字命名被新增到桌面後，Service Worker 雖然會註冊兩次但卻是 share 同個 cache storage</p>
+<h5 id="2020-09-04-更新"><a href="#2020-09-04-更新" class="headerlink" title="2020/09/04 更新"></a>2020/09/04 更新</h5><p><strong>iOS 14 beta 開始，PWA 開始跟 safari browser 共享同個 Cache storage</strong>，也就是說如果使用者做了一些行為被記錄在 Cache storage 的話，切換成 PWA 打開，資料並不會 duplicate，在 iOS 13 時是會有兩份 entry (這個改動仍然在觀察中，iOS 14 正式 release 前都還說不準)</p>
+<ul>
+<li>同個網域下的 Service worker 不論在 Safari or PWA 中被開啟，都只會被註冊一次，但會有多個 Service worker instances</li>
+<li>Cookie, Web storage, IndexedDB 還是分離的</li>
+</ul>
+<h4 id="Gesture"><a href="#Gesture" class="headerlink" title="Gesture"></a>Gesture</h4><p>從 iOS 12.2 開始，支援 navigation gesture 功能，像瀏覽 Safari 網頁一樣，可以用 Swipe 手勢來返回上一頁切換網頁，這樣在 standalone mode 的時候不需要特別放返回鍵在頁面上了</p>
+<h5 id="2020-09-04-更新-1"><a href="#2020-09-04-更新-1" class="headerlink" title="2020/09/04 更新"></a>2020/09/04 更新</h5><p>在 iOS 14 beta，PWA 用手勢做 swipe back 可以正常使用</p>
+<p>回測了 iOS 13，沒想到也是正常，所以 Gesture 目前看起來是沒什麼問題了</p>
+<p><del>Navigation gesture 需要有 manifest file，如果在 iOS Safari 只使用 meta-tags， 使用者從桌面啟動 Web APP 後，進入某個子畫面做 swipe back 會沒有任何反應</del></p>
+<p>能運用 Swipe back 的情況有</p>
+<ul>
+<li>切換頁面，比如進到子畫面</li>
+<li>所有從 PWA 打開的 URL (In-APP Browser)<ul>
+<li>如果在 In-APP Browser 的網頁內又再進入其他 URL，swipe back 會回到上一頁</li>
+<li>如果已經在 top level 層，swipe back 會回到進入 In-APP Browser 之前的 PWA 頁面</li>
+</ul>
+</li>
+</ul>
+<h3 id="iOS-PWA-追蹤"><a href="#iOS-PWA-追蹤" class="headerlink" title="iOS PWA 追蹤"></a>iOS PWA 追蹤</h3><p>Twitter who keep updating information of PWA or web dev </p>
+<ul>
+<li><a href="https://twitter.com/ChromiumDev" target="_blank" rel="noopener">Chrome Developers</a> (PWA 生態圈發展就關注 Google 官方吧)</li>
+<li><a href="https://twitter.com/tomayac" target="_blank" rel="noopener">Thomas Steiner</a> (web engineer at Google) </li>
+<li><a href="https://twitter.com/jaffathecake" target="_blank" rel="noopener">Jake Archibald</a> (web engineer at Google)</li>
+<li><a href="https://twitter.com/firt" target="_blank" rel="noopener">Maximiliano Firtman</a> (對於 PWA 在 iOS 的進展有詳細追蹤的部落客)</li>
+</ul>
+<p>Thomas 發了不少 Safari 的 Bug 給 Apple WebKit Team，多數都是跟 PWA features 相關的，而 Jake 是在自己的推會講滿多 web 的東西，他也是 Google I/O 大會上常代表 Chrome team 出來報告的人，Firtman 的 Medium 文章一定要看一下，在實際測試跟比較上非常詳細</p>
+<p>因為 Apple 對於發展 PWA 的態度還不明確，在 iOS Safari 新版本的 release notes 也不怎麼提到跟 PWA 有關的更新，都要前沿的前端大神們去測試跟互相回報才知曉一二，所以基本上要追蹤相關東西可以多少看一下這幾位的推，都是有在關注 PWA 的資深前端開發者</p>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>誠如前言所說，前端的領域的東西很雜很多，而且常常在變，不止框架的不同，在同個框架內做同一件事的寫法也有不少種 </p>
+<p>我感覺前端技術像是有好多工具可以用，要學得好就要像技師一樣要知道在什麼樣的 use case 下用什麼工具會最有效率最合適</p>
+<p>不得不抱怨下 Apple，自從接觸了這個生態系，對他真是又愛又恨，iOS APP 還好，但是前端在 iOS 上真的處處都是障礙，第三方瀏覽器沒辦法使用 iOS 的一些功能，連自家的 Safari 都不一定能完全 access 所有 iOS 功能，更別說實現 PWA</p>
+<p>Apple 對 Web APP 非常消極，似乎還有點抵觸，原因不外乎是保護他們的 Apple Store 生態圈，但開始支援 Service Worker 無疑對很多前端開發者而言是一道曙光，只是離完全支援要多久不得而知，等到 iOS Safari 完全支援 PWA 的那天我可能又跑去寫別的東西了說不定= =，或是已經提早退休去種田</p>
+<p>希望之後 PWA 在 iOS 上的實作心得篇可以如期產出XDD，可能要花點時間整理一番</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/ProgressiveWebApplicationOverview/">http://havincy.github.io/post/ProgressiveWebApplicationOverview/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/PWA/">#PWA</a>
+                    
+                        <a href="/tags/iOS-Safari/">#iOS-Safari</a>
+                    
+                        <a href="/tags/Service-Worker/">#Service Worker</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/AtomicHabitsReview/">書籍<原子習慣>讀後感</a>
+            
+            
+            <a class="next" rel="next" href="/post/DarkModePluginForBrowser/">瀏覽器深色模式套件推薦</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/ProgressiveWebApplicationOverview/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

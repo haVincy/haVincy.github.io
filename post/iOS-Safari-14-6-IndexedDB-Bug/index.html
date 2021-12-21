@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>怎麼解決 iOS 14.6 IndexedDB Hanging Bug | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">怎麼解決 iOS 14.6 IndexedDB Hanging Bug</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: December 4, 2021
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Web/">Web</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>2021 下半年真的是好忙碌，工作四年來沒這麼忙過，Blog 都要長草了XD</p>
+<p>即使去年準備我們 Cloud gaming iOS PWA Release 時好像都沒這麼忙 😅，可能跟當時有其他 Team 的工程師來 Support 的關係</p>
+<p>這次下半年的 project，比較多都是我們 Team 自己扛，同時又要兼顧 iOS Client，Bandwidth 上真的頗緊</p>
+<p>而 iOS 其中最讓人頭痛的一點就是更新後可能會有未爆彈，新版本的 Bug 常常高機率就是 Blocker，比如今年上半年我們曾經遭遇的 14.6 的 IndexedDB bug</p>
+<p>症狀是只要一打開 web app，畫面就會卡在一片空白當中，團隊的 Senior Debug 後發現是 iOS Safari 的 IndexedDB 不知道什麼原因沒有 resolve Promise (如果對 JS 的 Promise 還不了解，我有一篇<a href="../PromiseAsyncAwaitOverview/">簡單介紹什麼是 Promise &amp; Async &amp; Await</a> 的文可以參考看看)</p>
+<p>這篇就來回憶下是怎麼處理這個問題的</p>
+<h2 id="如何解決-iOS-Safari-原生的-Bug"><a href="#如何解決-iOS-Safari-原生的-Bug" class="headerlink" title="如何解決 iOS Safari 原生的 Bug"></a>如何解決 iOS Safari 原生的 Bug</h2><p>首先，如果是跟 iOS Safari 有關的 Bug，大多情況都只能等 Apple 自己修正，所以第一時間我們只能看有沒有人已經發過 Bug 給 Apple，沒有的話就只能自己開 Bug，我們已經至少開了四個 PWA 相關的 Bug 給 Apple…大多時候都是被無視跟 Low priority 居多，不被認為是 Bug，而是叫我們去使用者論壇發文</p>
+<p>再來就是尋找 workaround，畢竟在等 Apple 發布下一個 release 前，只要使用 14.6 的使用者就是會被影響，不能只是乾等 Apple 來救火XD</p>
+<h3 id="WebKit-Bug-thread"><a href="#WebKit-Bug-thread" class="headerlink" title="WebKit Bug thread"></a>WebKit Bug thread</h3><p>幸運的是這個 issue 已經有人發 Bug，可以根據其他人的情況來找一些 workaround 的蛛絲馬跡，</p>
+<ul>
+<li><a href="https://bugs.webkit.org/show_bug.cgi?id=226547" target="_blank" rel="noopener">https://bugs.webkit.org/show_bug.cgi?id=226547</a></li>
+<li>該 IndexedDB 相關的 Bug 在 15.0 已經全面被修復</li>
+</ul>
+<p>當時看大家的留言，大概可以知道只要在 web app launch 前去 query IndexedDB，就能繞過這個 forever hanging</p>
+<p>於是我就嘗試了在 index.html 內去 call 看看 IndexedDB，但不做任何互動</p>
+<h2 id="Workaround"><a href="#Workaround" class="headerlink" title="Workaround"></a>Workaround</h2><figure class="highlight html"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">if</span> (!<span class="built_in">window</span>.indexedDB) {</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.error(<span class="string">'IndexedDB is not available in your browser'</span>);</span></span><br><span class="line">    }</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>雖然這樣很簡單的就解決了這個難題，前後耗時也有大概三個工作天的時間</p>
+<p>第一天第二天都在分析到底是哪邊問題，是我們 AWS CloudFront 的鍋呢還是新的 iOS 14.6 有問題</p>
+<p>加上當下能搜尋到的網路資源並不多 (工作上遇到的很多問題有一半都是找不到的)</p>
+<p>主要的突破是靠著 Senior debug 確定是 14.6 IndexedDB 有問題，才收斂整個 scope，得以聚焦在一個點上</p>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>這個事件後續也有人發文章</p>
+<ul>
+<li><a href="https://www.theregister.com/2021/06/16/apple_safari_indexeddb_bug/" target="_blank" rel="noopener">https://www.theregister.com/2021/06/16/apple_safari_indexeddb_bug/</a></li>
+</ul>
+<p>有興趣的可以看看囉</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/iOS-Safari-14-6-IndexedDB-Bug/">http://havincy.github.io/post/iOS-Safari-14-6-IndexedDB-Bug/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/iOS-Safari/">#iOS-Safari</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/post/Github-Action-Deploy-AWS/">用 Github Actions 部署 AWS EC2 & S3</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/iOS-Safari-14-6-IndexedDB-Bug/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>一次拔除三顆智齒的心得 | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">一次拔除三顆智齒的心得</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: June 13, 2021
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Health-Care/">Health Care</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><strong>Note: 我是在今年過年前一週去牙科診所拔的，不是在最近台灣疫情嚴重的期間去拔的，建議大家在三期警戒時期盡可能不要出入診所或醫院，降低染疫風險</strong></p>
+<p>跟<a href="../SebaceousCystSurgeryExp/">移除粉瘤</a>一樣，我總是在農曆新年前會想要掃除一些對身體來說沒用且可能有危害的東西XD</p>
+<p>我有一顆智齒在碩一時因為蛀牙就拔掉了，當時的牙科醫師還建議我要預約拔除其他還沒露頭的，趁年輕輕拔除復原的情況越好，當時聽到水平智齒要切開牙齦弄碎什麼的就非常害怕，就拖到了現在</p>
+<p>在上網查了資料跟爬了很多診所後，決定要一次就移除還在牙齦內的三顆智齒，長痛不如短痛</p>
+<h2 id="智齒寶寶簡介"><a href="#智齒寶寶簡介" class="headerlink" title="智齒寶寶簡介"></a>智齒寶寶簡介</h2><p>智齒是大部分人都會有的，有些會乖乖地長出來跟其他牙齒們配合得很好，有些則是長出來但是破壞團體，另一批則是躺在牙齦裡裝死還會頂到前一顆牙齒，也就是水平智齒，通常是長在下顎的智齒比較會是水平排列，詳細可以看這篇<a href="https://heho.com.tw/archives/23676" target="_blank" rel="noopener">「長了智齒一定要拔掉嗎」</a></p>
+<img src="/post/Wisdom-Teeth-Extraction-Review/WIsdom-Teeth-Illustration.jpeg" class="">
+
+<h2 id="台北診所推薦"><a href="#台北診所推薦" class="headerlink" title="台北診所推薦"></a>台北診所推薦</h2><p>經過上次粉瘤手術的心得分享，發現有許多人最想知道的資訊是就診資訊，所以這次分享就直接把診所跟醫師都分享在前頭！</p>
+<p>這次拔智齒我是在<strong>台北內湖的<a href="https://tw-iteeth.com/" target="_blank" rel="noopener">「敬偉牙醫」</a>診所給葉泰榮醫師操刀</strong></p>
+<p>其實目前整個診所只有他在專門幫大家處理智齒的問題，號稱<strong>無痛</strong>拔牙，一次幫你拔完全部沒問題！</p>
+<p>經過親身體驗，真的非常推薦，葉醫師拔牙的技術很好，可以去搜尋 <a href="https://posts.gle/gMN9H9jnbGZEKnJU8" target="_blank" rel="noopener">Google 評論</a>，每個被他拔過智齒的都讚不絕口，醫師本人還會回覆病人的評論 😆</p>
+<p>診所的牙助對於拔智齒也很有經驗，術前到術後都會有一張指示說明，會把病人照顧得很好</p>
+<p>P.S. 因為病人很多而且葉醫師年紀也大了，所以想給葉醫師處理趁早預約唷</p>
+<h2 id="術前準備"><a href="#術前準備" class="headerlink" title="術前準備"></a>術前準備</h2><p>要擔心的就是拔完牙後的飲食，所以術前準備我是直接狂吃火鍋跟大餐 😌</p>
+<p>需要額外準備的只有別診所的「轉診單」，這一點是這間診所的特別要求，只要打電話預約，櫃檯姊姊就會順便說明，<strong>建議約診時間可以盡量選晚上吃飽後</strong></p>
+<p>這樣拔完當天吃完睡前的藥就能睡覺，不需要為了要吃東西但麻醉還沒退而煩惱</p>
+<p>我有問過讀牙醫的朋友，說拔牙是很吃技術跟經驗的，是一項專門，找經驗多的醫師比較靠譜</p>
+<p>大多數的牙醫師都不敢一次就拔兩顆以上，兩顆通常會是極限，而且通常會先拔同一邊，拔智齒前幫我洗牙的另一間診所的牙醫師也不相信有醫生可以一次拔兩顆以上，一直建議我要去大醫院拔比較安全哈哈，不過我最後還是相信葉醫師的技術</p>
+<h2 id="手術當天"><a href="#手術當天" class="headerlink" title="手術當天"></a>手術當天</h2><p>如同上面提到，我去的診所有給我一張手術過程要注意的事項，比如說拔牙過程中有<strong>任何不適不要出聲，而是改用比手勢的方式讓牙助牙醫知道</strong>，這樣是避免嘴巴因為發出聲音而產生震動影響到醫生拔牙，畢竟智齒都是在比較深的位置</p>
+<p>手術前要用特殊儀器照全口3D，醫生會判斷好智齒的位置來決定手術風險</p>
+<p>因為我選的診所的主刀葉醫師經驗豐富，根據他的說法是沒有什麼難的倒他的智齒 Case 😳</p>
+<h3 id="過程"><a href="#過程" class="headerlink" title="過程"></a>過程</h3><p>打麻醉針的時候比較刺，但一下就過去了，還有在拔最後的牙根時會有酸軟的震波，如果不舒服要舉手請醫師補少量麻醉，我拔最後一顆時補了三次麻醉，牙助是說有運動習慣的話代謝會比一般人快，然後我好像代謝麻醉藥效的時間已經比一般人快又有在運動所以快太多，她們沒料到我需要比較多劑量，所以才補這麼多次</p>
+<p>我一次拔三顆的時間耗時大概 2.5 小時，醫生跟牙助都非常有耐心，牙助會時時注意你的情況跟手勢，發現需要漱口或病人有任何不舒服都會提醒醫生，吸唾液跟血水的技術跟醫生配合得很好</p>
+<p>「不痛喔，現在我要開始出點力，會覺得有東西在推你，但不會痛唷」<br>「醫生，病人不舒服！」<br>「來，還好嗎，還可以吼」<br>「不怕吼，拔好了唷，再撐一下唷」</p>
+<p>就是一整個被當八歲小孩的過程啦，有種重返青春的感覺呢</p>
+<img src="/post/Wisdom-Teeth-Extraction-Review/dentist-meme.jpeg" class="">
+
+<h3 id="自費膠原蛋白"><a href="#自費膠原蛋白" class="headerlink" title="自費膠原蛋白"></a>自費膠原蛋白</h3><p>如果年紀已經不小 (醫生是說 25 歲以上都算晚)，都建議在傷口開口處塞膠原蛋白，尤其是需要切開牙齦弄碎牙齒的，傷口會相對大，有塞會加速牙骨復原</p>
+<p>我是三顆都要切牙齦，加上年紀不小(??)，所以我選擇三顆都塞，一顆自費 3500，不過自費項目包含掛號費我全部有請到保險理賠！</p>
+<h2 id="保險理賠"><a href="#保險理賠" class="headerlink" title="保險理賠"></a>保險理賠</h2><p>看你的醫療保險是否有補助<strong>門診手術</strong>這項</p>
+<p>拔牙的理賠條件是醫師開的診斷證明要有以下三個關鍵詞</p>
+<ol>
+<li>切開</li>
+<li>麻醉</li>
+<li>縫合</li>
+</ol>
+<p>如果你的拔智齒手術都是沒有需要切開的，都是長的很好有露頭的智齒，可以選擇用自費塞膠原蛋白的方式變成是要切開牙齦去塞，這樣就會符合上述理賠條件，<strong>不能沒有切開牙齦就要求醫師幫你寫切開，這是偽造文書</strong>，希望能理賠的話就自行選擇一定要切開的拔牙方式</p>
+<p>BTW, 我理賠成功的保單是<a href="https://drive.google.com/file/d/1_iyvukAZnHkDn-F_W04ja-AYEif0sNaH/view" target="_blank" rel="noopener">全球人壽的醫療險 XHR</a>，請我的保險經紀人幫我處理的，做手術前也有先跟保經詢問理賠條件，如果你本身沒有任何醫療保險的機會可以申請理賠，要不要植入膠原蛋白就看個人預算</p>
+<h2 id="術後當天"><a href="#術後當天" class="headerlink" title="術後當天"></a>術後當天</h2><p>結束拔牙後需要馬上咬紗布止血，止血過程中<strong>要咬緊紗布，血水要吞下去不要吐出來</strong>，牙助提醒這件事提醒了有十遍以上，<strong>這是能快速防止傷口繼續出血的關鍵</strong></p>
+<p>醫生有問要不要幫我打長效麻醉(不須加錢，健保有涵蓋)，我拔完的時間是下午，避免睡覺時麻醉退了會陣痛，我就答應加了，長效麻醉整個麻到我睡前都還沒退，造成我根本沒辦法好好吃晚餐，嘴唇跟臉頰都無知覺</p>
+<p><strong>不過真的很神奇，上次拔一顆蛀掉的智齒還沒有切開牙齦的經驗是麻醉一退馬上痛臉也開始腫起來，這次的經驗拔三開都切開的隔天一早起來沒有痛也沒有腫，果然選對醫師很重要</strong></p>
+<img src="/post/Wisdom-Teeth-Extraction-Review/wow.jpeg" class="">
+
+<p>術後診所也有發一張帶回家的術後照護說明，還會幫你畫重點</p>
+<p>這裡簡單列一下個人覺得對無痛跟無腫很重要的術後注意事項，有切開牙齦的一定要注意</p>
+<h3 id="注意事項"><a href="#注意事項" class="headerlink" title="注意事項"></a>注意事項</h3><ol>
+<li><strong>術後 24 小時的不間斷冰敷跟含冰水</strong><ul>
+<li>每次冰敷10-15分鐘，休息10-15分鐘，如此往返</li>
+</ul>
+</li>
+<li>術後 48 小時不要張口超過十公分，少說話</li>
+<li>術後第三天改以熱敷跟含溫水<ul>
+<li>熱敷我沒有執行得像冰敷那樣徹底，只有多含溫水跟利用洗澡洗臉時多溫溫我的臉頰</li>
+</ul>
+</li>
+<li>術後五天內都盡量以軟性飲食為主，避免吃熱燙與辛辣食物</li>
+<li>進食後用<strong>軟毛小牙刷</strong>潔牙，小心避開傷口，用<strong>牙線清潔</strong>後排牙齒牙縫，睡前一定要用漱口水<ul>
+<li>漱口水我是買<strong>診所推薦的 T.KI 蜂膠抗敏漱口水</strong></li>
+<li>可以買小針筒裝入理食鹽水用按壓噴射的方式清理食物殘渣</li>
+</ul>
+</li>
+</ol>
+<p>整體來說我覺得<strong>術後當天的冰敷是最關鍵的</strong>，我很認真的冰敷一整晚，手累了就含冰水也很有效，術後當晚把枕頭墊高一點睡覺也有助於消腫，萬一當晚發現傷口開始出很多血，就一樣塞紗布咬緊把血水都吞下去一小時去快速止血，如果只是血絲就是正常的不需要緊張</p>
+<p>吃東西不會痛但是很麻煩，要避免大張大合去扯到傷口的縫線，盡量小口小口吃</p>
+<p>我會避免用後排牙齒吃，盡可能用前排把食物弄碎直接吞進去，這時候就無法吃很多需要大量咀嚼的食物，連續三天的早午餐我都只吞優格跟喝果菜汁，晚餐則是吞吻仔魚粥跟吞豆花，第四天有好一點就開始試著吃一些要咀嚼的但還是偏軟的食物，比如燉爛一點的魚肉或是雞肉類</p>
+<h2 id="牙骨恢復期"><a href="#牙骨恢復期" class="headerlink" title="牙骨恢復期"></a>牙骨恢復期</h2><p>醫生是採用會自行分解的線來幫我縫合，所以我不需要回診拆線，診所護士在術後三四天有打電話問我的狀況，她說等表面的切口復原後還需要一段時間才會完全填合洞口，以我這個 28 歲的年紀來講估計要三個月才會完全復原 (這還是我已經有塞膠原蛋白的情況)</p>
+<p>在差不多一週後，傷口處的縫線分解的差不多了代表已經癒合，比較能正常吃東西不用怕扯到傷口，可是吃東西會感覺怪怪的XD，說不上是哪裡怪，再過一個月後我才比較恢復，但被拔智齒的地方(牙齒後排們)還是容易卡食物殘渣，所以確實如診所護士所說，認真算起來是近三個月才會完全正常</p>
+<p><strong>這個期間雖然已不會痛不會腫，仍然要保持用牙線潔牙跟使用漱口水，來避免食物殘渣殘留造成任何細菌繁殖</strong></p>
+<p>因為這次拔智齒經驗莫名讓我有了睡前用牙線清潔的好習慣 😇</p>
+<p>牙線能清理的殘渣真的是牙刷怎麼刷都刷不掉的！</p>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>說不害怕是騙人的，即使我已經很早就在規劃我的時間表，到了當天去診所報到還是很緊張，一直上廁所XD</p>
+<p>不過本人不怕血腥只怕痛，只要有麻醉就無敵了，對於牙醫用的那些機械在嘴巴鑽來鑽去的聲音不害怕反而覺得有趣，事後我還找了一些影片看那些機械是怎麼在我口中做事的(小朋友不要學)</p>
+<p>如果真的會怕的人，可以試試帶耳塞，或是閉眼不要去看眼前各種機械進入你嘴巴的畫面，智齒真的要趁早拔除，上了年紀後要拔風險就會變高</p>
+<p>有趣的是我有同學是天生沒有智齒的，他爸爸也是，智齒是我們人類演化到現在因為上下顎空間變小後廢棄的無用產物，生物到最後會直接把用不到的東西從基因中抹去，但這需要時間去演化，所以天生沒有智齒的人代表身上已有了全新的進化基因啊 🤗，我還特別跟醫師討論這件事呢，<del>也是分享給大家這項擇偶的情報</del></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/Wisdom-Teeth-Extraction-Review/">http://havincy.github.io/post/Wisdom-Teeth-Extraction-Review/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E6%99%BA%E9%BD%92/">#智齒</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/Github-Action-Deploy-AWS/">用 Github Actions 部署 AWS EC2 & S3</a>
+            
+            
+            <a class="next" rel="next" href="/post/GitPush-AutoDeploy-Hexo/">GitHub Action 自動部署 Hexo</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/Wisdom-Teeth-Extraction-Review/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

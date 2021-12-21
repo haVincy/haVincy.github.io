@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>自訂 Jenkins 寄送 Mail 的內容 | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">自訂 Jenkins 寄送 Mail 的內容</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: May 23, 2020
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/DevOps/">DevOps</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>在建置自動化測試時，當任務結束，通常會希望能夠發郵件通知開發者或是相關的夥伴們</p>
+<p>Jenkins 內建提供了 Mail 套件讓使用者能直接在 Job Configuration 中做設置</p>
+<p>後來發現套件提供的變化不夠我使用，所以就研究了下該如何自訂義更細節的內容</p>
+<hr>
+<h2 id="基本設置"><a href="#基本設置" class="headerlink" title="基本設置"></a>基本設置</h2><p>先從基本的設置開始，先假設你或是你的 Jenkins 管理員已經 include Mail 套件</p>
+<p>在要設置的 Jenkins Job 的 Configuration 中，在最下面的 “Add post-build action” 的 toggle menu 中找到 “Email Notification”</p>
+<p>加入後就能夠開始設置簡單的 mail 通知</p>
+<img src="/post/JenkinsMailExtension/Jenkins-mail-notification.png" class="">
+
+<p>Recipients 是放入要接收 mail 的收件人信箱</p>
+<p>Apply 後，每當任務完成就會送出 mail 到指定的信箱</p>
+<p>但郵件內容很單純，就是成功或失敗，可以執行任務測試看看</p>
+<p>如果要有更進階的資訊就需要另一個 mail 相關的區塊設置</p>
+<h2 id="Editable-mail-notification"><a href="#Editable-mail-notification" class="headerlink" title="Editable mail notification"></a>Editable mail notification</h2><p>一樣在 “Add post-build action” 找到設定加入</p>
+<img src="/post/JenkinsMailExtension/Jenkins-add-editable-email-notification.png" class="">
+
+<p>會看到以下預設設置</p>
+<img src="/post/JenkinsMailExtension/Jenkins-editalbe-mail-notification.png" class="">
+
+<p>主要會用到的大概是</p>
+<ul>
+<li>Project Recipient List: 收件人區塊</li>
+<li>Content Type: 決定你的郵件內容格式是什麼，Plain text/HTML</li>
+<li>Default Subject: 郵件標題</li>
+<li>Default Content: 郵件內容</li>
+<li>Attach Build Log</li>
+</ul>
+<p><code>$</code> 符號變數代表的是 Jenkins 內部支援的環境變數<br>在 Build 區塊的 Execute bash command 上也有 Link 能參閱</p>
+<img src="/post/JenkinsMailExtension/jenkins-env-vars.jpg" class="">
+
+<p>所以我們可以利用環境變數來讓郵件內容有更多變化</p>
+<p>比如郵件標題可以設為</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[$JOB_BASE_NAME] - $BUILD_STATUS</span><br></pre></td></tr></tbody></table></figure>
+
+<p>郵件內容可以放</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Build url: $BUILD_URL</span><br><span class="line">Build log: $BUILD_LOG</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果更美化內容可以搭配將 Content Type 改成 HTML 的形式</p>
+<figure class="highlight html"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Build url: <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"$BUILD_URL"</span>&gt;</span>$BUILD_URL<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>但這樣還是限制於得用支援的環境變數，或是你事先設置好的環境變數，有時候我們會想要在程式進行的過程中就把一些重要資訊儲存下來，這時候要怎麼放到 Jenkins 上呢</p>
+<h3 id="Load-File-as-content"><a href="#Load-File-as-content" class="headerlink" title="Load File as content"></a>Load File as content</h3><p>在 Default Content 內可以放入以下指令將指定的 html 檔案讀入變成郵件內容</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">${FILE, path="&lt;your-file-path&gt;/&lt;your-file&gt;.html"}</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="file-path"><a href="#file-path" class="headerlink" title="file path"></a>file path</h4><p>在 Configuration 中檔案 Root 位置就是 Jenkins Job 的 <code>%WORKSAPCE%</code></p>
+<p>假設你的 html 檔案放在 workspace 內的資料夾叫做 <code>mail</code>，那麼 path 就是 <code>mail/&lt;your-file&gt;.html</code></p>
+<p>由此可知，需要在 script 完成的時候輸出一個 html 檔案，讓 Jenkins 能讀入</p>
+<p>透過這種方式就能自訂很多細部資訊，像是成功的話是何種狀態，或是失敗的話又是何種狀態的失敗，通常如果郵件是設給開發者群接收，都會比較想知道更多細節</p>
+<h3 id="Python-template"><a href="#Python-template" class="headerlink" title="Python template"></a>Python template</h3><p>直接在 Python 內直接建構 html 字串，然後打開檔案寫入字串，雖然可行，但會使程式碼變得很凌亂，會有太多 html codes 夾雜在內</p>
+<p>可以考慮用 template 的方式，在 run time 傳入數值，動態改變指定檔案的數值<br>在想要動態改變的數值加上 <code>{}</code> 命名，然後讀檔近來，使用 <code>format</code> 做賦值</p>
+<h4 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h4><p>phoneList.txt</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">&lt;p&gt;Name: {name}, Phone: {phone} &lt;/p&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>Code snippets</p>
+<figure class="highlight py"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> open(<span class="string">'/phoneList.txt'</span>, <span class="string">'r+'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    file_content = f.read()</span><br><span class="line">    update_file_content = file_content.format(name=<span class="string">'wen'</span>, phone=<span class="string">'123456789'</span>)</span><br><span class="line"></span><br><span class="line">html_file = open(<span class="string">"/mail-content-result.html"</span>, <span class="string">"w"</span>)</span><br><span class="line">html_file.write(update_file_content)</span><br><span class="line">html_file.close()</span><br></pre></td></tr></tbody></table></figure>
+
+<hr>
+<p>由於<del>打雜的關係</del>最近微微的接觸了些自動化的工作，一開始滿不上手的，因為沒弄過，而處理 Jenkins server 的同事還分處印度美國</p>
+<p>嚴格來說算是被一個在 infra team 中的印度人雷了，最後我自己要到 Job &amp; Machine 的權限搞通了 Jenkins，往好處想也算是學到了一點新技能，壞處就是因此滑了幾天的時間，中間都在等待他</p>
+<p>這一點算是學到教訓了，假如你感覺到對方其實不太幫你，而你也盡力 push 甚至一起討論怎麼做，但過了兩三天還是無果，就該 assign 給那個 team 的其他人，而不是自己先扛幫他做了他該做的工作，畢竟這是職場，不需要害怕或同情別人，就事論事才對</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/JenkinsMailExtension/">http://havincy.github.io/post/JenkinsMailExtension/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Jenkins/">#Jenkins</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/SemanticVersioning/">SemVer 版本控制與 package-lock.json</a>
+            
+            
+            <a class="next" rel="next" href="/post/PythonSubprocessUsage/">Python subprocess & search output</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/JenkinsMailExtension/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

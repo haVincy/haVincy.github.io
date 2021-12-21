@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>Netflix 影集推薦片單第一彈 | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Netflix 影集推薦片單第一彈</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: October 17, 2020
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%BD%B1%E9%9B%86%E5%BF%83%E5%BE%97/">影集心得</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="追劇到廢寢忘食"><a href="#追劇到廢寢忘食" class="headerlink" title="追劇到廢寢忘食"></a>追劇到廢寢忘食</h2><p>終於要來開始寫一下我自己的 Netflix 片單，會濾去我覺得還好的，比如什麼<del>&lt;綠箭俠&gt;、&lt;閃電俠&gt;</del>之類的哈哈，這類型沒有不好看，可以無腦爽看，我也看了滿多季，只是現在是棄追的狀態</p>
+<p>我在 Netflix 2016 年 2 月進軍台灣時就跟同學合買了，所以想推薦的無雷片單有點多，幾乎集結了我 4 年的追劇精華，所以不會每部都像<a href="../MyClassicTVSeriesList/">我的前五名必看</a>那篇寫那麼多心得</p>
+<blockquote>
+<p>個人 imdb 分數判斷參考: 影集基準線 &gt; 7.5 都不差，&gt; 8.5 就是神劇系列，電影是基準線 7.0</p>
+</blockquote>
+<h2 id="懸疑推理類"><a href="#懸疑推理類" class="headerlink" title="懸疑推理類"></a>懸疑推理類</h2><h3 id="新世紀福爾摩斯-Sherlock"><a href="#新世紀福爾摩斯-Sherlock" class="headerlink" title="新世紀福爾摩斯 (Sherlock)"></a>新世紀福爾摩斯 (Sherlock)</h3><img src="/post/MyNetflixList-1/Sherlock-Season-5.jpg" class="">
+
+<ul>
+<li><a href="https://www.imdb.com/title/tt1475582/" target="_blank" rel="noopener">全季 imdb 平均 9.1</a></li>
+<li>2010~2017, <strong>已完結(?)</strong>，共 4 季</li>
+</ul>
+<p>Sherlock 的題材真的不勝枚舉，這部大紅的原因，除了是劇情完整，每集的長度都破一小時，節奏也很獨特，不是一般的兇殺案推理，加上<strong>亮點是福爾摩斯的角色塑造很成功: 聰明絕頂卻古怪得很可愛</strong></p>
+<p>有一些推理影集甚至模仿 Sherlock 的拍攝剪輯方式，讓主角在推理思考時，像班奈狄克那樣眼前有場景在轉換</p>
+<p>這部劇把主演福爾摩斯的班奈狄克，跟演配角華生的馬丁費里曼給捧紅了，兩人之間對戲的化學反應也是這部劇的看點之一，後續都接到了大片約</p>
+<img src="/post/MyNetflixList-1/Sherlock-actors-pic.jpeg" class="">
+
+<p>傳言說 2021 會出第 5 季，但因為疫情的關係，可能推遲到 2022<br>也有八卦是說兩位主角戲外不合，所以遲遲不能續拍，但一切都只是流言啦，希望會續播 </p>
+<h3 id="飛機炸彈客-Manhunt-Unabomber"><a href="#飛機炸彈客-Manhunt-Unabomber" class="headerlink" title="飛機炸彈客 (Manhunt-Unabomber)"></a>飛機炸彈客 (Manhunt-Unabomber)</h3><img src="/post/MyNetflixList-1/Manhunt-Unabomber-post.jpg" class="">
+
+<ul>
+<li><a href="https://www.imdb.com/title/tt5618256/" target="_blank" rel="noopener">全季 imdb 平均 8.1</a></li>
+<li>2017~, 未完結，目前有 2 季</li>
+</ul>
+<p><strong>真實事件改編</strong>，目前出到第二季，看起來走向是每一季主題針對不同知名兇手</p>
+<p>我當年看的是第一季，是對在 1978-1995 年轟動全美的大學炸彈客 Ted Kaczynski 的追捕過程，共 8 集</p>
+<p>主角是一個犯罪學側寫 (Criminal Profile) FBI 專家，根據犯人留下的種種線索來分析犯人心裡，進而推理出犯人身份的一種專業，看鎖定犯人的過程很有趣，能了解側寫員是怎麼在各種不相干的資訊中找出關聯的</p>
+<p><strong>喜歡推理跟天才型罪犯的人這部一定會讓你看不停</strong><br>跟 FBI 糾纏了 17 年的天才炸彈客，犯罪手法很精彩，動機也值得人深思</p>
+<h3 id="破案神探-MindHunter"><a href="#破案神探-MindHunter" class="headerlink" title="破案神探 (MindHunter)"></a>破案神探 (MindHunter)</h3><img src="/post/MyNetflixList-1/Mindhunter-post.jpg" class="">
+
+<ul>
+<li><a href="https://www.imdb.com/title/tt5290382/" target="_blank" rel="noopener">目前全季 imdb 平均 8.6</a></li>
+<li>2017~, 未完結，目前到第 2 季</li>
+</ul>
+<p>跟炸彈客有點像，也是圍繞在犯罪學側寫上，故事是描述兩位 FBI 探員透過訪談連環殺人犯來研究行為犯罪學的過程，第一季的步調緩慢，但越到後面，尤其是殺人犯開始開口詳細講犯罪過程時，劇情張力開始展現出來．兩個探員也藉由這樣子的訪談，開始慢慢應用在實際正在經手的案子上</p>
+<p><strong>整體來說我比較喜歡第一季，有鋪陳漸強的感覺，第二季的話就是直入主題，完全專注在亞特蘭大的連續殺黑人兒童案上，可以看到主角使用更多的罪犯側寫推理</strong></p>
+<h3 id="布萊切利四人組-The-Bletchley-Circle"><a href="#布萊切利四人組-The-Bletchley-Circle" class="headerlink" title="布萊切利四人組 (The Bletchley Circle)"></a>布萊切利四人組 (The Bletchley Circle)</h3><img src="/post/MyNetflixList-1/The-Bletchley-Circle-post.jpg" class="">
+
+<ul>
+<li><a href="https://www.imdb.com/title/tt2275990/" target="_blank" rel="noopener">全季 imdb 平均 7.9</a></li>
+<li>2012~2014 完結，目前 2 季</li>
+</ul>
+<p>在英國二戰時期，被招募到布萊切利莊園做密碼分析的四個女成員，在二戰結束後，本該過著一般婦女的日常生活，卻因緣際會因為連續謀殺案又湊在一塊，運用她們異於常人的頭腦破案的過程</p>
+<p>其實影集本身第一眼吸引力不大，這部應該很看個人口味</p>
+<p>我得坦承一開始是被布萊切利這四個關鍵字吸引才看的</p>
+<blockquote>
+<p>布萊切利莊園是當初英國在破譯德國密碼時的基地，也就是人工智慧之父艾倫圖靈，在二戰時期破解德國密碼機 Enigma 的基地，現在英國有開放參觀</p>
+</blockquote>
+<blockquote>
+<p>英國政府後來除了幫圖靈洗去罪名(因為同性戀)，還推了 &lt;圖靈法案&gt; 赦免更多因性傾向被判罪的歷史罪人，甚至在 2019 年由英國民眾提案投票決定 50 元紙鈔改成圖靈的頭像 (當初另一位高票候選人可是霍金呢，這兩人還真的是難以抉擇哈哈)</p>
+</blockquote>
+<p>我滿喜歡這部的故事背景，除了精彩的推理，劇情有描述當時的女性地位有多麼不平等，四人明明有著絕佳天份，卻因為女人的身份加上二戰國家保密協議，不得不隱於俗世</p>
+<p>第二季的時間設定是正值各種改革的社會運動正在默默醞釀的舊金山，劇情上也特別加入了黑人與同性戀議題，整體劇情設計比第一季豐富，但就主軸的破案推理來說，我會比較喜歡第一季</p>
+<h3 id="韓劇-秘密森林"><a href="#韓劇-秘密森林" class="headerlink" title="韓劇-秘密森林"></a>韓劇-秘密森林</h3><img src="/post/MyNetflixList-1/Stranger-post.jpeg" class="">
+
+<ul>
+<li><a href="https://www.imdb.com/title/tt6461346/" target="_blank" rel="noopener">目前全季 imdb 平均 8.6</a></li>
+<li>2017~，未完結，目前到第 2 季</li>
+</ul>
+<p>女主角裴斗娜是 Netflix 御用南韓女演員不用說，加上男主角曹承佑的穩健演技，其他配角也都是實力派演員</p>
+<p>故事背景是有亞斯伯格症的檢察官男主角，用絕對理性的頭腦去剖析案子，不明白南韓職場潛規則、不通人情，使得怪異的他慢慢挖掘出更多醜陋的真相，裴斗娜則飾演身手矯健直覺靈敏的刑案女警官，跟男主角一起揭開背後內幕</p>
+<p>跟劇名一樣，完全深陷一團迷霧中，除了犯罪的推理，本劇也談到了南韓大財團控制公機關的現象，算是有反應南韓社會的深度劇</p>
+<blockquote>
+<p>「因為可以，他們才會那麼做，他們知道人們會閉上眼睛，保持沈默，如果有一個人睜大眼睛大聲說出來，那樣就能改變」</p>
+</blockquote>
+<p>時隔三年才推出第二季，雖是原班人馬，但兩季之間劇情並無關連<br><strong>我覺得整體來說第一季贏第二季太多，推薦可以單看第一季就好了</strong></p>
+<h3 id="韓劇-指定倖存者"><a href="#韓劇-指定倖存者" class="headerlink" title="韓劇-指定倖存者"></a>韓劇-指定倖存者</h3><img src="/post/MyNetflixList-1/Designed-Survivor-60days-post.jpg" class="">
+
+<ul>
+<li><a href="https://www.imdb.com/title/tt10405394/" target="_blank" rel="noopener">全季 imdb 平均 8.1</a></li>
+<li>2019，已完結，預計只出 1 季，共 16 集</li>
+</ul>
+<p>改編美劇指定倖存者的一季韓劇，主演是赫赫有名的池珍熙大叔，背景是一場突如其來的爆炸，使得重要的政要都死亡，包括總統，唯獨身為衛生部長的主角倖存，然後就任臨時總統管理國家</p>
+<p>這部劇讓我意外的很好看，比&lt;秘密森林&gt;精彩，美劇我沒看所以不知道劇情差異</p>
+<p>是一部想喚醒人們一起改變南韓社會與政治結構的的劇，甚至後面還大膽加入了一小戳同性戀的劇情，在看這部影集的時候，尤其是黨派間的政治操弄，發現很多有既視感的地方XD</p>
+<blockquote>
+<p>「為什麼如此荒謬毫無邏輯的言論，人們會相信？」</p>
+</blockquote>
+<blockquote>
+<p>「因為大家是人，當感到恐懼及害怕時，人們不會先去找原因，而是尋找眼前的敵人，因為他們需要一個能盡情討厭及發怒的對象」</p>
+</blockquote>
+<h2 id="奇幻冒險類"><a href="#奇幻冒險類" class="headerlink" title="奇幻冒險類"></a>奇幻冒險類</h2><h3 id="怪奇物語-Stranger-Things"><a href="#怪奇物語-Stranger-Things" class="headerlink" title="怪奇物語 (Stranger Things)"></a>怪奇物語 (Stranger Things)</h3><img src="/post/MyNetflixList-1/Stranger-Things-post.jpeg" class="">
+
+<ul>
+<li><a href="https://www.imdb.com/title/tt4574334/" target="_blank" rel="noopener">目前全季 imdb 平均 8.8</a></li>
+<li>2016~，未完結，目前 3 季</li>
+<li>第 4 季預告已經釋出，預計 2021 上架</li>
+</ul>
+<p><strong>目前我最喜歡的 Netflix 大作，怪奇物語</strong><br>2016 第一季剛出的時候被研究所同學推坑，一看就停不下來，只花了兩天就看完了</p>
+<p>故事背景是在美國 80 年代，從第一季開始編劇就致敬不少美國 80 年代流行的元素</p>
+<p>基本上他的片頭設計就是一項元素了，孩童無故失蹤的情節、ET外星人、魔鬼剋星、以及當時很紅的星戰等等，還讓復古桌遊 &lt;龍與地下城&gt; 重新紅起來</p>
+<p>主角是一群小屁孩，很聰明偶爾又很ㄎ一尢，最喜愛的角色就是 Dustin ~</p>
+<img src="/post/MyNetflixList-1/Stranger-Things-Dustin.jpeg" class="">
+
+<blockquote>
+<p>演員 Gaten Matarazzo 患有天生鎖骨顱骨成骨不全症，所以沒有牙齒(要裝假牙)跟沒有鎖骨，導致他早年試鏡就頻頻被拒絕，怪奇物語的導演跟編劇則是直接為他量身打造了角色，第一季有把這個遺傳疾病寫到劇本中！</p>
+</blockquote>
+<p>有人認為看一群小孩演戲好像沒意思(<del>把童年回憶哈利波特放在哪惹</del>)</p>
+<p>其實這群童星是劇組千挑萬選的天份演員，每個人都把角色詮釋的很好</p>
+<p>小女主角 Eleven 在第一季的表現出彩到不行，演員本人 Millie Bobby Brown 也因而聲名大噪 </p>
+<img src="/post/MyNetflixList-1/Stranger-Things-Eleven.png" class="">
+
+<p>從 2016 首播，追到現在 2020，親媽粉真的有種看孩子們長大的感覺XD</p>
+<p>撇開童星演技的部分，大人演員們的演技也不容小覷，不少要角因為這部劇後續簽到了電影大作</p>
+<p><strong>怪奇物語在劇情節奏、配樂共鳴、場景巧思都是神劇，看得很過癮</strong></p>
+<p>喜好程度個人排名的話是 S1 &gt; S3 &gt; S2，有朋友的感受是第一季太慢</p>
+<p>我自己的感受則是第一季是對鋪陳美國 80 年代感節奏掌握最好的一季，反正三季都很好看啦！</p>
+<h3 id="黑色孤兒-Orphan-Black"><a href="#黑色孤兒-Orphan-Black" class="headerlink" title="黑色孤兒 (Orphan Black)"></a>黑色孤兒 (Orphan Black)</h3><img src="/post/MyNetflixList-1/Orphan-Black-post.jpg" class="">
+
+<ul>
+<li><a href="https://www.imdb.com/title/tt2234222/" target="_blank" rel="noopener">全季 imdb 平均 8.3</a></li>
+<li>2013~2017，<strong>已完結</strong>，共 5 季</li>
+</ul>
+<p>這部最大亮點就是飾演女主角的 Tatiana Maslany 超會演！顏值又高！<br>本人因為這部影集獲得艾美獎最佳女主角，在其他演技相關的獎項也是獲獎無數</p>
+<p>故事背景是複製人相關的情節，演員必須要一人分飾多角，很考驗演技，而且拍攝過程其實很累，<strong>Tatiana 厲害的地方就是每一個角色的神情跟習慣甚至說話口音完全不同</strong>，看到後面會期待她還有沒有什麼新角色要出來XD</p>
+<p>除了有趣的複製人設定，影集還有談到一點跟人類存在論有關的哲學問題<br>對生物科技跟基因改造主題有興趣的一定不能錯過這部</p>
+<h3 id="地球百子-The-100"><a href="#地球百子-The-100" class="headerlink" title="地球百子 (The 100)"></a>地球百子 (The 100)</h3><img src="/post/MyNetflixList-1/The-100-post.png" class="">
+
+<ul>
+<li><a href="https://www.imdb.com/title/tt2661044/" target="_blank" rel="noopener">目前全季 imdb 平均 7.6</a></li>
+<li>2014~，未完結，目前共 7 季</li>
+</ul>
+<p>故事背景是設定在未來的地球因為核爆輻射毀滅，只有一小群人類飛向在太空站繼續繁衍後代，不過隨著太空站人口增加，資源越少，所以太空站的管理階層決定重返地球勘查，派了 100 名青少年回到地球</p>
+<p>這部的劇本寫得還不錯，會吸引人想一直看下去，每一集的情節滿緊湊精采的，雖然到後面第五季開始有些情節好像有點離譜…不過反正是奇幻冒險嘛，很適合配飯吃的劇</p>
+<p>先打預防針就是這部女主角跟男主角都不太討喜 (雖然他們兩個真的培養感情到目前戲外真的結婚了😌)，我反而比較喜歡這部的女配男配們</p>
+<h3 id="雨傘學院-The-Umbrella-Academy"><a href="#雨傘學院-The-Umbrella-Academy" class="headerlink" title="雨傘學院 (The Umbrella Academy)"></a>雨傘學院 (The Umbrella Academy)</h3><img src="/post/MyNetflixList-1/The-Umbrella-Academy-post.jpg" class="">
+
+<ul>
+<li><a href="https://www.imdb.com/title/tt1312171/" target="_blank" rel="noopener">目前全季 imdb 平均 8.0</a></li>
+<li>2019~，未完結，目前共 2 季</li>
+</ul>
+<p><strong>2019 的新黑馬影集，雨傘學院!</strong></p>
+<p>一群出生在同一天具有特異功能的小孩們被雨傘學院的創辦人從世界各地收集而來，成為家人一起生活一起訓練，但是彼此之間個性不太合，隨著形同父親的創辦人死後，大家就各奔東西分崩離析(?)，接著某一天世界末日來臨…哈哈哈</p>
+<p>算是非典型的異能系列，搞怪 style 頗像 &lt;星際異攻隊&gt;，所以喜歡異攻隊的人，應該也會喜歡這部，<strong>一群有特異功能的怪人要拯救被自己毀滅的世界的故事XD</strong></p>
+<h3 id="獵魔士-The-Witcher"><a href="#獵魔士-The-Witcher" class="headerlink" title="獵魔士 (The Witcher)"></a>獵魔士 (The Witcher)</h3><img src="/post/MyNetflixList-1/The-Witcher-post.jpg" class="">
+
+<ul>
+<li><a href="https://www.imdb.com/title/tt5180504/" target="_blank" rel="noopener">全季 imdb 平均 8.2</a></li>
+<li>2020~，未完結，目前只有 1 季</li>
+<li>確定有第二季，預計 2021 上架</li>
+</ul>
+<p>影集改編自全球著名的遊戲大作 The Witcher 與同名小說 The Witcher XD</p>
+<p>影集劇本有加入原創的部分，並不完全與遊戲或小說相同</p>
+<p><strong>主演是鋼鐵英雄大帥哥亨利卡維特</strong>，其實滿意外他會演狩魔獵人傑洛特，這個角色的邪氣比較重，但亨利卡維特的臉一臉暖男相，很好奇他會怎麼詮釋，結果出乎意料演得滿好的，果然顏值才是一切(?!)</p>
+<img src="/post/MyNetflixList-1/The-Witcher-Game-post.jpg" class="">
+
+<p>其實不需要有太多遊戲背景知識也能觀看，看完後會觸發想了解遊戲的好奇心，所以前陣子 The Witcher 遊戲的購買量有因為此影集而暴增</p>
+<p>我有同事就因為看完獵魔士馬上買了遊戲來玩XD</p>
+<h3 id="韓劇-李屍朝鮮"><a href="#韓劇-李屍朝鮮" class="headerlink" title="韓劇-李屍朝鮮"></a>韓劇-李屍朝鮮</h3><img src="/post/MyNetflixList-1/Kingdom-post.jpg" class="">
+
+<ul>
+<li><a href="https://www.imdb.com/title/tt6611916/" target="_blank" rel="noopener">全季 imdb 平均 8.4</a></li>
+<li>2019~，未完結，目前有 2 季</li>
+</ul>
+<p>近期超好看的殭屍題材影集來啦～</p>
+<p>韓國繼&lt;屍速列車&gt;後推出了質量跟劇情都上乘的殭屍劇，而且背景還是設定在古代，增添了一種年代美，在古代的話更難跟喪屍對抗惹XD</p>
+<p><strong>Netflix 重金大排場製作的南韓影集，當然又少不了御用女星裴斗娜啦</strong></p>
+<p>飾演的是一名醫女，是劇中的關鍵角色之一</p>
+<img src="/post/MyNetflixList-1/Kingdom-Bae-Du-Na.jpg" class="">
+
+<p>男主角是因為&lt;與神同在&gt;再度大紅起來的朱智勛</p>
+<p><strong>第二季還有野蠻女神全智賢加盟女配角！之後第三季確定會有她的戲份</strong></p>
+<p>熱愛喪屍主題的，這部完全可以收入清單</p>
+<h2 id="劇情系列"><a href="#劇情系列" class="headerlink" title="劇情系列"></a>劇情系列</h2><h3 id="紙房子-La-casa-de-pape"><a href="#紙房子-La-casa-de-pape" class="headerlink" title="紙房子 (La casa de pape)"></a>紙房子 (La casa de pape)</h3><img src="/post/MyNetflixList-1/la-casa-de-pape-character.jpeg" class="">
+
+<ul>
+<li><a href="https://www.imdb.com/title/tt6468322/" target="_blank" rel="noopener">目前全季 imdb 平均 8.3</a></li>
+<li>2017~，未完結，目前有 5 季</li>
+</ul>
+<p>Netflix 最好看的西班牙影集，看一群要搶劫銀行的邊緣人之間的愛恨情仇XD</p>
+<p>為什麼叫做紙房子的原因，就是搶劫計畫的討論到實踐的過程都是依靠團隊首腦所做的紙模型演練，導演跟編劇在呈現整個劇情的方式還不錯，我覺得有點像瞞天過海的節奏，但少了瞞天過海交響曲般的美式幽默，變成是<strong>鬥牛式的西班牙粗暴風格</strong>哈哈</p>
+<p>一開始不太習慣聽西班牙語，後來隨著劇情推展，越來越進入狀況反而還滿喜歡的，這部我跟同學都很愛，還會學一下劇中角色，因為每個角色的性格都滿鮮明的，可以說每個都滿怪的啦(所以才是社會邊緣人？)，尤其是戴眼鏡的大叔，綽號 Professor 的首腦，本來以為他是最正常的，第一季中後期會發現其實他才是最怪的那個，是怪得很迷人的類型就是了</p>
+<img src="/post/MyNetflixList-1/la-casa-de-pape-post.jpg" class="">
+
+<p>這部劇因為大紅，導致裡面的 <strong>V 怪客面具加上紅色連身工裝</strong>也夯起來，不少人在遊行 (BLM?) &amp; Cosplay 的各種場合都有拿出來扮，甚至<del>台灣還有人穿著去嘉明湖</del></p>
+<p>為什麼是配 V 怪客的面具也是頗有深意，如果有看過 V 怪客這部電影的人應該知道 V 怪客是爭取自由與正義的象徵，聽起來好像有點矛盾？一群罪犯搶劫銀行綁架人質居然談什麼社會正義？</p>
+<p>嘛，資本主義社會所依靠的法律所伸張的正義有時是資訊不對等下的特權，這部分要延伸的就太多啦，此篇不談這麼嚴肅的玩意兒，總之這部劇除了有娛樂效果外劇情也滿有渲染力的，很適合無壓力追一波</p>
+<h3 id="后翼棄兵-The-Queen’s-Gambit"><a href="#后翼棄兵-The-Queen’s-Gambit" class="headerlink" title="后翼棄兵 (The Queen’s Gambit)"></a>后翼棄兵 (The Queen’s Gambit)</h3><img src="/post/MyNetflixList-1/the-queens-gambit-post.jpeg" class="">
+
+<ul>
+<li><a href="https://www.imdb.com/title/tt10048342/" target="_blank" rel="noopener">迷你影集一季 imdb 平均 8.7</a></li>
+<li>2020，已完結，目前只出一季，共七集</li>
+</ul>
+<p>這部是我 11 月底週末看的，結果一看停不下來，兩天 K.O.</p>
+<p>有朋友說前面很悶，可是我前面看得很入迷，因為前幾集多半是女主角小時候是如何逐漸步步成為西洋棋天后的過程，節奏比較慢，加上小羅莉性格其實不討喜也不可愛(?)</p>
+<p><strong>但我覺得前面鋪陳交代”為什麼”的情節很重要</strong>，尤其是到後面女主角被自己情緒困住的原因，以及到後來突破心靈桎梏的過程，都跟童年的遭遇有很大的關係，編劇在這一點也是處處提示</p>
+<p><strong>我最愛的情節是關於女主角很不在乎自己是西洋棋傑出”女性”的事情</strong>，女主角天生就是有一股傲氣，有打從骨子裡的”你可以，那我當然也可以，沒什麼不可以”的態度，為什麼要在乎我是女的還男的，我就只是想贏西洋棋</p>
+<blockquote>
+<p>「It’s mostly about my being a girl. It shouldn’t be that important, they didn’t print half the things I said.」<br>「Beth, dear, it makes you a celebrity.」<br>「Yeah, for being a girl.」</p>
+</blockquote>
+<p>這對於在那個年代的女性來說是很突破的思想，這也導致了女主跟其他同齡女孩格格不入</p>
+<p>我很喜歡整個劇情的編排與暗喻，裡面也有一點同性戀的劇情，可是有點讓人心碎哈哈哈哈，這部分就需要自己去看，再講下去我就要爆雷了</p>
+<img src="/post/MyNetflixList-1/queens-gambit-beth.jpg" class="">
+
+<p>這部劇也直接捧紅了演員 Anya Taylor-Joy！傑出的演技跟天生的傲然臉XDD，<del>而且身材有夠好</del>，看完會瞬間愛上她，雖然她在不少電影已經是戲份不少的配角，但這部劇使她的知名度大大提升，觀眾好感度很高，</p>
+<h2 id="英雄系列"><a href="#英雄系列" class="headerlink" title="英雄系列"></a>英雄系列</h2><p>英雄系列我看得滿多的，可是都沒有看完，下面列的推薦片其實我還沒追完…哈哈哈，要看得太多啦</p>
+<p>以下這兩部是我對天發誓絕對不雷，推薦給 DC or Marvel 迷</p>
+<h3 id="萬惡高譚市-Gotham"><a href="#萬惡高譚市-Gotham" class="headerlink" title="萬惡高譚市 (Gotham)"></a>萬惡高譚市 (Gotham)</h3><img src="/post/MyNetflixList-1/Gotham-post.png" class="">
+
+<ul>
+<li><a href="https://www.imdb.com/title/tt3749900/" target="_blank" rel="noopener">目前全季 imdb 平均 7.8</a></li>
+<li>2014~，未完結，目前有 5 季</li>
+</ul>
+<p>如劇名所言，這是一部跟蝙蝠俠前傳有關的影集，由福斯電視台製作，主角並不是布魯斯韋恩，而是高登警長早年在高譚市還是基層警察的故事</p>
+<p><strong>這部影集精彩的地方不是在正派上，是反派的精銳選角讓它紅了</strong></p>
+<p>DC 的英雄普遍都是因為有迷人的反派而讓人不斷回味啊，反觀漫威的反派只有終局之戰的薩諾斯我比較有感</p>
+<p>影集 Gotham 反派最深得我心的就是<strong>企鵝人的選角</strong>，是歷年來蝙蝠俠相關題材來最好的企鵝人選角</p>
+<img src="/post/MyNetflixList-1/Gotham-penguin.jpg" class="">
+
+<p>再來是謎語人的選角也很棒，小時候的貓女也是選得很好，蝙蝠俠的小時候選角，我覺得到第三季後面才比較有存在感，管家阿福都比他出色哈哈哈</p>
+<p>總而言之，故事就是圍繞在<strong>叱吒高譚市的那些壞人曾經善良的過去，為什麼會變成壞人，布魯斯韋恩早年跟他們之間的關係是什麼的前傳</strong>(劇本我記得是有受 DC 認可)，整個影集色調偏冷偏灰</p>
+<p>第三季開始情節變得有點雜亂，不過都還是 DC 宇宙中蝙蝠俠相關的東西，喜歡蝙蝠俠的話推薦可以看這部</p>
+<h3 id="漫威夜魔俠-Daredevil"><a href="#漫威夜魔俠-Daredevil" class="headerlink" title="漫威夜魔俠 (Daredevil)"></a>漫威夜魔俠 (Daredevil)</h3><img src="/post/MyNetflixList-1/Daredevil-suit.jpg" class="">
+
+<ul>
+<li><a href="https://www.imdb.com/title/tt3322312/" target="_blank" rel="noopener">目前全季 imdb 平均 8.6</a></li>
+<li>2015~2018，<strong>已完結停拍</strong>，目前有 3 季</li>
+</ul>
+<p>既然都推薦了一部 DC 宇宙的影集，當然也不能少了 MARVEL 宇宙</p>
+<p>夜魔俠應該是比較少台灣漫威迷會注意的英雄，大部分的人還是注意主流的那幾位，夜魔俠在漫威是除了鋼鐵人外，另一位沒有特異功能的重要英雄</p>
+<p>但他不像鋼鐵人有資產跟科技撐腰，就是完完全全的靠拳頭，角色的設定上感覺跟蝙蝠俠比較像，主角馬修小時候因為意外失明，五感開始變得異於常人，能夠聽聲辨位，受父親拳擊手的影響，馬修也擅長拳擊，白天是戴著墨鏡的盲人律師，晚上是戴著面具打擊罪惡的夜魔俠</p>
+<img src="/post/MyNetflixList-1/Daredevil-post.png" class="">
+
+<p>這部影集在劇情編排上很好的介紹了夜魔俠的崛起，<strong>迪士尼甚至在今年確定買回了夜魔俠的版權，所以這部影集不得不停播</strong> (影視巨獸參戰串流市場真的是好可怕)</p>
+<p>將夜魔俠魅力再度帶回螢幕上的主角本人 Charlie Cox 有公開表示自己很再度樂意出演，而我跟其他漫迷一樣希望迪士尼會選擇讓他出演…</p>
+<p>題外話：老蝙蝠俠班艾佛列克曾經演過夜魔俠電影喔XD，我小時候還看過</p>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>很認真過濾了結果還是挺多的，真的是花了不少青春在追劇啊</p>
+<p>影集系列有時間寫的話，下一篇會推薦 Netflix 的紀錄片跟動漫系列 (到底是看多少)</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/MyNetflixList-1/">http://havincy.github.io/post/MyNetflixList-1/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Netflix/">#Netflix</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/Serve-Https-iOS-Devices-By-Proxy/">用 mitmproxy 讓手機測試本地端網頁</a>
+            
+            
+            <a class="next" rel="next" href="/post/2019-NewZealand-Travel-Airport-Notes/">2019 紐西蘭自助-奧克蘭轉機出入境</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/MyNetflixList-1/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>用 mitmproxy 讓手機測試本地端網頁 | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">用 mitmproxy 讓手機測試本地端網頁</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: November 27, 2020
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Web/">Web</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>可以追溯至上一篇相關的紀錄 - <a href="../ServeHttpsWebLocally/">手機如何連線到加密的 localhost 本地端</a></p>
+<p>開發 Safari Web 時，在 Mac 用 Xcode 提供的模擬器可以測試 localhost web server，基本上能適應大部分情況</p>
+<p>但通常都會需要在實體 iPhone/iPad 上測試 Safari 網頁，畢竟模擬器的行為跟實體裝置還是有落差，尤其在 I/O 的部分</p>
+<p>這時候就會開始煩惱，究竟要怎麼樣輕鬆地在實體機上做 local build 的網頁測試呢 <span class="github-emoji"><span>😩</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f629.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>😩</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f629.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span><span class="github-emoji"><span>😩</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f629.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></p>
+<p>一種方式是把 local build 上傳到 cloud web service，再透過手機連線到該網頁</p>
+<p>這樣做雖然直覺但其實還是有點麻煩，於是團隊的大神就測試了 proxy 的方法，整體設置算是滿無痛的，特地來記錄一下！</p>
+<h2 id="前置作業"><a href="#前置作業" class="headerlink" title="前置作業"></a>前置作業</h2><ol>
+<li>透過 Proxy 的方式有個大前提是要<strong>電腦跟手機的網路是在同個網域下</strong></li>
+<li>下載 mitmproxy - <a href="https://mitmproxy.org" target="_blank" rel="noopener">https://mitmproxy.org</a></li>
+</ol>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install mitmproxy</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="Mac-端設置"><a href="#Mac-端設置" class="headerlink" title="Mac 端設置"></a>Mac 端設置</h2><p>因為我是用 Mac 操作，所以只紀錄 Mac 的部分，Windows 的設定可以<a href="https://docs.mitmproxy.org/stable" target="_blank" rel="noopener">去官網看看有沒有教學</a></p>
+<p>先去 System 的網路設定看一下目前使用的網路的 IP Address</p>
+<blockquote>
+<p>System preferences &gt; Network &gt; Advanced &gt; TCP/IP</p>
+</blockquote>
+<p>然後執行指令</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mitmproxy -p 8080</span><br></pre></td></tr></tbody></table></figure>
+
+<p>這時候會進入 mitmproxy 終端介面，可以觀察所有連線請求的狀態</p>
+<h2 id="iOS-端設置"><a href="#iOS-端設置" class="headerlink" title="iOS 端設置"></a>iOS 端設置</h2><p>打開 Settings -&gt; Wi-Fi 設定 -&gt; 選擇你連的 Wi-Fi 的更多資訊(i) -&gt; Configure Proxy</p>
+<p>在 Configure Proxy 設定中</p>
+<ol>
+<li>勾選 Manual</li>
+<li>Server 的設置填寫你剛剛在 Mac 網路設定中看到的 Server IP</li>
+<li>Port 設置 8080</li>
+</ol>
+<img src="/post/Serve-Https-iOS-Devices-By-Proxy/iOS-Config-Proxy.PNG" class="">
+
+<h3 id="下載-mitm-Certificate"><a href="#下載-mitm-Certificate" class="headerlink" title="下載 mitm Certificate"></a>下載 mitm Certificate</h3><p>mitmproxy 也提供了我們 SSL/TLS Certificate，讓網頁可以跑在 https 連線</p>
+<ol>
+<li>打開 Safari</li>
+<li>網址列輸入 <code>mitm.it</code></li>
+<li>這時候應該會看到以下的畫面，要你下載對應的 certificate，如果沒看到就是失敗了</li>
+</ol>
+<img src="/post/Serve-Https-iOS-Devices-By-Proxy/iOS-mitm-cert.PNG" class="">
+
+<p><strong>Note: 失敗的話，檢查裝置連到的網路是正確的，然後沒有連 VPN</strong></p>
+<p>有成功看到上面的畫面的話，在 Mac mitmproxy 終端機上也會看到對應的連線 log</p>
+<img src="/post/Serve-Https-iOS-Devices-By-Proxy/mitmproxy-terminal.png" class="">
+
+<h3 id="設定-Certificate"><a href="#設定-Certificate" class="headerlink" title="設定 Certificate"></a>設定 Certificate</h3><p>Settings -&gt; General -&gt; About -&gt; Certificate Trust Settings</p>
+<p>在 ENABLE FULL TRUST ROOT CERTIFICATES 的設定中將 mitmproxy enable</p>
+<img src="/post/Serve-Https-iOS-Devices-By-Proxy/iOS-Settings-Cert.PNG" class="">
+
+<h2 id="對應到-local-build"><a href="#對應到-local-build" class="headerlink" title="對應到 local build"></a>對應到 local build</h2><p>先終止原本的 <code>mitmproxy -p 8080</code> </p>
+<p>用以下指令 mapping 到你本地端的 local build</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mitmproxy -p 8080 --map-local ":mitmporxy/local/:&lt;your-build-path&gt;"</span><br></pre></td></tr></tbody></table></figure>
+
+<p><code>":A:B"</code><br>A - 手機連線時打入的網址（看你想要設什麼都可以）<br>B - 電腦本地端的 build path</p>
+<p>在電腦執行完是指令進入 mitmproxy 終端機，用 iOS 裝置打開 Safari，連線到設定好的 proxy address，就能讓手機透過電腦瀏覽 local build 了 <span class="github-emoji"><span>🙌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f64c.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> <span class="github-emoji"><span>🙌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f64c.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> <span class="github-emoji"><span>🙌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f64c.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></p>
+<p>Life gets easier now <span class="github-emoji"><span>😌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f60c.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/Serve-Https-iOS-Devices-By-Proxy/">http://havincy.github.io/post/Serve-Https-iOS-Devices-By-Proxy/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Network/">#Network</a>
+                    
+                        <a href="/tags/Proxy/">#Proxy</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/Angular-multipart-form-data-with-Safari/">Safari POST multipart/form-data 遇到的問題</a>
+            
+            
+            <a class="next" rel="next" href="/post/MyNetflixList-1/">Netflix 影集推薦片單第一彈</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/Serve-Https-iOS-Devices-By-Proxy/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

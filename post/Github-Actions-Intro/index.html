@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>Github Actions 做簡單的 Lint &amp; Build CI | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Github Actions 做簡單的 Lint &amp; Build CI</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: April 18, 2021
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/DevOps/">DevOps</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在公司幫忙弄 Jenkins + Gerrit 的 Infra 一陣子了，現在對於 CI/CD 頗有心得</p>
+<p>延伸閱讀：<a href="https://www.atlassian.com/continuous-delivery/principles/continuous-integration-vs-delivery-vs-deployment" target="_blank" rel="noopener">What is CI/CD</a> By ATLASSIAN</p>
+<p>從去年開始我就一直想試試看 Github 的 CI/CD 新功能，可是手上的 repo 並沒有什麼需要做 CI/CD 的範例，唯一能想到的只有這個 <a href="../GitPush-AutoDeploy-Hexo/">GitHub Action 自動部署 Hexo</a> 😁</p>
+<p>差不多在過年前，被朋友找去幫忙一個 Web 的 Side project，興起了乾脆在他的 Github Repo 導入 Github Actions 玩看看的念頭，順便改善一下整體的 Infra flow</p>
+<p>這篇只會簡單介紹怎麼啟用跟加入基本的 Linter &amp; Build 範例做 CI</p>
+<p>有時間會寫怎麼跟 AWS S3 &amp; Codedeploy 做串接部署到 EC2 instance，也就是後續 CD 的部分</p>
+<h2 id="Github-Actions-Linter-範例"><a href="#Github-Actions-Linter-範例" class="headerlink" title="Github Actions - Linter 範例"></a>Github Actions - Linter 範例</h2><p><a href="https://docs.github.com/en/actions/quickstart" target="_blank" rel="noopener">Github 的官方文件</a>有很好的 Quick start guidance</p>
+<h3 id="github-workflows"><a href="#github-workflows" class="headerlink" title=".github/workflows"></a>.github/workflows</h3><p>首先，在你的 repo 底下建立 .github/workflows folder，用來存放 <code>.yml</code> workflows</p>
+<p>廢話不多說，直接用 <code>yml</code> 來介紹我相信對工程師們會更直覺</p>
+<p>每當有 New push event 到 Repo，就跑 Linter 去檢查是否有 invalid usage</p>
+<figure class="highlight yml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">Linter</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span> </span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">paths-ignore:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">'README.md'</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="comment"># Set the job key. The key is displayed as the job name</span></span><br><span class="line">  <span class="comment"># when a job name is not provided</span></span><br><span class="line">  <span class="attr">lint:</span></span><br><span class="line">    <span class="comment"># Name the Job</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">Lint</span> <span class="string">code</span> <span class="string">base</span></span><br><span class="line">    <span class="comment"># Set the type of machine to run on</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="comment"># Checks out a copy of your repository on the ubuntu-latest machine</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span> <span class="string">code</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line"></span><br><span class="line">      <span class="comment"># Runs Python Black</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">actions/setup-python@v2</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Run</span> <span class="string">Python-Black</span> <span class="string">style</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">psf/black@stable</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">args:</span> <span class="string">"$<span class="template-variable">{{ steps.get_file_changes.outputs.files }}</span> --check"</span></span><br><span class="line">      </span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">dependencies</span></span><br><span class="line">        <span class="attr">working-directory:</span> <span class="string">frontend</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">npm</span> <span class="string">install</span> <span class="string">--save-exact</span></span><br><span class="line"></span><br><span class="line">      <span class="comment"># Run lint</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Frontend</span> <span class="string">lint</span> <span class="string">check</span></span><br><span class="line">        <span class="attr">working-directory:</span> <span class="string">frontend</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">npm</span> <span class="string">run</span> <span class="string">lint</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>P.S. 這邊的 Linter 因案而異，看是要跑什麼樣的檢查，我們是用 eslint 放在 package.json scripts 內</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">"scripts": {</span><br><span class="line">    ...</span><br><span class="line">    "lint": "eslint . --ext .js,.ts,.tsx --quiet"</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="結構簡介"><a href="#結構簡介" class="headerlink" title="結構簡介"></a>結構簡介</h3><p><strong>on</strong>: 定義由什麼 event 會觸發這個 workflow，在哪個 branch 上執行，default 就是 master/main branch</p>
+<ul>
+<li>我是用 push，大部分情形 push 也就夠了</li>
+</ul>
+<p><strong>jobs</strong>: 這一層定義你有多少個 Jobs 要跑，可以有多個並行或是有依賴關係</p>
+<ul>
+<li>我取叫 “lint”</li>
+</ul>
+<p><strong>jobs.runs-on</strong>: 希望跑在什麼機器上</p>
+<ul>
+<li>除非特殊需求，建議選擇跑在 ubuntu linux host，因為比較不會超出 Free Account 的 Limits，詳情可以看我底下分享</li>
+</ul>
+<p><strong>steps</strong>: 這個 job 需要多少步驟達成</p>
+<ul>
+<li>第一步就是要 checkout codes 下來</li>
+<li>後續步驟看個人想怎麼組織，如果都是單純跑 command lines，也可以都做 run</li>
+<li>我建議除非特殊需求可以 leverage <a href="https://github.com/marketplace?type=actions" target="_blank" rel="noopener">Github Actions Marketplace</a> 上面有的 module，比如後端的 Python Black 我就是直接用 psf/black@stable 這個 public actions，滿符合開源精神，也是 Github Action 的特色之一，如果自己也寫了不錯的 actions 也可以考慮放上面讓大家用</li>
+</ul>
+<p><strong>steps.uses</strong>: 指定跑某個 action</p>
+<ul>
+<li>如同上面說的，這個用法是可以重複使用 action，除了用別人 public 的，你也可以重複利用自己 workflows 底下的 actions</li>
+</ul>
+<p><strong>working-directory</strong>: 可以指定這個步驟要在哪個 folder 執行</p>
+<ul>
+<li>我覺得滿實用的，這樣就不需要還要多寫 cd 跳來跳去搞得很亂XD</li>
+</ul>
+<p><strong>steps.run</strong>: 就是跑指令</p>
+<ul>
+<li>滿直覺的，就不多做解釋，可以利用 pipe <code>|</code> 來串多個 commands</li>
+</ul>
+<p>更多詳細介紹可以直接看<a href="https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions" target="_blank" rel="noopener">官方 Syntax 文件</a></p>
+<h2 id="Actions-Page"><a href="#Actions-Page" class="headerlink" title="Actions Page"></a>Actions Page</h2><p>都設置好推到你的 remote repo 後，就會在頁面中的 Actions 裡面列出目前的 workflows，以及它們各自的狀態</p>
+<img src="/post/Github-Actions-Intro/Github-Actions-Page.png" class="">
+
+<p>每個 Steps 都能看在機器上跑的 outputs，也方便我們 Troubleshoot</p>
+<img src="/post/Github-Actions-Intro/Github-Action-Linter-Results.png" class="">
+
+<h2 id="Github-Actions-Build-範例"><a href="#Github-Actions-Build-範例" class="headerlink" title="Github Actions - Build 範例"></a>Github Actions - Build 範例</h2><figure class="highlight yml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">Build</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span> </span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">paths-ignore:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">'README.md'</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">buildFrontend:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">CI</span> <span class="bullet">-</span> <span class="string">Frontend</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">strategy:</span></span><br><span class="line">      <span class="attr">matrix:</span></span><br><span class="line">        <span class="attr">node-version:</span> <span class="string">['13.14.x']</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="comment"># Checks out a copy of your repository on the ubuntu-latest machine</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span> <span class="string">code</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line">      </span><br><span class="line">      <span class="comment"># Set up required dev env</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">Node.js</span> <span class="string">${{</span> <span class="string">matrix.node-version</span> <span class="string">}}</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/setup-node@v1</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">node-version:</span> <span class="string">${{</span> <span class="string">matrix.node-version</span> <span class="string">}}</span></span><br><span class="line">      </span><br><span class="line">      <span class="comment"># Building</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">dependencies</span></span><br><span class="line">        <span class="attr">working-directory:</span> <span class="string">frontend</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">npm</span> <span class="string">install</span> <span class="string">--save-exact</span></span><br><span class="line">  </span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Building</span> <span class="string">Frontend</span></span><br><span class="line">        <span class="attr">working-directory:</span> <span class="string">frontend</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">npm</span> <span class="string">run</span> <span class="string">build</span></span><br><span class="line">      </span><br><span class="line">  <span class="attr">buildBackend:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">CI</span> <span class="bullet">-</span> <span class="string">Backend</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">strategy:</span></span><br><span class="line">      <span class="attr">matrix:</span></span><br><span class="line">        <span class="attr">python-version:</span> <span class="string">['3.x']</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="comment"># Checks out a copy of your repository on the ubuntu-latest machine</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span> <span class="string">code</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line">      </span><br><span class="line">      <span class="comment"># Set up required dev env</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Set</span> <span class="string">up</span> <span class="string">Python</span> <span class="string">&amp;</span> <span class="string">pip</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/setup-python@v2</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">python-version:</span> <span class="string">${{</span> <span class="string">matrix.python-version</span> <span class="string">}}</span></span><br><span class="line">      </span><br><span class="line">      <span class="comment"># Building</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Building</span> <span class="string">Backend</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">docker-compose</span> <span class="string">build</span> <span class="string">db</span> <span class="string">job</span> <span class="string">backend</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>Side project 目前是把前端跟後端放在一起，所以在做 Build 這一步，我是前後端一起做檢查</p>
+<p>比較需要留心的就是<strong>我是分兩個 jobs - <code>buildFrontend</code> &amp; <code>buildBackend</code>，彼此之間沒有依賴，是同時分開跑</strong>，如果需要 jobs 之間有依賴關係可以參考 <a href="https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idneeds" target="_blank" rel="noopener">jobs.needs doc</a></p>
+<p>再來就是 <code>jobs.strategy.matrix</code>，方便我們將某些固定的數值或是使用版本集中管理，在後續步驟用環境變數取出 <code>matrix.your-strategy</code> 就能獲取該值</p>
+<h2 id="Github-Actions-免費上限"><a href="#Github-Actions-免費上限" class="headerlink" title="Github Actions 免費上限"></a>Github Actions 免費上限</h2><p>目前的<a href="https://docs.github.com/en/github/setting-up-and-managing-billing-and-payments-on-github/about-billing-for-github-actions#about-billing-for-github-actions" target="_blank" rel="noopener">官方文件對於免費帳戶的限制</a>算是寬裕</p>
+<ul>
+<li>GitHub Free: Storage 500 MB, 2,000 mins per month</li>
+</ul>
+<p>以個人跟小專案來說是很夠用的，在每次 Commit 跑一些簡單的 CI/CD，一次都在 5 分鐘內會結束，除非一個月內有到 400 commits 量，一般來說都不會超過</p>
+<p>要注意的就是 OS 的規則，如果是跑在 Linux 上，分鐘數的權重是一樣的，但如果是跑在 MacOS 上，分鐘數就要都乘上 10，Windows 則是乘 2，所以我上面才會建議盡量都讓 workflows 跑在 ubuntu machines</p>
+<blockquote>
+<p>For example, using 1,000 Windows minutes would consume 2,000 of the minutes included in your account. Using 1,000 macOS minutes, would consume 10,000 minutes included in your account.</p>
+</blockquote>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>要導入基本的 Github Actions 相信對有經驗的工程師都不是太難，如果有比較複雜的 build flow，建議先將自己的環境順好，把一些能夠包裝成 bash script 或是 docker build 之類的都先整理一遍，弄順整個流程，手動 run 一次，再來加入 Github Action CI 會比較快速</p>
+<p>其實就是把我們平常在 local 做過的事情，標準化起來讓機器幫我們做</p>
+<p>有了簡單的 CI 對於程式碼的基本維護有很大的保障，避免有人 push 會 break build 的 commit 在多人協作是很重要的自動化，畢竟我們不能指望開發者永遠不會犯錯(包含自己) 😆</p>
+<p>P.S. 突然要感謝微軟收購，沒收購之前的 Github 根本不可能有這種很吃雲端伺服器的功能吧哈哈</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/Github-Actions-Intro/">http://havincy.github.io/post/Github-Actions-Intro/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/GithubActions/">#GithubActions</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/GitPush-AutoDeploy-Hexo/">GitHub Action 自動部署 Hexo</a>
+            
+            
+            <a class="next" rel="next" href="/post/2020-Book-Reading-List/">我的 2020 閱讀書單</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/Github-Actions-Intro/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

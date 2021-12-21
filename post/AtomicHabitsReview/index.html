@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>書籍&lt;原子習慣&gt;讀後感 | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">書籍&lt;原子習慣&gt;讀後感</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: February 18, 2020
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E8%AE%80%E6%9B%B8%E5%BF%83%E5%BE%97/">讀書心得</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="介紹"><a href="#介紹" class="headerlink" title="介紹"></a>介紹</h2><p>原子習慣 (Atomic Habits: An Easy &amp; Proven Way to Build Good Habits &amp; Break Bad Ones)</p>
+<p>這本書講得是如何透過每天微小的進步，逐漸養成一個好習慣，並且漸漸消除不好的習慣</p>
+<p>作者前面講了自己的親身故事，來告訴讀者凡事只要努力累積沒有辦不到的事情，除了分享心路歷程之外，提供了很多實際的例子跟如何實行的建議，從實務上帶領讀者開始建立原子習慣</p>
+<p>博客來連結：<a href="https://www.books.com.tw/products/0010822522" target="_blank" rel="noopener">https://www.books.com.tw/products/0010822522</a></p>
+<h2 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h2><p>作者的經歷滿勵志的，也不算是有優渥背景的人，就是一個普通人，少年時期經歷那樣的挫折，換作一般人可能已經放棄自己了，但他沒有放棄自己，還從困難的遭遇中發現能帶給世人好處的幾個人生準則</p>
+<p>作者的部落格：<a href="https://jamesclear.com/about" target="_blank" rel="noopener">https://jamesclear.com/about</a></p>
+<p>這本書講了不少實作面加上作者自己搜集整理的研究資料，提供有說服力的數據，來證明微小的改變或特定的模式是有用的</p>
+<p>對我個人來說最有用的就是他提到要培養一個長期習慣的關鍵就是不要著急，先把想完成的事情 break down 成一件一件小事，然後要設立明確的數字目標，人們通常都會給自己設立一個大目標，舉例來說會說我要減肥，但常常沒有一個明確的數字跟完成的日期，很容易就不了了之，正確的做法是想想看減肥需要做什麼事情，在著手一步一步實行，每天堅持</p>
+<p>把目標拆解成具有明確行動的事然後慢慢執行</p>
+<blockquote>
+<p>目標是減肥，要怎麼做？做有氧運動<br>做什麼樣的有氧運動？跑步<br>跑步一週要跑幾次？先從兩次開始<br>每次要跑多久？20 分鐘</p>
+</blockquote>
+<p>這樣去拆解目標後會對於要完成什麼事情更有確定性</p>
+<p>書中也建議要先了解自己的習慣有哪些，建立一個目前的正向習慣清單與負向習慣清單，接著根據這個清單思考想要培養什麼新的正向習慣或是加強哪些現有的正向習慣，想移除那些負向習慣，如此一來就會有更清晰的 road map</p>
+<h3 id="實行結果"><a href="#實行結果" class="headerlink" title="實行結果"></a>實行結果</h3><h4 id="運動習慣"><a href="#運動習慣" class="headerlink" title="運動習慣"></a>運動習慣</h4><p>以我自己來說，還沒看這本書之前，在出社會快一年後，有感於長期久坐辦公室，身體好像越來越硬，心中就有運動計畫，只有理想沒有明確的目標，不定期每週找一兩天揪同事去河濱跑步，遇到下雨就也沒去，尤其台北很常下雨，所以根本沒有什麼實質進度</p>
+<p>後來痛下決心買了連鎖健身房的會員，先前研究做瑜珈對身心靈平衡很有幫助，加上一直都對瑜伽有好奇心，就先從上瑜珈團課開始，一週兩次的頻率，持續了三個月後，逐漸變成一週三次，再最後變成現在一週四次的瑜珈</p>
+<p>從完全碰不到地板到能輕鬆雙掌貼地前彎，最好的見證人就是同學們，見面後都不相信我說的是真的，非得要我實際做一次嚇嚇他們，因為從高中開始我就是公認的筋骨僵硬，我也沒想到自己有一天會跟筋很軟扯上關係</p>
+<p>一開始一定是最難熬，除了新手上瑜珈拉筋過程本來就很崩潰之外，身為社畜平時白天要上班，下班後通常都很懶，很難還要撥時間去運動，要撐過一段很想掉頭回家的時期</p>
+<p>以我個人而言是堅持一個月後苦難就過去了，尤其有幾次本來心情很糟，上完瑜珈反而得到紓解，因為瑜珈是一個你必須專注於當下的運動，如果分心想事情，你可能就會失去平衡跌倒了，感受不了身體的肌肉，更無法真正放鬆去增加延展，大部分老師還會搭配一些靜心的音樂XD</p>
+<p>真的建立起每週上瑜珈的習慣後，才買了教練課，學習怎麼使用重訓器材跟徒手訓練，後續建立起一週至少兩次重訓的習慣</p>
+<p>瑜珈幫助我筋骨放鬆跟感受什麼叫拉直脊椎，對於身體去記住正位的感受很有用，透過重訓增加肌肉量後，以前因為手臂肌肉不足做不了的動作漸漸都做得到了，不管學什麼運動，正確的姿勢永遠比你能做到多少還重要，尤其重訓沒有學正確的姿勢，就算練了一身肌肉，年紀大了也會開始出現問題(同事的慘痛經驗)</p>
+<p>當初在簽約的時候，專員一直推銷搭配教練課有折扣，那時候我知道我的目標是什麼，很果決的說等我先習慣來運動了再談，我建議本來沒有運動習慣的不要輕易買，因為你不知道要什麼，還沒有嚐到自主堅持後的成果，就花一大筆錢不太明智</p>
+<p>以上我自己建立運動習慣的方式跟原子習慣裡面提到的漸進式方法一樣，先從自己可以負擔的頻率慢慢加碼，重點還是堅持，然後盡量找離自己住處或工作的地方近的運動場所，減少費力程度，才更好建立運動的習慣</p>
+<h3 id="環境的建立"><a href="#環境的建立" class="headerlink" title="環境的建立"></a>環境的建立</h3><p>如果說沒有自信能夠堅持，原子習慣提供的整套方法將行為切得更細一點，他有提到場景與物品的暗示對我們的大腦建立連結很重要，比如說你可以在運動日就把運動裝擺在顯眼的地方，讓自己的大腦與神經去適應，終極目標是讓習慣變成是反射動作一樣，他不強調非要有個遠大的目標，魔鬼永遠藏在細節裡</p>
+<p>個人覺得用運動服裝當暗示與連結這點滿有用的，在天人交戰的時候，想到包包有帶晚上要運動的服裝．最終就還是會去健身房報到</p>
+<p>書本裡面除了正向習慣的環境建立，也有提到如何慢慢遠離負面習慣</p>
+<p>比如拿滑社群這個我認為較為負向的習慣來說(之後有時間針對社群對心理健康影響寫一篇好了)，直接一點的做法就是把應用程式移除，或是不要設置自動登入，每次登入都要重新輸入帳密，讓使用的不便性提高，現在 iOS &amp; Android 也有推出數位健康的功能，可以設定社群軟體的使用時間，避免自己浪費太多時間在滑動態，或是手機成癮</p>
+<p>社群的戒斷早在接觸這本書之前我就有在做，目前應該是成功了，現在正在想辦法戒除睡前滑手機的習慣，終極目標是完全讓手機遠離床邊，之前有直接做這件事，但發現我在床上居然會因為手機不在身旁有點焦慮，反而失眠，所以打算還是慢慢來，先減少睡前滑手機的時間，希望上半年能達成終極目標</p>
+<h3 id="日曆追蹤"><a href="#日曆追蹤" class="headerlink" title="日曆追蹤"></a>日曆追蹤</h3><p>我目前按照書本推薦的日曆追蹤方法，來建立一些每日小習慣，日曆追蹤顧名思義就是今天如果有完成這件事就做一個標記，盡可能讓標記不要斷掉，我自己是下載相關應用程式來記錄跟提醒，滿多這類型的應用可以下載的</p>
+<p>我其中一個現在正建立的習慣是吃早餐XD，設定早上提醒，只要那天早上我有吃早餐我就會標記一個勾勾，看著他的曲線跟最長連續天數來知道這個習慣的強度到哪了</p>
+<p>當然喜歡紙本的話就去買一個隨身日曆來記也是一樣的效果</p>
+<h3 id="獎勵回饋"><a href="#獎勵回饋" class="headerlink" title="獎勵回饋"></a>獎勵回饋</h3><p>書中還有提到一些心理學效應，我們人類是會食髓知味的動物，要讓習慣的連結更強，就要設計一套讓我們下意識覺得做完會有好處的機制，讓我們感覺良好，我們才有辦法持續做下去，直到不需要獎勵</p>
+<p>如果有成功達成特定目標，就買給自己已經想要很久的東西，諸如此類的獎勵，當然如果自己意志力真得太薄弱，無法靠自我獎勵得到成就感，那麼也可以尋求朋友的幫助，可以互相監督跟互相鼓勵</p>
+<p>另外一個我比較沒有那麼喜歡的獎勵回饋是發社群，藉由大家的關注跟讚美來產生多巴銨的正向反應，雖然不可否認這的確有用，但我懷疑難道不會反而助長虛榮心嗎，有可能到最後這一切都不是為了個人成長，而是為了能得到多少人的關注，社群媒體確實帶給人類不少歡樂，我自己也曾經是，但我認為他跟毒品一樣，要小心使用</p>
+<h2 id="結尾"><a href="#結尾" class="headerlink" title="結尾"></a>結尾</h2><p>因為我做事情就是一步一步來，雖然很慢，但我會盡我所能堅持下去，正好跟原子習慣的核心概念很像，所以讀完這本書後沒有什麼茅塞頓開或是新天地的感覺，但他裡面提供的一些研究數據跟作者本人的方法，真的滿有幫助的，值得一讀</p>
+<p>記住要以自己能力所及開始，不要一開始就把自己逼太緊，壓力太大導致反效果，累了也要適度的讓自己休息，重新出發</p>
+<p>其實最重要的還是心法，摸索著慢慢的去知道自己想要什麼，想怎麼做，想做多久</p>
+<p>願大家都能透過原子習慣的方法，逐漸變成自己想要成為的樣子</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/AtomicHabitsReview/">http://havincy.github.io/post/AtomicHabitsReview/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E6%9B%B8%E7%B1%8D-%E5%8E%9F%E5%AD%90%E7%BF%92%E6%85%A3/">#書籍-原子習慣</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/ImproveCarpalTunnelSyndrome/">如何改善滑鼠手</a>
+            
+            
+            <a class="next" rel="next" href="/post/ProgressiveWebApplicationOverview/">PWA 與 Service Worker & 在 iOS Safari 的限制</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/AtomicHabitsReview/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

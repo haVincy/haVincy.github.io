@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>輸出 Kobo 電子閱讀器的註記 | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">輸出 Kobo 電子閱讀器的註記</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: March 17, 2020
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Tips/">Tips</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="為什麼買電子閱讀器"><a href="#為什麼買電子閱讀器" class="headerlink" title="為什麼買電子閱讀器"></a>為什麼買電子閱讀器</h2><p>最重要的原因當然就是攜帶方便，對租屋族來說不會堆書在家，還有護眼，再來就是個人覺得比較好做筆記，今年的一個小目標是想把看完的書裡面的畫記都記錄下來，而不是每次都只有在看完的當週記憶力最好，以為自己又漲知識，過了一個月只記得零碎的內容，實際上吸收效率很差</p>
+<p>買實體書用筆做筆記然後要記錄到電腦裡又太耗時，用電子書的方式是最方便的，記完後直接輸出就好了</p>
+<h3 id="為什麼選-Kobo"><a href="#為什麼選-Kobo" class="headerlink" title="為什麼選 Kobo"></a>為什麼選 Kobo</h3><p>去年趁著雙十一購物節購入了人生第一台電子書閱讀器，挑選的是 <a href="https://www.rakuten.com.tw/shop/rakutenkobojapan/product/okwz7556s/" target="_blank" rel="noopener">Kobo Libra H2O</a>，整體使用起來很滿意，大小剛好，單手也很可以</p>
+<p>當初上網 survey 了一下，一直在 Amazon 的 Kindle 與 Kobo 之間抉擇</p>
+<p>最終選擇 Kobo 的原因除了完善的中文支援，主要是註記的功能， Kindle 雖然註記比較方便，介面經過這些年的演進越來越好，但有限制匯出的註記不能超過全書的 10%，對於我個人使用習慣而言就很不方便，加上 Kobo 的價錢確實比較甜XD</p>
+<p>中文書與英文書比例，Kobo 的樂天能支援的數量是屬於中間，而英文書最新最多的就是 Amazon，如果比較偏好看英文書，買 Kindle 搭配 Amazon 的商店來說或許會是最好的，主要的閱讀書群是中文類但也不排除會看英文書的話，我相信 Kobo 會是兩者兼具的好選擇</p>
+<h3 id="閱讀器-vs-平板"><a href="#閱讀器-vs-平板" class="headerlink" title="閱讀器 vs 平板"></a>閱讀器 vs 平板</h3><p>電子書閱讀器，又叫 E-Reader、E-Ink、電子紙、電子墨，是為需要長時間閱讀螢幕者所設計的電子載體</p>
+<blockquote>
+<p>所謂的電子墨水是由數百萬個微膠囊所構成，在每個微膠囊裡均含有帶負電荷的白色電泳粒子，以及帶正電荷的黑色電泳粒子，把電子墨水塗佈在一層塑膠薄膜上，再貼覆上薄膜電晶體（TFT）電路，利用正負相吸的原理，當電場接通時，該區塊對應的黑或白粒子會移動至微膠囊的頂端，使用者在該區塊上，就能看見白色或黑色，經由驅動 IC 控制，便可形成像素圖形，在電子紙螢幕上顯現出來。 </p>
+</blockquote>
+<p>平板拿來閱讀第一個要考慮的就是眼睛健康，因為平板的螢幕是 LED 自體發光，而電子墨的螢幕是依賴環境光源，雖然現在 Android/iOS 的軟體都有針對環境光線自己調整螢幕光源，但對人眼來說刺激還是比較大</p>
+<p>電子閱讀書也比一般螢幕來得省電，因為他只會在畫面變化時才會需要電力，單純顯示上的耗電率很低</p>
+<p>如果是為了搭配上課筆記的話，買平板會是比較好的選擇，大二那時候終於受不了要印一堆紙本上課，買了iPad (第三代)，使用筆記類的 APP 輸入上課用的 PPT 或教材，可以在上面做各種筆記跟新增一個空白頁，對討厭帶一堆紙的我而言簡直是救星</p>
+<p>以單純筆記跟學習而言，那就買平板，若是單純為了閱讀，那我會認為買電子閱讀器是最好的</p>
+<h2 id="Kobo-匯出註記"><a href="#Kobo-匯出註記" class="headerlink" title="Kobo 匯出註記"></a>Kobo 匯出註記</h2><p>進入正題，前面提到我買電子閱讀器的動機之一是為了能方便整理畫在書中的註記，而 Kobo default 居然沒有選項能夠匯出註記，上網查到解法是需要自己去改 Kobo 的設定</p>
+<h3 id="改動設定檔"><a href="#改動設定檔" class="headerlink" title="改動設定檔"></a>改動設定檔</h3><ol>
+<li>將 Kobo 電子閱讀器連接到電腦</li>
+<li>打開 Kobo eReader 的 folder</li>
+<li>找到 .kobo -&gt; Kobo -&gt; Kobo eReader.conf</li>
+</ol>
+<p>用文字編輯器打開 Kobo eReader.conf</p>
+<p>如果電腦有打 code 常用的幾個文字編輯器就選一個自己喜歡用的就好了，若是沒有，在 Windows 右鍵用管理員身份用記事本開啟也可以，Mac 的話用文字編輯打開</p>
+<p>把以下的設定複製貼上加入，放在最後面</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// in Kobo eReader.conf</span><br><span class="line">[FeatureSettings]</span><br><span class="line">ExportHighlights=true</span><br></pre></td></tr></tbody></table></figure>
+
+<p>需要注意的是<strong>這兩段一定要分兩行</strong>，因為看起來他的設定檔的語法是用 <code>[]</code> 作為設定的分類，底下列著子類別，所以不允許這兩段放在同一行，parser 無法解析就不會 apply 成功</p>
+<h4 id="匯出註記"><a href="#匯出註記" class="headerlink" title="匯出註記"></a>匯出註記</h4><p>安全移除你的 Kobo eReader，這時候進到你的書籍，點擊在某本書籍旁邊的 More info (三個點點)，就會看到匯出畫線的選項了</p>
+<p>選擇匯出畫線後，他會跳出一個視窗，會輸出成 <code>.txt</code> 檔案在母資料夾下，可以連接電腦 check 看看</p>
+<p>所以實際上 Kobo eReader 已經支援匯出註記，但卻不公開給使用者使用XD，否則我們也無法只改設定檔就新增一個項目在選單</p>
+<h3 id="使用其他人開發的工具"><a href="#使用其他人開發的工具" class="headerlink" title="使用其他人開發的工具"></a>使用其他人開發的工具</h3><p>我有找到有位大神做了個 <a href="http://www.vixual.net/blog/archives/117" target="_blank" rel="noopener">Tool</a> 可以將註記輸出成不同檔案形式，包含 <code>csv</code>, <code>html</code></p>
+<p>如果有更進階的需求可以考慮看看這個，但我還沒有測試過是不是真的可用，看這文章的日期還滿新的，應該是沒問題</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/ExportNotesFromKoboEReader/">http://havincy.github.io/post/ExportNotesFromKoboEReader/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Kobo-E-Reader/">#Kobo E-Reader</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/PromiseAsyncAwaitOverview/">Promise & async & await 機制</a>
+            
+            
+            <a class="next" rel="next" href="/post/InstallNVGPUCUDAOnUbuntu/">Ubuntu 16.04 安裝 NVIDIA GPU driver & Cuda</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/ExportNotesFromKoboEReader/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

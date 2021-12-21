@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>書籍&lt;為什麼要睡覺&gt;讀後心得 | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">書籍&lt;為什麼要睡覺&gt;讀後心得</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: April 5, 2020
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E8%AE%80%E6%9B%B8%E5%BF%83%E5%BE%97/">讀書心得</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="介紹"><a href="#介紹" class="headerlink" title="介紹"></a>介紹</h2><p>這本書的作者叫馬修·保羅·沃克（Matthew Paul Walker)，研究領域是睡眠對人類健康的影響，在加州柏克萊分校擔任神經科學的教授，還創立了「人類睡眠科學中心」（Center for Human Sleep Science)，目前也在各個聯盟協會與科技公司擔任顧問，其中一職是 Google 的生命科學部門的睡眠科學家</p>
+<p>博客來連結：<a href="https://www.books.com.tw/products/0010813161" target="_blank" rel="noopener">https://www.books.com.tw/products/0010813161</a></p>
+<p>書籍一開頭就開宗明義的直接談睡眠缺乏的問題，然後挑明了睡眠缺乏會有什麼疾病，實驗過程與研究來源的數據都呈現給你看，算是有掌握住想翻閱這本書的客群吧！</p>
+<p>每個章節也毫不廢話，都是圍繞在睡眠這個主題上，延伸到大腦神經科學與藥物，作者把自己數年的專業濃縮成一本不到四百頁的書來告誡世人睡眠的重要性</p>
+<p>這本書真的非常值得一讀，學到很多新知識之外也能根據裡面提供的那些可信賴的研究方法開始實踐，改善自身的睡眠情況</p>
+<h2 id="生理時鐘"><a href="#生理時鐘" class="headerlink" title="生理時鐘"></a>生理時鐘</h2><h3 id="褪黑激素的誤解"><a href="#褪黑激素的誤解" class="headerlink" title="褪黑激素的誤解"></a>褪黑激素的誤解</h3><p>印象深刻之一的是關於以前在生物課一直不斷學到的褪黑激素的真正作用，過去我的認知是它是跟我們生理時鐘的有關的激素，如果褪黑激素分泌不足就會影響睡眠，但實際上褪黑激素對睡眠本身的影響力不大，它是一種告訴大腦天黑了的訊號，但並不是睡眠品質的關鍵</p>
+<h3 id="遺傳決定你的生理時鐘"><a href="#遺傳決定你的生理時鐘" class="headerlink" title="遺傳決定你的生理時鐘"></a>遺傳決定你的生理時鐘</h3><p>作者提到的是基因演化的立論，在遠古時代人類還未出現聚落時，時常需要到處遷徙打獵覓食，而人類是一個群體的物種，這時候在一個群體內就不可能所有人都一起睡著，必定是輪流守夜，讓群體的存活機率提高，所以自然就有了晨型人、夜貓子的差別</p>
+<p>像我自己覺得我從小到大就是夜貓子，好像無法變成晨型人，早晨我的狀態都不是最好，入夜了反而越來越好</p>
+<p>延伸閱讀: <a href="https://technews.tw/2019/03/02/life-really-is-harder-for-night-owls/" target="_blank" rel="noopener">晨型人和夜貓族的腦袋狀況不一樣</a></p>
+<h3 id="咖啡因"><a href="#咖啡因" class="headerlink" title="咖啡因"></a>咖啡因</h3><p>除了時差，許多現代人不可或缺的咖啡因正是擾亂生理時鐘的殺手之一</p>
+<blockquote>
+<p>咖啡因的作用在於搶奪了腦中本該接收腺苷的位置（受體）。咖啡因一旦占據了這些受體後，並不會像腺苷一樣讓你想睡，相反的，咖啡因擋住這些受體，並有效的使受體不活躍，發揮掩蓋劑的作用，就好像你把手指插入耳朵中，把聲音隔絕掉的情形一樣。咖啡因藉由占領、綁架這些受體，阻擋了平常由腺苷對腦發送的想睡訊號</p>
+</blockquote>
+<p>根據作者的說法，咖啡因持續存在於體內的長度，至少也要耗費六小時以上才能完全代謝掉，有時甚至八小時了都還在體內，所以建議真的一天得喝一杯咖啡的話，要在下午三點前喝會是最好的</p>
+<h2 id="睡眠階段"><a href="#睡眠階段" class="headerlink" title="睡眠階段"></a>睡眠階段</h2><p>這部分我覺得是全書中最有趣的，一般我們熟知的三段睡眠</p>
+<ol>
+<li>非快速動眼期</li>
+<li>快速動眼期 (夢境會發生的階段)</li>
+<li>深層睡眠</li>
+</ol>
+<p>非快速動眼期會跟快速動眼期不斷交錯發生，就像交響樂一般，所以常常會以一個週期來衡量睡眠，深層睡眠對修復身體還有形成長期記憶來說很重要，而常常被忽略的屬於作夢階段的快速動眼睡眠卻是我們大腦快速連結現有資訊甚至引發創造力的階段</p>
+<p>所以作者的論點就是作夢對於我們人類來說是重要的而且是必要的，越荒唐的夢反而顯示連結資訊與創造力越強，而在有創傷症候群的人身上做的研究也指出作夢對於修復情緒有著高度相關性</p>
+<blockquote>
+<p>只有那些在事情發生之際，夢中明顯演示出自己痛苦經驗的人，後來才從絕望中解脫，在一年後精神狀態恢復，臨床上已可判定沒有憂鬱。有做夢，但沒夢到那些痛苦經驗的人，則無法從事件擺脫，仍然被持續存在的強烈憂鬱暗流糾纏。</p>
+</blockquote>
+<p>這代表夜間多夢不一定是壞事，只是你醒來的時候正好是快速動眼期，才誤以為自己很多夢，但事實上每個人一夜之間都會經歷數個快速動眼期，真正影響你睡眠品質的還是深層睡眠的多寡而不是快速動眼期的多寡，因為他在大腦發展上扮演了重要的角色啊</p>
+<blockquote>
+<p>快速動眼睡眠的夢不只是用有創意的方式把訊息融合在一起，還把事情往前推了一步。快速動眼睡眠能從許多筆訊息中，產生出抽象的整體知識及上層概念。想像一名經驗老到的醫師，觀察到病患身上數十種細微症狀後，似乎能夠靠直覺做出診斷</p>
+</blockquote>
+<p>裡面還有提到另個有趣的實驗是，辨識能在夢境有清醒自我意識還能控制身體的人（想到電影全面啟動跟柯南貝克街的亡靈XD），書中描述的這些人也是極少數，而科學家做了一連串實驗想判斷這群人說的是真的</p>
+<p>首先會先用磁核共振的機器紀錄他們做特定動作時，腦部會有反應的區塊，然後約定好動作當作暗號，他們進入夢境後，在夢境會做出約定好的暗號，比如右手握拳之類的，這時候科學家就在旁邊觀看機器比對</p>
+<p>最後實驗證明這些自稱能掌控夢境的人確實能掌控夢境，因為他們在夢境中做出約定好的動作，與相對應產生反應亮光的腦區是一樣的，超神奇的，我也好想掌控夢境哈哈</p>
+<h2 id="睡眠與失智"><a href="#睡眠與失智" class="headerlink" title="睡眠與失智"></a>睡眠與失智</h2><p>因為外婆這兩年被診斷出有失智的關係，有大概了解失智症的成因，是源於大腦功能的退化，然而這本書提供的觀點卻又更詳盡，顛覆了我原本淺薄的認知</p>
+<p>睡眠與我們大腦密不可分，也就是說失智症的成因事實上與睡眠有關聯，並不單純是年紀變大衰老而發生的，作者認為年紀並非阿茲海默的主因，近年來罹患失智症的年齡提前，人數也一直變多，可以部分歸因於是現代人的睡眠不足與睡眠剝奪而造成大腦的損傷</p>
+<blockquote>
+<p>阿茲海默症與β類澱粉蛋白的累積有關，這種有毒蛋白質會在腦中聚集成有黏性的沉積物，稱為斑塊。類澱粉蛋白斑塊對神經元有毒，會殺死周遭的腦細胞。然而奇怪的是，類澱粉蛋白斑塊只會影響腦的某些部分，目前原因還不清楚</p>
+</blockquote>
+<blockquote>
+<p>睡眠不足與阿茲海默症病情發展的交互作用是一種惡性循環。沒有充分的睡眠，腦中類澱粉蛋白斑塊會愈積愈多，尤其累積在產生深度睡眠的腦區，造成破壞。由於這樣的破壞，導致深度非快速動眼睡眠的喪失，腦部在夜間排除類澱粉蛋白的能力因而降低，使得更多類澱粉蛋白沉積。</p>
+</blockquote>
+<p>之前聽家人陪外婆去台大醫就診時，醫生有建議我們要監控外婆的睡眠情況，當時我沒有陪診，事後聽阿姨告訴我可能需要買智慧型裝置跟攝影機，現在想想也許那時候就應該去思考睡眠與失智的關聯才對</p>
+<p>不只是阿茲海默，睡眠缺乏也跟心臟病、癌症、壽命有關，如果有在練重訓，睡眠對於生長肌肉很重要，熬夜長不了肌肉</p>
+<blockquote>
+<p>只能睡五個半小時，減少的體重有70％來自瘦肉，也就是肌肉，而非脂肪。反觀每晚有八個半小時睡眠的那組人，可以看到更令人滿意的狀況：減少的體重有遠超過50％來自脂肪，而肌肉保留得比較多</p>
+</blockquote>
+<h2 id="睡眠剝奪是種文明病"><a href="#睡眠剝奪是種文明病" class="headerlink" title="睡眠剝奪是種文明病"></a>睡眠剝奪是種文明病</h2><p>書內有提到一個很重要的數據是藍光的影響對我們生理時鐘的傷害</p>
+<blockquote>
+<p>夜間燈光把你內在二十四小時時鐘的時間往回轉到什麼地步，是個重要問題：平均而言，通常是每晚二到三小時</p>
+</blockquote>
+<p>平常我們接觸到的藍光刺激太多了，阻礙褪黑激素的釋放之外，也容易讓我們神經緊繃，作者建議睡前一到兩小時最好遠離所有會發光的螢幕XD，對現代人來說真的太困難，我看完書後也完全辦不到，頂多讓手機遠離床邊就已經意志力的極限了唉</p>
+<p>另外還有要讓大腦入睡的一個生理訊號是體溫，洗完澡之所以好入眠是因為血管擴張讓我們身體迅速降溫，如果室內溫度太高或是穿太厚重，都對睡眠品質有影響 (難道是由於遠古人都沒穿什麼衣服的關係嗎!?)</p>
+<h3 id="睡眠剝奪-vs-失眠"><a href="#睡眠剝奪-vs-失眠" class="headerlink" title="睡眠剝奪 vs 失眠"></a>睡眠剝奪 vs 失眠</h3><p>睡眠剝奪的定義是</p>
+<ol>
+<li>有適當的睡眠能力</li>
+<li>沒有給自己適當的睡眠機會</li>
+</ol>
+<p>只要給予適當的時間，睡眠受到剝奪的人是能夠睡覺。</p>
+<p>失眠症正好相反</p>
+<ol>
+<li>缺乏適當的睡眠能力</li>
+<li>有適當的睡眠機會</li>
+</ol>
+<p>失眠的人即使給自己足夠的時間（七到九小時），也無法產生足夠的睡眠量和睡眠品質</p>
+<p>大部分的現代人都是睡眠剝奪較多，真的有失眠情況的話得需求醫療幫助</p>
+<h3 id="避免使用藥物"><a href="#避免使用藥物" class="headerlink" title="避免使用藥物"></a>避免使用藥物</h3><p>作者非常排斥使用藥物來干預睡眠，在他的研究發現這些藥物破壞了在睡眠期間應該要有的腦波形狀，少了最大最深的腦波，且服用安眠藥的人罹患癌症的風險上升了30~40%</p>
+<p>認知行為治療 (cognitive behavioral therapy for insomnia，簡稱CBTI) 才是睡眠障礙者應該要尋求的幫助，不是依賴藥物</p>
+<h3 id="少眠基因比被雷打到還低"><a href="#少眠基因比被雷打到還低" class="headerlink" title="少眠基因比被雷打到還低"></a>少眠基因比被雷打到還低</h3><p>之前常常在網路上看到說只睡六小時就夠的言論，書中指出六小時是不夠的</p>
+<blockquote>
+<p>在實驗室中給這些人無限制的睡眠機會，沒有鬧鐘，也沒有人吵，他們仍自然而然的只睡六小時，一點都不會超過。部分原因似乎在於遺傳，特別是一種稱為BHLHE41基因的變異形式</p>
+</blockquote>
+<blockquote>
+<p>人類族群中有不到1％的人，才真的能夠在長期睡眠有限的狀況下，腦部各種功能都能恢復。這種讓人真正能夠只睡短暫時間而不發生問題的基因實在太稀有了，相較起來，你被雷打到的機會（以一個人一輩子的機會來算是一萬兩千分之一）反而要高得多</p>
+</blockquote>
+<p>就我個人來說，我還真的很常只睡六小時半就醒來，然後精神不錯，反而睡八小時醒來會想繼續睡，但少眠基因根據數據來看真的太稀有，所以我也不覺得我會有，況且我自認為睡眠品質不好，因為即使是在有午睡的情況下，我下午的集中力還是不佳</p>
+<p>真的不要以為你有少棉基因能睡很少了，說不定你的大腦一直在被損害著，久了就是各種慢性病</p>
+<h2 id="健康睡眠-12-項守則整理"><a href="#健康睡眠-12-項守則整理" class="headerlink" title="健康睡眠 12 項守則整理"></a>健康睡眠 12 項守則整理</h2><ol>
+<li>遵守規律的睡眠時間。每天同一時間上床，同一時間起床</li>
+<li>要運動但不要太晚運動，睡前二至三小時結束</li>
+<li>戒除咖啡因，咖啡因是一種興奮劑，在咖啡、可樂、某些茶飲和巧克力中都有，它的效果可能要八小時才會完全退去</li>
+<li>避免睡前飲酒</li>
+<li>避免太晚吃大餐、喝太多飲料，食物分量大會不好消化，干擾睡眠</li>
+<li>不要服用會延後或干擾睡眠的藥物，心臟、血壓或氣喘方面的藥物或是感冒過敏的處方藥</li>
+<li>不要在下午三點後睡午覺</li>
+<li>睡前要放鬆。不要把事情安排得太滿</li>
+<li>睡前泡熱水澡有助於體溫迅速降低幫助入睡</li>
+<li>臥室要黑暗，稍涼，沒有電子產品</li>
+<li>如果你有難以入睡的問題，睡眠專家建議應該在早晨晒一小時的陽光，並在睡覺之前把室內燈光調暗。</li>
+<li>不要醒著仍躺在床上，如果上床後二十分還醒著，最好起床做些輕鬆的活動</li>
+</ol>
+<h2 id="實踐"><a href="#實踐" class="headerlink" title="實踐"></a>實踐</h2><p>看完這本書後對於自身睡眠更加留意了，之前有買三星的 Galaxy Watch，目的主要是監控我的運動情況，睡眠紀錄倒是其次，我從未真的去追蹤每個階段的睡眠，畢竟目前還沒有主流是為運動設計的智慧型手錶有很準確的睡眠階段分析，頂多總睡眠時數是準確的</p>
+<p>看完書後檢查手錶數據，顯示我的深層睡眠每天都少於 10%，不足一小時</p>
+<p>為了實際試試看提升深度睡眠，運用書中幾個方法入眠，比如降低睡前的藍光量，調暗室內燈光，讓室內溫度不要太高，睡前閱讀，然後躺在床上深呼吸</p>
+<p>沒想到還真的有提升深睡的時間，而且有一個早晨醒來特別神清氣爽，我的自我歸納是，睡前深呼吸對我很有幫助，然後讓智慧型手機遠離身旁也是，睡前閱讀也是有效的助眠法</p>
+<p>然而要馬上改變睡眠型態也不是容易的，我也還在持續實踐中，希望在 2020 年結束前能徹底擺脫爛睡眠啊</p>
+<hr>
+<p>這本書內容真的頗豐富，討論的主題雖然聚焦於睡眠，卻也是寫了不少其他成因的知識，我覺得每一章都滿有知識含量，一時半會也分享不完</p>
+<p>真心推薦這本書給所有自認睡眠品質不好的人，或是自認只要睡很少就好的人，&lt;為什麼要睡覺&gt;的作者會讓你認知到睡眠缺乏的影響，是你想像不到的深遠</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/WhyWeSleepBookReview/">http://havincy.github.io/post/WhyWeSleepBookReview/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E6%9B%B8%E7%B1%8D-%E7%82%BA%E4%BB%80%E9%BA%BC%E8%A6%81%E7%9D%A1%E8%A6%BA/">#書籍-為什麼要睡覺</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/MyClassicTVSeriesList/">我的前五名必看經典英美影集推薦</a>
+            
+            
+            <a class="next" rel="next" href="/post/ManacherAlgorithm/">Manacher's Algorithm 迴文演算法介紹</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/WhyWeSleepBookReview/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

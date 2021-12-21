@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>Python subprocess &amp; search output | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Python subprocess &amp; search output</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: May 13, 2020
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Script/">Script</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>最近在幫忙處理 Team 的雜事，寫好 Script 請 project 的 Infra Team 幫忙在 Jenkins 上 trigger 任務</p>
+<p>我選擇用 Python 去寫，最後會需要跑一些跟 Git &amp; Gerrit 有關的命令，在寫的時候查一下資料改一改也還好，但碰到一個卡有點久的問題是，我要如何取得 Push 到 Gerrit 上的 change link，單純取 <code>subprocess</code> 的 stdout 無法達成這件事</p>
+<hr>
+<h2 id="Gerrit"><a href="#Gerrit" class="headerlink" title="Gerrit"></a>Gerrit</h2><p>Gerrit 就是一個 Git server，跟 GitHub 是差不多的，只是工具跟介面的差異，比較顯為人知的是他是 Google 放 Android repo 主要採用的 server，適合管理比較大型的專案，詳情可以參考<a href="https://www.gerritcodereview.com" target="_blank" rel="noopener">官網</a></p>
+<h2 id="Subprocess"><a href="#Subprocess" class="headerlink" title="Subprocess"></a>Subprocess</h2><p><a href="https://docs.python.org/3/library/subprocess.html" target="_blank" rel="noopener">subprocess</a> 如其名會開啟一個新的 process 來執行其他命令，使用 <code>run()</code> 就能夠執行(included in python 3.5)</p>
+<p>想要檢查命令是不是成功，也有 <code>check_call</code> 能用(python 2.7)，等於是 <code>subprocess.run(..., check=True)</code></p>
+<p>需要注意的是 python2 &amp; python3 能用的 API 稍微有些不一樣，最好是能 cover python2 也能使用的，如果確定只會執行在 python3 的環境，就可以盡量用高階一點的 API</p>
+<h2 id="Communicate"><a href="#Communicate" class="headerlink" title="Communicate"></a>Communicate</h2><p>在使用 <code>subprocess</code> 時，如果需要跟 Process 有互動，也就是需要知道他的 output 或是需要輸入 input，可以用 <code>communicate()</code> 與 <code>Popen()</code> 這兩個較為低階的操作才有辦法取得</p>
+<blockquote>
+<p>communicate() returns a tuple (stdout_data, stderr_data). The data will be strings if streams were opened in text mode; otherwise, bytes.</p>
+</blockquote>
+<figure class="highlight py"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">execute_command</span><span class="params">(command)</span>:</span></span><br><span class="line">    process = subprocess.Popen(command, shell=<span class="literal">True</span>, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)</span><br><span class="line">    (stdout, stderr) = process.communicate()</span><br><span class="line">    process_return_code = process.returncode</span><br><span class="line">    <span class="keyword">if</span> (stderr <span class="keyword">or</span> process_return_code != <span class="number">0</span>):</span><br><span class="line">        print(<span class="string">"{} FAILED, RETURN CODE: {}, ERROR: {}"</span>.format(command, process_return_code, stderr))</span><br><span class="line">        sys.exit(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> stdout</span><br></pre></td></tr></tbody></table></figure>
+
+<p>執行成功的話 process 的 returncode 通常會是 0，可以藉由這個來判斷，也可以用 <code>communicate()</code> 回傳的 <code>stderr</code> 來看是什麼錯誤</p>
+<p>如果只是很單純的想檢查這個指令有沒有輸出可以用 <code>subprocess.check_output</code>，但通常遇到的實際情況都比較複雜一點</p>
+<p>這裡我的 <code>stderr</code> 指給的是 STDOUT 而不是 PIPE 的原因是如果是處理類似 npm installing 的指令，會有一些 packages 安裝失敗，就會出現在 stderr stream 中，但在這個指令中的錯誤只是一個安裝的過程並不代表真的失敗</p>
+<h2 id="Universal-Newline"><a href="#Universal-Newline" class="headerlink" title="Universal Newline"></a>Universal Newline</h2><p>Push change 到 Gerrit，執行過程中的輸出如下</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">usage: git diff [--no-index] &lt;path&gt; &lt;path&gt;</span><br><span class="line">remote: </span><br><span class="line">remote: Processing changes: refs: 1, new: 1</span><br><span class="line">remote: Processing changes: refs: 1, new: 1</span><br><span class="line">remote: Processing changes: refs: 1, new: 1, done            </span><br><span class="line">remote: warning: pushing without Change-Id is deprecated        </span><br><span class="line">remote: </span><br><span class="line">remote: SUCCESS        </span><br><span class="line">remote: </span><br><span class="line">remote: New Changes:        </span><br><span class="line">remote:   https://&lt;git-master-url&gt;/&lt;path&gt;/&lt;patch-number&gt; &lt;Commit title&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果把 stdout 印出來，不會看到以上的結果，後來我先試了 <code>process.stdout.readline()</code> 跑迴圈一行一行把 output 讀出來的方式才有辦法得到，在這過程中還需要 decode()，也就是我們得到的 stdout 是 byte 形式，也許是因為這樣才沒辦法抓到想要的輸出，所以另外找到了更簡潔的方法</p>
+<p>在 Popen 加入 <code>universal_newlines=True</code>，會把 stdout, stderr 都轉成 string 的形式，</p>
+<figure class="highlight py"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">process = subprocess.Popen(command, shell=<span class="literal">True</span>, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=<span class="literal">True</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="Search-URL"><a href="#Search-URL" class="headerlink" title="Search URL"></a>Search URL</h2><p>接著可以使用 <a href="https://docs.python.org/3/library/re.html" target="_blank" rel="noopener">regular expression</a> 來檢查得到的每一行中有沒有我們要的 change url</p>
+<p>如果 <code>re.search</code> 有找到的話，回傳 <code>reg.group()</code>，就是回傳對應的 reg line</p>
+<figure class="highlight py"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_change_url</span><span class="params">(output_line)</span>:</span></span><br><span class="line">    reg = re.search(<span class="string">r'(?P&lt;url&gt;https?://&lt;git-master-url&gt;/&lt;path&gt;/[^\s]+)'</span>, output_line)</span><br><span class="line">    <span class="keyword">if</span> (reg):</span><br><span class="line">         <span class="keyword">return</span> reg.group()</span><br><span class="line">    <span class="keyword">return</span> <span class="string">""</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>我是回傳空字串來代表沒有找到對應的 url，條件怎麼寫看個人</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/PythonSubprocessUsage/">http://havincy.github.io/post/PythonSubprocessUsage/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Python/">#Python</a>
+                    
+                        <a href="/tags/Gerrit/">#Gerrit</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/JenkinsMailExtension/">自訂 Jenkins 寄送 Mail 的內容</a>
+            
+            
+            <a class="next" rel="next" href="/post/LongestCommonSubsequenceReview/">還債系列 - LCS 最長共同子序列</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/PythonSubprocessUsage/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

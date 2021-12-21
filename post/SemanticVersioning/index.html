@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>SemVer 版本控制與 package-lock.json | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">SemVer 版本控制與 package-lock.json</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: June 26, 2020
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Web/">Web</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>在開發 Angular 專案的時候，碰到了跟版本號控制有關的任務，之前沒有認真探究不同位置的數字有什麼函義，就稍微研究了下 npm 上面的那些 packages 的三位數版本號還有符號 <code>^</code> 、<code>~</code> 代表什麼意思</p>
+<hr>
+<h2 id="概略"><a href="#概略" class="headerlink" title="概略"></a>概略</h2><p>版本控制的存在是讓開發者每次更新軟體時，方便區別目前軟體狀態的管理方式，除了能識別現在 user 手上的軟體狀態，也助於團隊內 QA 在測試的時候，能明確告知現在是哪一版出了什麼問題</p>
+<p>跟 git 做程式碼版控的概念很像，都是為了使軟體的開發流程更順暢的一種策略，只是 semantic 是用在發布的軟體上的更新，git 是針對每次程式碼的更新</p>
+<p>軟體的版本號其實並沒有一個準則，都是以共識為主，而 semantic 提供了一個參考，用 X.Y.Z 三個數字來分別定義不同的更新狀態，npm 採用了他的準則</p>
+<h2 id="npm-package"><a href="#npm-package" class="headerlink" title="npm package"></a>npm package</h2><p>在使用 npm 做前端開發時，管理目前用到的軟體包標配就是 package.json，隨著開發的時間越長，專案內需要用的 library 就會越來越多</p>
+<p><a href="https://docs.npmjs.com/files/package.json" target="_blank" rel="noopener">package.json</a> 是一種管理軟體的格式，是 npm 制訂的一種規範，任何要透過 npm 發佈的軟體都得按照這個規範提供該軟體的基本資訊，像是名稱的長度，名稱的字符類型限制，還有要使用 <code>@</code> 開頭等等</p>
+<p>再來最重要的就是 version 的欄位，npm 規定要用 <a href="https://docs.npmjs.com/misc/semver" target="_blank" rel="noopener">node-semver</a> 來解析</p>
+<h2 id="semantic-版本號"><a href="#semantic-版本號" class="headerlink" title="semantic 版本號"></a>semantic 版本號</h2><p>semantic 定義了軟體版本用 X.Y.Z 的數字格式來管理</p>
+<ul>
+<li>X = Major version</li>
+<li>Y = Minor version </li>
+<li>Z = Patch version</li>
+</ul>
+<h3 id="Major"><a href="#Major" class="headerlink" title="Major"></a>Major</h3><p>做了不相容的修改，要遞增主要版號，通常最一開始的 1.0.0 是初發行版本(release)，如果做了重大更新無法向後相容 (Backward compatible)，semver 就會希望軟體更新為 2.0.0</p>
+<h3 id="Minor"><a href="#Minor" class="headerlink" title="Minor"></a>Minor</h3><p>做了<strong>目前主要版本的功能性更新</strong>，則需要遞增次要版本，比如 1.1.0，代表基於 1.0.0 的軟體狀態上，新增了能向後兼容的功能</p>
+<h3 id="Patch"><a href="#Patch" class="headerlink" title="Patch"></a>Patch</h3><p>故名思議就是修補的更新，<strong>做了目前主版本的 Bug 修正</strong>，則需要遞增修補版本，比如 1.0.1 代表基於 1.0.0 的軟體狀態上，新增了能向後兼容的修正</p>
+<h2 id="npm-install-筆記"><a href="#npm-install-筆記" class="headerlink" title="npm install 筆記"></a>npm install 筆記</h2><p>在使用 <code>npm install</code> 指令的時候，會根據目前專案底下的 package.json 列出的軟體來安裝到 node_modules，確保目前環境已經有這些相依的軟體存在</p>
+<p>如果要安裝特定的軟體與版本，npm 提供了指令</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install @&lt;package-name&gt;@&lt;version&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>要安裝特定軟體的最新版本則</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install @&lt;package-name&gt;@latest</span><br></pre></td></tr></tbody></table></figure>
+
+<p>在 version 的參數，可以利用 semver 提供的 <a href="https://github.com/npm/node-semver#advanced-range-syntax" target="_blank" rel="noopener">range syntax</a>，</p>
+<h3 id="Range-syntax-amp-prefix"><a href="#Range-syntax-amp-prefix" class="headerlink" title="Range syntax &amp; prefix"></a>Range syntax &amp; prefix</h3><p>如果在 version 數字前面上加了 <code>^</code> 前綴，代表目前 Major 版本不更新的狀態下，更新至最新，也就是 Minor &amp; Patch 會遞增到目前最新的版本，比如 <code>^1.0.1</code>，可能就會更新至 <code>1.2.3</code>，即使其實最新的版本已經到 <code>2.?.?</code></p>
+<p>如是 <code>~</code> 前綴，則代表更新 Patch level (Minor 版號被指定的狀態下)，比如 <code>~1.0.1</code>，可能就會更新到 <code>1.0.6</code>，但如果是寫像是 X-Range，<code>~1.x.1</code>，則 Minor 也會被更新</p>
+<p>而 Range syntax 提供了更豐富的變化，比如 <code>~1.0.1 &lt; 1.0.9</code>，就會確保不會更新 Patch 超過 9，<code>^1.0.1 &lt; 1.3.0</code>，就能確保 Minor 不會超過 3，諸如此類的應用讓開發者能準確的控制版本範圍</p>
+<h3 id="避免前綴"><a href="#避免前綴" class="headerlink" title="避免前綴"></a>避免前綴</h3><p>通常 npm config 的預設可能會是在每次 <code>npm install</code> 後，在 package.json 中的 version 前都加上 <code>~</code> or <code>^</code></p>
+<p>對前綴有特定需求可以更改 <code>npm config set prefix &lt;prefix-symbol&gt;</code>，如果不想要任何前綴符號出現，則可以用 <code>npm install --save-exact</code>，就能避免前綴符號在做完安裝或更新後出現在 package.json</p>
+<h3 id="避免-package-lock-出現錯誤的更新"><a href="#避免-package-lock-出現錯誤的更新" class="headerlink" title="避免 package-lock 出現錯誤的更新"></a>避免 package-lock 出現錯誤的更新</h3><p>package-lock.json 算是 package.json 對應的細節</p>
+<p>package.json 只是做單純的版本控制，比較像是版本索引，如果手動更改了 package.json 其中一個軟體的版本號碼，再做 <code>npm install</code>， 就會發現 package-lock.json 也會隨之更新</p>
+<p>在背後真正管理軟體依賴關係的是 package-lock，裡面會有每個軟體的細項，比如他的來源的 url，還有 checksum 字串，以及軟體是不是又依賴於其他軟體的資訊(這滿重要的)</p>
+<p>在開發的時候遇到在不同環境的遠端機器上執行 npm install 特定軟體時，npm 改變了該軟體在 package-lock.json 的來源，registry 跟應該要有的不一樣，原因是在那個環境下的 npm registry 可能有多組</p>
+<p>所以要加上 <code>--registry</code> option，在該軟體的安裝上指定特定的 registry 來源</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --registry=&lt;url&gt; @&lt;package-name&gt;@&lt;version&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>或是設回預設的 url: <code>http://registry.npmjs.org</code></p>
+<p>後來發現在不同 platform 執行一樣的 install， npm 可能會在 package-lock.json 對其他的軟體做了非預期的修改，在網上找到有些開發者也有遇到這種問題</p>
+<h4 id="package-lock-相關的-issue"><a href="#package-lock-相關的-issue" class="headerlink" title="package-lock 相關的 issue"></a>package-lock 相關的 issue</h4><ul>
+<li><a href="https://npm.community/t/package-lock-json-keeps-changing-between-platforms-and-runs/1129" target="_blank" rel="noopener">https://npm.community/t/package-lock-json-keeps-changing-between-platforms-and-runs/1129</a></li>
+<li><a href="https://github.com/npm/npm/issues/17722" target="_blank" rel="noopener">https://github.com/npm/npm/issues/17722</a></li>
+<li><a href="https://stackoverflow.com/questions/45022048/why-does-npm-install-rewrite-package-lock-json" target="_blank" rel="noopener">https://stackoverflow.com/questions/45022048/why-does-npm-install-rewrite-package-lock-json</a></li>
+</ul>
+<p>類似的困擾還沒有得到官方解決，目前比較可能(因為還沒遇到問題但不代表是正解)的解法是加上 <code>--no-optional</code>，避免安裝選擇性的依賴</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --no-optional @&lt;package-name&gt;@version</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h2><p>此篇有點瑣碎，主要是一些在 npm 上遇到的眉眉角角，怕自己過了就忘記了，月底前來記錄一下</p>
+<p>軟體版本號碼的控制，以前在學校也沒有學過，就算實習也沒什麼深入了解，剛出社會正職工作時也不太會碰到，都是處在有什麼 task 就做什麼，這次也算是一個機會，因為任務相關，稍微參與了版本號的 thread，才知道原來這些不同數字背後都是有意義的XD</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/SemanticVersioning/">http://havincy.github.io/post/SemanticVersioning/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Semantic/">#Semantic</a>
+                    
+                        <a href="/tags/Nodejs/">#Nodejs</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/TakeCareSurgicalScar/">手術後疤痕的平疤</a>
+            
+            
+            <a class="next" rel="next" href="/post/JenkinsMailExtension/">自訂 Jenkins 寄送 Mail 的內容</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/SemanticVersioning/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

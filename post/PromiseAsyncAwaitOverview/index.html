@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>Promise &amp; async &amp; await 機制 | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Promise &amp; async &amp; await 機制</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: March 22, 2020
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Web/">Web</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="廢話前言"><a href="#廢話前言" class="headerlink" title="廢話前言"></a>廢話前言</h2><p>突然發覺我每篇都習慣有個前言，感覺有點冗，瀏覽了下其他文章的前言，內容都在解釋為什麼有這篇文章，其實也滿符合 WHY 的原則吧哈哈，所以不免俗的再來個前言吧</p>
+<p>工作的關係最近半年開始接觸前端，在開發的過程中自然而然碰到了非同步的問題，避免自己日後忘記跟又換開發領域，跳轉來跳轉去的導致領域知識零碎，發一篇文章好好紀錄關於 JavaScript/TypeScript 中幫助開發者處理非同步情形的 Promise &amp; async &amp; await 的機制，是如何運作的</p>
+<h2 id="同步與非同步"><a href="#同步與非同步" class="headerlink" title="同步與非同步"></a>同步與非同步</h2><p>先來講講在程式執行中什麼是同步跟非同步執行，其實這個在中文的定義裡滿容易搞混的，以前聽到這兩個名詞也混淆了一下，以為<del>同步的意思平行執行，非同步就是照順序</del>，但事實上定義是反過來</p>
+<h3 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h3><p>同步 (synchronous) 在程式執行中的意思是，<strong>照程式碼的順序執行</strong></p>
+<blockquote>
+<p>可以想成這些程式碼在同個跑道上進行接力賽，所以叫做同步執行，只能一個接一個跑下去</p>
+</blockquote>
+<img src="/post/PromiseAsyncAwaitOverview/synchronous-illustration.png" class="">
+
+<h3 id="非同步"><a href="#非同步" class="headerlink" title="非同步"></a>非同步</h3><p>也有人稱做「異步」</p>
+<p>非同步 (asynchronous) 在程式執行中的意思是，<strong>不是按照程式碼的順序執行</strong></p>
+<blockquote>
+<p>可以想成這些程式碼不在同個跑道上進行賽跑，所以叫做非同步執行，可以一個在跑另一個也在跑</p>
+</blockquote>
+<img src="/post/PromiseAsyncAwaitOverview/asynchronous-illustration.png" class="">
+
+<h2 id="JS-程式執行基本認識"><a href="#JS-程式執行基本認識" class="headerlink" title="JS 程式執行基本認識"></a>JS 程式執行基本認識</h2><p>在 JavaScript 這個語言中常常會有非同步 (asynchronous) 的情形，然而 JavaScript 是 Single Threaded 的 programming language，所以只會有一個 call stack &amp; memory heap，執行程式的時候會等待上一個程式區段完成才會執行下一個，這樣對於網頁來說不是件好事，如果網頁正在執行某個需要做 fetch 程式片段，而導致整個網頁都動彈不得，對使用者體驗來說會很糟糕</p>
+<p><em>那到底 JavaScript 是如何在網頁(瀏覽器)中實現非同步的執行的?</em></p>
+<p>Google 在 2008 年推出的開源軟體 <a href="https://v8.dev/" target="_blank" rel="noopener">V8 engine</a> 給了 Solution: </p>
+<blockquote>
+<p>透過瀏覽器自己的 Web API 提供一個 Queue 在背景來執行這些需要等待的程式片段，完成後再 push 回 main thread 的 call stack</p>
+</blockquote>
+<img src="/post/PromiseAsyncAwaitOverview/js-call-stack.png" class="">
+
+<p>其他瀏覽器也有自己的 JavaScript engine，像是 Apple 開發給 Safari 用的開源軟體 <a href="https://developer.apple.com/documentation/javascriptcore" target="_blank" rel="noopener">JavaScriptCore</a>，或是 Microsoft 給 Edge 用的 <a href="https://github.com/microsoft/ChakraCore" target="_blank" rel="noopener">ChakraCore</a> 等等，都是運用同樣的概念讓 JS 能實現非同步的行為</p>
+<p>這裡有個 JSConf 的 <a href="https://www.youtube.com/watch?v=8aGhZQkoFbQ" target="_blank" rel="noopener">YouTube 影片</a> 對於 JS 的 Call Stack 怎麼運作講得很好，聽完會對於 JS 跟 Browser Web API 是如何處理網頁的執行有個基本認識</p>
+<h3 id="Concurrent-vs-Parallel"><a href="#Concurrent-vs-Parallel" class="headerlink" title="Concurrent vs Parallel"></a>Concurrent vs Parallel</h3><p>又是一個在中文上容易混淆的 CS 名詞，Concurrent 的翻譯叫做「同時」，而 Parallel 叫做「平行」，乍看之下根本一樣，但事實上這兩個名詞分別代表兩個完成任務的方式</p>
+<h4 id="Concurrent"><a href="#Concurrent" class="headerlink" title="Concurrent"></a>Concurrent</h4><p>指的是<strong>同一時間只做一件任務</strong>，在多個任務需要做的情況下，可以想成一個人同時開始做了好幾個不同的任務，在一個時間內完成了很多任務，但<strong>事實上只是在各個任務間切換來切換去</strong> (task switching)</p>
+<p>就想成自己同時間打開了數學和英文作業，但只能用一隻手寫字，所以只是寫了點數學再換寫英文</p>
+<h4 id="Parallel"><a href="#Parallel" class="headerlink" title="Parallel"></a>Parallel</h4><p>指的是<strong>同一時間做好幾件任務</strong>，在多個任務需要做的情況下，可以想成有多個人分別同時開始做了不同的任務</p>
+<p>就是和同學兩個人同時打開數學和英文作業，兩人分工各自寫數學和英文</p>
+<img src="/post/PromiseAsyncAwaitOverview/concurrent-parallel-difference-example.png" class="">
+
+<p><strong>而 JS 在完成任務上是屬於 Concurrency 的語言</strong></p>
+<p>不同於 C++ 或是 Java 的 Concurrency 指的是將不同任務切成好幾個 Process or Thread，輪流跑在一個 CPU 上來完成任務</p>
+<p>而是前面提過的</p>
+<blockquote>
+<p>Call stack 與 WebAPI 的配合，讓 JS 不會因為一個任務還沒完成就不能執行下一個任務，所以可以 Concurrently 的進行這些任務，在不同任務間切換來切換去</p>
+</blockquote>
+<h2 id="Callback-func"><a href="#Callback-func" class="headerlink" title="Callback func"></a>Callback func</h2><p>如同前面提到，Web API 會協助先暫時在背景執行需要時間的程式，讓 JS 能繼續往下執行，而 Callback function 就是一個例子，<strong>把函式當作另一個函式的參數，透過另一個函式來呼叫他</strong></p>
+<p>先來看一個簡單的例子</p>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// taskA &amp; taskB function call another function</span></span><br><span class="line">taskA(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"callback A"</span>)</span><br><span class="line"></span><br><span class="line">  taskB(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"callback B"</span>);</span><br><span class="line">  });</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"End A"</span>)</span><br><span class="line">});</span><br><span class="line"></span><br><span class="line">taskC();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 執行順序：taskA() -&gt; taskC() -&gt; "callback A" -&gt; taskB() -&gt; "End A" -&gt; "callback B";</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>常見的 <code>window.setTimeout</code> 也是一個經典例子，他的目的是隔了某段時間後，要執行某件事情</p>
+<p>也就是 counter 結束後就會回頭執行包在 setTimeout 內的程式碼</p>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.setTimeout(<span class="function"><span class="keyword">function</span> <span class="title">taskA</span>(<span class="params"></span>)</span>{</span><br><span class="line">  <span class="comment">// 過一秒後執行</span></span><br><span class="line">}, <span class="number">1000</span>);</span><br><span class="line"></span><br><span class="line">taskB();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 執行順序：taskB() -&gt; taskA()</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="Callback-hell"><a href="#Callback-hell" class="headerlink" title="Callback hell"></a>Callback hell</h3><p>如果 Callback function 在 JS 中大量地被使用，除了容易使開發者混淆順序不易維護程式碼之外，多巢結構也會使程式碼的可讀性降低，回調的時間點也都不一致，當 Callback 依賴於另一個 Callback 的 chain 不斷發生時就會很難處理錯誤情況，所以就有了 Callback hell 的戲稱，如下常見的圖所示</p>
+<img src="/post/PromiseAsyncAwaitOverview/callback-hell.jpeg" class="">
+
+<h2 id="Event-listener"><a href="#Event-listener" class="headerlink" title="Event listener"></a>Event listener</h2><p>跟 DOM (Document Object Model) 互動的 API</p>
+<ul>
+<li>addEventListener</li>
+<li>removeEventListener</li>
+<li>dispatchEvent</li>
+</ul>
+<p>延伸閱讀: <a href="https://www.w3schools.com/whatis/whatis_htmldom.asp" target="_blank" rel="noopener">What is HTML DOM - w3school</a></p>
+<p>最典型的例子就是在網頁上各類按鈕觸發的事件，或是滑鼠鍵盤的事件，都是一種接收的 event，但不會使網頁當掉，收到特定的訊號就做特定的事情</p>
+<p><strong>監聽 Click 事件例子</strong></p>
+<figure class="highlight ts"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> button = <span class="built_in">document</span>.querySelector(<span class="string">"button"</span>);</span><br><span class="line">button?.addEventListener(<span class="string">"click"</span>, buttonClicked);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">buttonClicked</span>(<span class="params"><span class="keyword">this</span>: HTMLElement</span>) </span>{</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"Clicked!"</span>);</span><br><span class="line">    <span class="keyword">this</span>.removeEventListener(<span class="string">"click"</span>, buttonClicked);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然而 Event Listener 對於很多情況還是不夠適用，如果我們想要等特定的事件結束後才做另外一件事，需要有通知告訴我們特定的件事已經結束</p>
+<p><strong>比如 loading image 的例子</strong></p>
+<figure class="highlight ts"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> img1 = <span class="built_in">document</span>.querySelector(<span class="string">'.img-1'</span>);</span><br><span class="line"></span><br><span class="line">img1.addEventListener(<span class="string">'load'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{</span><br><span class="line">  <span class="comment">// woo yey image loaded</span></span><br><span class="line">});</span><br><span class="line"></span><br><span class="line">img1.addEventListener(<span class="string">'error'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{</span><br><span class="line">  <span class="comment">// argh everything's broken</span></span><br><span class="line">});</span><br></pre></td></tr></tbody></table></figure>
+
+<p>看起來好像我們可以在 image 載入後做事，但實際上程式執行時，有可能在我們開始監聽事件之前就已經載好 image</p>
+<p>由此可見 event listener 沒有辦法 cover 所有需求，尤其是網頁通常會有向遠端伺服器載入資料的要求，有時候需要等載入特定資料後才能做其他相關的事情</p>
+<h2 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h2><p>Promise pattern 的設計是用來對付非同步的情況，將非同步的程式片段寫成像是同步，而<strong>它的參數就是一組 callback function</strong>，可以回傳不同狀態回來</p>
+<p><strong>Return state</strong></p>
+<ul>
+<li>fulfilled - The action relating to the promise succeeded</li>
+<li>rejected - The action relating to the promise failed</li>
+<li>pending - Hasn’t fulfilled or rejected yet</li>
+<li>settled - Has fulfilled or rejected</li>
+</ul>
+<p>以下我們直接以程式碼的範例來 go through Promise 怎麼運作跟使用</p>
+<h3 id="Resolving-object"><a href="#Resolving-object" class="headerlink" title="Resolving object"></a>Resolving object</h3><p>當 Promise 成功執行完需要的任務就會 call <code>resolve()</code> 回傳，<code>then</code> 的作用就是接收 Promise 任務完成後 callback 的結果</p>
+<figure class="highlight ts"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">'start async task'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> promiseExample = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> {</span><br><span class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> {</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'async task is done!'</span>);</span><br><span class="line">    resolve(<span class="string">'success, call back.'</span>);</span><br><span class="line">  }, <span class="number">1000</span>);</span><br><span class="line">});</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'executing'</span>);</span><br><span class="line"></span><br><span class="line">promiseExample.then(<span class="function"><span class="params">result</span> =&gt;</span> {</span><br><span class="line">  <span class="built_in">console</span>.log(result);</span><br><span class="line">});</span><br></pre></td></tr></tbody></table></figure>
+
+<p>會印出</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">start async task</span><br><span class="line">executing</span><br><span class="line">async task is done!</span><br><span class="line">success, call back.</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="Error-handling"><a href="#Error-handling" class="headerlink" title="Error handling"></a>Error handling</h3><p>可以利用 <code>reject</code> callback 來處理 error，在 <code>then</code> 接收時搭配 <code>catch</code></p>
+<figure class="highlight ts"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">'start async task'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> promiseExample = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> {</span><br><span class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> {</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'async task is done!'</span>);</span><br><span class="line">    reject(<span class="string">'reject, call back.'</span>);</span><br><span class="line">  }, <span class="number">1000</span>);</span><br><span class="line">});</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'executing'</span>);</span><br><span class="line"></span><br><span class="line">promiseExample.then(<span class="function"><span class="params">result</span> =&gt;</span> {</span><br><span class="line">  <span class="built_in">console</span>.log(result);</span><br><span class="line">})</span><br><span class="line">.catch(<span class="function"><span class="params">error</span> =&gt;</span> {</span><br><span class="line">  <span class="built_in">console</span>.log(error);</span><br><span class="line">});</span><br></pre></td></tr></tbody></table></figure>
+
+<p>會印出</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">start async task</span><br><span class="line">executing</span><br><span class="line">async task is done!</span><br><span class="line">reject, call back.</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="Chaining"><a href="#Chaining" class="headerlink" title="Chaining"></a>Chaining</h3><p><code>Promise.then()</code> 會 return 一個 Promise，所以一個 <code>.then</code> 的後面，可以再串接更多的 <code>.then</code> 做回傳，可以讓回傳的資料型態透過包在 Promise 內而有所變化</p>
+<figure class="highlight ts"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> {</span><br><span class="line">  resolve(<span class="number">1</span>);</span><br><span class="line">});</span><br><span class="line"><span class="comment">// transform value by returning a new one</span></span><br><span class="line">promise.then(<span class="function"><span class="params">val</span> =&gt;</span> {</span><br><span class="line">  <span class="built_in">console</span>.log(val); <span class="comment">// 1</span></span><br><span class="line">  <span class="keyword">return</span> val + <span class="number">2</span>;</span><br><span class="line">}).then(<span class="function"><span class="params">val</span> =&gt;</span> {</span><br><span class="line">  <span class="built_in">console</span>.log(val); <span class="comment">// 3</span></span><br><span class="line">  <span class="keyword">return</span> val * <span class="number">2</span>;</span><br><span class="line">}).then(<span class="function"><span class="params">val</span> =&gt;</span> {</span><br><span class="line">  <span class="built_in">console</span>.log(val); <span class="comment">// 6</span></span><br><span class="line">});</span><br></pre></td></tr></tbody></table></figure>
+
+<p>會印出</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">3</span><br><span class="line">6</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="Error-handle-with-chaining"><a href="#Error-handle-with-chaining" class="headerlink" title="Error handle with chaining"></a>Error handle with chaining</h4><blockquote>
+<p>Promise rejections skip forward to the next then() with a rejection callback (or catch(), since it’s equivalent)</p>
+</blockquote>
+<ul>
+<li><code>then(func1, func2)</code><ul>
+<li><code>func1</code> 或 <code>func2</code> 會被呼叫，或是都不會被呼叫</li>
+</ul>
+</li>
+<li><code>then(func1).catch(func2)</code><ul>
+<li>如果 <code>func1</code> rejects，<code>func1</code> 和 <code>func2</code> 都會被呼叫</li>
+</ul>
+</li>
+</ul>
+<p>看以下例子</p>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">asyncThing1().then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{</span><br><span class="line">  <span class="keyword">return</span> asyncThing2();</span><br><span class="line">}).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{</span><br><span class="line">  <span class="keyword">return</span> asyncThing3();</span><br><span class="line">}).catch(<span class="function"><span class="keyword">function</span>(<span class="params">err</span>) </span>{</span><br><span class="line">  <span class="keyword">return</span> asyncRecovery1();</span><br><span class="line">}).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{</span><br><span class="line">  <span class="keyword">return</span> asyncThing4();</span><br><span class="line">}, <span class="function"><span class="keyword">function</span>(<span class="params">err</span>) </span>{</span><br><span class="line">  <span class="keyword">return</span> asyncRecovery2();</span><br><span class="line">}).catch(<span class="function"><span class="keyword">function</span>(<span class="params">err</span>) </span>{</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"Don't worry about it"</span>);</span><br><span class="line">}).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"All done!"</span>);</span><br><span class="line">})</span><br></pre></td></tr></tbody></table></figure>
+
+<p><strong>Flow chart</strong></p>
+<ul>
+<li>Green line: fulfilled</li>
+<li>Red line: rejected</li>
+</ul>
+<img src="/post/PromiseAsyncAwaitOverview/promise-chaining-error-handle-flow.png" class="">
+
+<h3 id="Exception"><a href="#Exception" class="headerlink" title="Exception"></a>Exception</h3><p>Promise 的 rejected status 會吃 thrown Error，即便沒有特別寫 <code>reject()</code> 做 callback</p>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> jsonPromise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> {</span><br><span class="line">  <span class="comment">// JSON.parse throws an error if you feed it some</span></span><br><span class="line">  <span class="comment">// invalid JSON, so this implicitly rejects:</span></span><br><span class="line">  resolve(<span class="built_in">JSON</span>.parse(<span class="string">"This ain't JSON"</span>));</span><br><span class="line">});</span><br><span class="line"></span><br><span class="line">jsonPromise.then(<span class="function"><span class="params">data</span> =&gt;</span> {</span><br><span class="line">  <span class="comment">// This never happens:</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"It worked!"</span>, data);</span><br><span class="line">}).catch(<span class="function"><span class="params">err</span> =&gt;</span> {</span><br><span class="line">  <span class="comment">// Instead, this happens:</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"It failed!"</span>, err);</span><br><span class="line">})</span><br></pre></td></tr></tbody></table></figure>
+
+<p>會印出</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">It failed! SyntaxError: Unexpected token T in JSON at position 0</span><br><span class="line">    at JSON.parse (&lt;anonymous&gt;)</span><br><span class="line">    at eval (eval at &lt;anonymous&gt; (runtime.ts:68), &lt;anonymous&gt;:5:18)</span><br><span class="line">    at new Promise (&lt;anonymous&gt;)</span><br><span class="line">    at eval (eval at &lt;anonymous&gt; (runtime.ts:68), &lt;anonymous&gt;:2:19)</span><br><span class="line">    at runtime.ts:68</span><br></pre></td></tr></tbody></table></figure>
+
+<p>更多深入細節可以參考這個 <a href="https://developers.google.com/web/fundamentals/primers/promises" target="_blank" rel="noopener">Google 的官方文件</a></p>
+<h3 id="Promise-all"><a href="#Promise-all" class="headerlink" title="Promise all"></a>Promise all</h3><blockquote>
+<p>Aggregating multiple Promise result. It is typically used after having started multiple asynchronous tasks to <strong>run concurrently</strong> and having created promises for their results,</p>
+</blockquote>
+<p>如果我們今天想要讓一些任務全部都結束後才開始做事，要使用一個一個 Promise 然後不斷的 return 再 <code>.then</code> 會很崩潰</p>
+<p>於是就有了 <code>Promise.all()</code>，可以<strong>等指定的任務們都執行完成再統一收集結果</strong>，而 <code>Promise.all()</code> 的回傳值也是一個 Promise</p>
+<blockquote>
+<p>目的就是等待所有任務完成(不管任務完成的先後順序)，才開始做事</p>
+</blockquote>
+<p>這邊示範一個聖誕派對的範例，等待朋友們給我禮物XD</p>
+<p>朋友們基本上都不會準時，大家都會在不同時間抵達</p>
+<p>而聖誕派對的規則是要確認所有朋友都抵達後才能開始交換所有禮物</p>
+<figure class="highlight ts"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">friend1</span>(<span class="params">gift: <span class="built_in">string</span></span>) </span>{</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> {</span><br><span class="line">        setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> {</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'friend 1 is delivered.'</span>);</span><br><span class="line">            resolve(gift);</span><br><span class="line">        }, <span class="number">4000</span>);</span><br><span class="line">    });</span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">friend2</span>(<span class="params">gift: <span class="built_in">string</span></span>) </span>{</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> {</span><br><span class="line">        setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> {</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'friend 2 is delivered.'</span>);</span><br><span class="line">            resolve(gift);</span><br><span class="line">        }, <span class="number">2000</span>);</span><br><span class="line">    });</span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">friend3</span>(<span class="params">gift: <span class="built_in">string</span></span>) </span>{</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> {</span><br><span class="line">        setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> {</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'friend 3 is delivered.'</span>);</span><br><span class="line">            resolve(gift);</span><br><span class="line">        }, <span class="number">3000</span>);</span><br><span class="line">    });</span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">friend4</span>(<span class="params">gift: <span class="built_in">string</span></span>) </span>{</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> {</span><br><span class="line">        setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> {</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'friend 4 is delivered.'</span>);</span><br><span class="line">            resolve(gift);</span><br><span class="line">        }, <span class="number">1000</span>);</span><br><span class="line">    });</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> xmasPartyGifts = <span class="built_in">Promise</span>.all([friend1(<span class="string">'apple'</span>),friend2(<span class="string">'banana'</span>), friend3(<span class="string">'car'</span>), friend4(<span class="string">'disney'</span>)]);</span><br><span class="line">xmasPartyGifts.then(<span class="function"><span class="params">res</span> =&gt;</span> {</span><br><span class="line">   <span class="comment">// print after 4 seconds\</span></span><br><span class="line">    <span class="built_in">console</span>.log(res); </span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Xmas Party Start!'</span>);</span><br><span class="line">})</span><br><span class="line">.catch(<span class="function"><span class="params">err</span> =&gt;</span> {</span><br><span class="line">    <span class="built_in">console</span>.log(err);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Xmas Party Failed!'</span>);</span><br><span class="line">})</span><br></pre></td></tr></tbody></table></figure>
+
+<p>會印出</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">friend 4 is delivered.</span><br><span class="line">friend 2 is delivered.</span><br><span class="line">friend 3 is delivered.</span><br><span class="line">friend 1 is delivered.</span><br><span class="line">["apple", "banana", "car", "disney"]</span><br><span class="line">Xmas Party Start!</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="Fail-fast-behavior"><a href="#Fail-fast-behavior" class="headerlink" title="Fail-fast behavior"></a>Fail-fast behavior</h4><p>需要注意的是 <code>Promise.all()</code> 的其中一個 Promise 被 rejected 的話，即便其他 Promise 正常執行， <code>Promise.all()</code> 也會被rejected，我們可以使用 <code>catch</code> 來處理錯誤發生時的行為</p>
+<p>把上面聖誕派對的範例程式其中的一小段改成</p>
+<figure class="highlight ts"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">friend3</span>(<span class="params">gift: <span class="built_in">string</span></span>) </span>{</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> {</span><br><span class="line">        setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> {</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'friend 3 is not delivered.'</span>);</span><br><span class="line">            reject(<span class="string">'friend 3 does not have money for gift.'</span>);</span><br><span class="line">        }, <span class="number">3000</span>);</span><br><span class="line">    });</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>Friend 3 雷隊友沒有錢買禮物，沒有上繳禮物</p>
+<p>就算其他人有上繳禮物，整個聖誕派對的交換禮物還是失敗了</p>
+<p>會印出</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">friend 4 is delivered.</span><br><span class="line">friend 2 is delivered.</span><br><span class="line">friend 3 is not delivered.</span><br><span class="line">friend 3 does not have money for gift.</span><br><span class="line">Xmas Party Failed!</span><br><span class="line">friend 1 is delivered.</span><br></pre></td></tr></tbody></table></figure>
+
+<p>Promise 看起來是能解決 Callback hell 的好東西，但如果 Promise chaining 太多的話也是另一個 hell，於是 JavaScript 推出了 async &amp; await 來搭配 Promise，讓一堆非同步的程式碼看起來像同步的同時還能提升可讀性，所以 async &amp; await 可以說是 Promise 的 syntax sugar</p>
+<h2 id="async-amp-await"><a href="#async-amp-await" class="headerlink" title="async &amp; await"></a>async &amp; await</h2><p>在一個 function 前面加上 <code>async</code> keyboard 就能使用 <code>await</code> ，而只有 Promise 物件能使用 <code>await</code> keyword，<code>await</code> 也只能在 <code>async</code> function 內被使用</p>
+<p>async function 會確保在裡面的所有 Promise 任務都完成，當 async function 中的任務全都結束後，會返回一個 Promise，所以也可以用 <code>then</code> 來接收 async function 的 callback 狀態</p>
+<p>如果該 <code>async</code> 函式回傳了一個值，視為 Promise 的 resolved，如果 <code>async</code> 函式拋出例外或某個值，則會視為 Promise 的 rejected</p>
+<h3 id="簡單的範例"><a href="#簡單的範例" class="headerlink" title="簡單的範例"></a>簡單的範例</h3><figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const foo = async () =&gt; {</span><br><span class="line">  return 1;  // will be wrapped in Promise</span><br><span class="line">}</span><br><span class="line">foo().then(res =&gt; {</span><br><span class="line">  console.log(res); // print 1</span><br><span class="line">});</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="await-keyword"><a href="#await-keyword" class="headerlink" title="await keyword"></a>await keyword</h3><p>在 async function 內加上 <code>await</code> keyword 的功用就是暫停，會等待當前 Promise 完成後才進行下一個 Promise</p>
+<p>假設 runner1 需要花 4 秒，runner2 需要花 2 秒</p>
+<p>加上 async &amp; await，<strong>runner 2 會等待 runner 1 結束任務後才開始</strong></p>
+<figure class="highlight ts"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">runner1</span>(<span class="params">money: <span class="built_in">number</span></span>) </span>{</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> {</span><br><span class="line">        setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> {</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'runner 1 is finished.'</span>);</span><br><span class="line">            resolve(money);</span><br><span class="line">        }, <span class="number">4000</span>);</span><br><span class="line">    });</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">runner2</span>(<span class="params">money: <span class="built_in">number</span></span>) </span>{</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> {</span><br><span class="line">        setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> {</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'runner 2 is finished.'</span>);</span><br><span class="line">            resolve(money);</span><br><span class="line">        }, <span class="number">2000</span>);</span><br><span class="line">    });</span><br><span class="line">}</span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">asyncRunning</span>(<span class="params"></span>): <span class="title">Promise</span>&lt;<span class="title">number</span>&gt; </span>{</span><br><span class="line">  <span class="keyword">const</span> firstRunner = <span class="keyword">await</span> runner1(<span class="number">100</span>);</span><br><span class="line">  <span class="keyword">const</span> secondRunner = <span class="keyword">await</span> runner2(<span class="number">200</span>);</span><br><span class="line">  <span class="keyword">return</span> firstRunner + secondRunner;  <span class="comment">// print after 6 seconds</span></span><br><span class="line">}</span><br><span class="line"><span class="built_in">console</span>.time(<span class="string">'asyncRunning'</span>);</span><br><span class="line">asyncRunning().then(<span class="function"><span class="params">res</span> =&gt;</span> {</span><br><span class="line">  <span class="built_in">console</span>.log(res);</span><br><span class="line">  <span class="built_in">console</span>.timeEnd(<span class="string">'asyncRunning'</span>);</span><br><span class="line">});</span><br></pre></td></tr></tbody></table></figure>
+
+<p>會印出</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">runner 1 is finished.</span><br><span class="line">runner 2 is finished.</span><br><span class="line">300</span><br><span class="line">asyncRunning: 6010.595947265625ms</span><br></pre></td></tr></tbody></table></figure>
+
+<p>有趣的是如果我們把 await keyword 放在 return，結果會不同</p>
+<figure class="highlight ts"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">asyncRunning</span>(<span class="params"></span>): <span class="title">Promise</span>&lt;<span class="title">number</span>&gt; </span>{</span><br><span class="line">  <span class="keyword">const</span> firstRunner = runner1(<span class="number">100</span>);</span><br><span class="line">  <span class="keyword">const</span> secondRunner = runner2(<span class="number">200</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">await</span> firstRunner + <span class="keyword">await</span> secondRunner;  <span class="comment">// print after 4 seconds</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>會印出</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">runner 2 is finished.</span><br><span class="line">runner 1 is finished.</span><br><span class="line">300</span><br><span class="line">asyncRunning: 4002.6240234375ms</span><br></pre></td></tr></tbody></table></figure>
+
+<p>上面小改後的範例看起來像是平行運行，但其實並不是，如同前面說過的，在這個例子裡，runner1 和 runner2 的計時器同時被建立起來，但他在背後是連續執行(Concurrent) 不是平行運行 (Parallel)</p>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>介紹到這邊應該差不多了，如果想要更深入了解可以直接去看看源碼或是多翻一些影片來看實例，我本身得靠實際遇到了才比較能體會他的運作，或是吃到虧碰到坑才大徹大悟的類型，這也是本人需要改進的地方</p>
+<p>碰到一個新領域時，我其實不會先花時間深入了解它，而是先粗淺的看文件跟其他人的範例，然後直接試著做出需求，後來被同團隊的 Sr. engineer 在 review code 時指出我似乎並沒有完整的了解機制，讓我有機會審視自己，不應該先急著讓東西生出來，而是先靜下心花時間去看懂基本的原理跟運作才對，免得以後碰到大坑根本不知道怎麼跌進去的，也很難爬出來</p>
+<p>References：</p>
+<ul>
+<li><a href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Statements/async_function" target="_blank" rel="noopener">https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Statements/async_function</a></li>
+<li><a href="https://blog.techbridge.cc/2017/12/08/rxjs/" target="_blank" rel="noopener">https://blog.techbridge.cc/2017/12/08/rxjs/</a></li>
+<li><a href="https://www.oxxostudio.tw/articles/201908/js-async-await.html" target="_blank" rel="noopener">https://www.oxxostudio.tw/articles/201908/js-async-await.html</a></li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/PromiseAsyncAwaitOverview/">http://havincy.github.io/post/PromiseAsyncAwaitOverview/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Promise/">#Promise</a>
+                    
+                        <a href="/tags/Concurrent/">#Concurrent</a>
+                    
+                        <a href="/tags/Parallel/">#Parallel</a>
+                    
+                        <a href="/tags/Asynchronous/">#Asynchronous</a>
+                    
+                        <a href="/tags/Synchronous/">#Synchronous</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/HowToUseAngularNGSW/">在 Angular 專案加入內建的 Service Worker</a>
+            
+            
+            <a class="next" rel="next" href="/post/ExportNotesFromKoboEReader/">輸出 Kobo 電子閱讀器的註記</a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/PromiseAsyncAwaitOverview/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>

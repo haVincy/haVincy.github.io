@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="NEW NUY">
+
+
+
+
+
+<title>Array vs Linked list  | NEWNUY&#39;s Reflection</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162520708-1"></script>
+    <script>
+        var host = window.location.hostname;
+        // Avoid 'localhost' to be tracked
+        if (host !== "localhost") {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-162520708-1');
+        }
+    </script>
+
+
+<!-- Google AdSense script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7455155284654484"
+crossorigin="anonymous"></script>
+
+<meta name="generator" content="Hexo 4.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Memento mori</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Memento mori</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about/">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Array vs Linked list </h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: October 10, 2016
+                    
+                    
+                        </span>
+                    
+                        <div>
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Data-Structure/">Data Structure</a>
+                            
+                        </span>
+                        </div>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>紀錄一下之前上 Coursera 的 Data Structure (UCSD開的)的課程筆記，不然當初在紙上寫的這些筆記都要爛了XD</p>
+<p>相較於上一個專項課程 “Algorithm Toolbox”，DS 的教授在討論區的回覆幫助程度稍遜色@@，大部分都滿慢才回覆大家的留言</p>
+<p>但整體上還是很棒的一堂課，教材與每份作業的 starter code 都很有架構</p>
+<h2 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h2><p>在記憶體中有連續的儲存地址，每個元素的記憶體大小空間一樣</p>
+<p>read / write 任何數值的時間複雜度是constant的</p>
+<p>compiler會根據base address (就是[0]的地址)，計算第n個元素的address</p>
+<blockquote>
+<p>n_addr = base_addr + n * element size</p>
+</blockquote>
+<p><img src="http://i.imgur.com/FHd31y6.png?1" alt="linkedlist1"></p>
+<blockquote>
+<p>Array從資料後面做新增/刪除容易，複雜度是O(1)<br>但如果要從資料前面、中間做新增/刪除，複雜度就較高，要把後面的元素往前推，複雜度是O(n)</p>
+</blockquote>
+<h2 id="Singly-Linked-list"><a href="#Singly-Linked-list" class="headerlink" title="Singly-Linked list"></a>Singly-Linked list</h2><p>並不是連續的儲存地址，利用指標的方式串聯資料 (C++、JAVA是用Abstract class)</p>
+<p>每一組資料都存有下一組資料的地址</p>
+<p><img src="http://i.imgur.com/9Fwj475.png" alt="linkedlist2"></p>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Definition for singly-linked list.</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span> {</span></span><br><span class="line">	<span class="keyword">int</span> val;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span> *<span class="title">next</span>;</span></span><br><span class="line">};</span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>新增/刪除只要修改指到該組資料的位址即可，適合用在常變動的資料上</p>
+</blockquote>
+<p>通常會用一個 head pointer 指向list的第一筆資料，永遠紀錄list的頭</p>
+<p>如果只有紀錄head，做尾端資料的處理時間複雜度會較高</p>
+<p>可以再用一個指標 tail pointer 指向最後一筆資料，永遠紀錄list的尾</p>
+<h3 id="新增資料"><a href="#新增資料" class="headerlink" title="新增資料"></a>新增資料</h3><ul>
+<li>從後面新增<br><img src="http://i.imgur.com/bGLTbCw.png" alt="linkedlist3"></li>
+</ul>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">PushBack(key)</span><br><span class="line">  node ← <span class="keyword">new</span> node</span><br><span class="line">  node.key ← key</span><br><span class="line">  node.next = null</span><br><span class="line">  <span class="keyword">if</span> tail = null  <span class="comment">// empty list</span></span><br><span class="line">    head ← tail ← node</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    tail.next ← node</span><br><span class="line">    tail ← node</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>從前面新增<br><img src="http://i.imgur.com/Kh5ZA2u.png" alt="linkedlist4"></li>
+</ul>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">PushFront(key)</span><br><span class="line">  node ← <span class="keyword">new</span> node</span><br><span class="line">  node.key ← key</span><br><span class="line">  node.next ← head</span><br><span class="line">  head ← node</span><br><span class="line">  <span class="keyword">if</span> tail = null  <span class="comment">// empty list</span></span><br><span class="line">    head ← tail</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>從中間新增<br><img src="http://i.imgur.com/P6CCJiB.png" alt="linkedlist5"></li>
+</ul>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">AddAfterk(node, key) <span class="comment">// 新增資料在特定資料後面</span></span><br><span class="line">  <span class="comment">// node = 特定資料, node2 = 要新增的資料</span></span><br><span class="line">  node2 ← <span class="keyword">new</span> node</span><br><span class="line">  node2.key ← key</span><br><span class="line">  node2.next = node.next</span><br><span class="line">  node.next = node2</span><br><span class="line">  <span class="keyword">if</span> tail = node  <span class="comment">// 如果特定資料是尾端, 要更新tail pointer</span></span><br><span class="line">    tail ← node2</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="刪除資料"><a href="#刪除資料" class="headerlink" title="刪除資料"></a>刪除資料</h3><ul>
+<li>從後面刪除<ul>
+<li>該筆資料的前一筆資料的儲存地址的pointer指向NULL，tail pointer指向前一筆資料</li>
+<li>free(delete)該筆資料</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">PopBack()</span><br><span class="line">  <span class="keyword">if</span> head = null</span><br><span class="line">    ERROR: empty <span class="built_in">list</span> <span class="comment">// return</span></span><br><span class="line">  <span class="keyword">if</span> head = tail  <span class="comment">// 只有1筆資料</span></span><br><span class="line">    head ← tail ← null</span><br><span class="line">  <span class="keyword">else</span>  <span class="comment">// 須第三個指標指到尾端資料的前一個</span></span><br><span class="line">    ptr ← head</span><br><span class="line">    <span class="comment">// 瀏覽list </span></span><br><span class="line">    <span class="keyword">while</span> ptr.next.next != null</span><br><span class="line">      ptr ← ptr.next</span><br><span class="line">    ptr.next = null  <span class="comment">// 尾端資料的前一筆指向null </span></span><br><span class="line">    tail ← ptr</span><br></pre></td></tr></tbody></table></figure>
+
+<ul>
+<li>從前面刪除<ul>
+<li>該筆資料儲存地址的pointer指向NULL，head pointer指向該筆資料</li>
+<li>free(delete)該筆資料</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PopFront()</span><br><span class="line">  <span class="keyword">if</span> head = null</span><br><span class="line">    ERROR: empty <span class="built_in">list</span> <span class="comment">// return</span></span><br><span class="line">  head ← head.next  <span class="comment">// 直接繞過去</span></span><br><span class="line">  <span class="keyword">if</span> head = null <span class="comment">// 如果原本只有一筆資料, 做完前面的動作會被清空, tail pointer要指回null</span></span><br><span class="line">    tail ← tail</span><br></pre></td></tr></tbody></table></figure>
+
+<ul>
+<li>從中間刪除<ul>
+<li>先判斷此筆資料是否為head或tail，都不是的話就需要做中間刪除</li>
+<li>在singly-linked list中，我們無法知道每個資料的上一筆是誰，必須要額外用兩個指標去跑迴圈，例如target &amp; prev</li>
+<li>target找到要刪除的資料，prev則一直指在target的前一個資料</li>
+</ul>
+</li>
+</ul>
+<p>另一種解法是，雖然不能知道上一筆是誰，但可以知道下一筆是誰，可以運用這個原理，讓<code>ptr-&gt;next-&gt;value</code>找到要刪除的資料，ptr就會指在要刪除的資料的前一筆，但必須先判斷要刪除的資料是否為頭或尾</p>
+<p><img src="http://i.imgur.com/3T0viH0.png" alt="linkedlist6"></p>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Erase(key)</span><br><span class="line">    <span class="keyword">if</span> key = head.value</span><br><span class="line">       PopFront</span><br><span class="line">       <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">if</span> key = tail.value</span><br><span class="line">       PopBack</span><br><span class="line">       <span class="keyword">return</span> </span><br><span class="line">    ptr ← head</span><br><span class="line">    <span class="comment">// 瀏覽list </span></span><br><span class="line">    <span class="keyword">while</span> ptr.next.next != null</span><br><span class="line">      <span class="keyword">if</span> ptr.next.value = key</span><br><span class="line">         <span class="keyword">break</span></span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">         ptr ← ptr.next</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ptr指在要刪除的資料的前一個</span></span><br><span class="line">    ptr.next = ptr.next.next</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="時間複雜度比較"><a href="#時間複雜度比較" class="headerlink" title="時間複雜度比較"></a>時間複雜度比較</h3><table>
+<thead>
+<tr>
+<th align="center">singly-linked list</th>
+<th align="center">no tail pointer</th>
+<th align="center">with tail pointer</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">PushFront(key)</td>
+<td align="center">O(1)</td>
+<td align="center">O(1)</td>
+</tr>
+<tr>
+<td align="center">PushBack(key)</td>
+<td align="center"><strong>O(n)</strong></td>
+<td align="center"><strong>O(1)</strong></td>
+</tr>
+<tr>
+<td align="center">AddAfter(node, key)</td>
+<td align="center">O(1)</td>
+<td align="center">O(1)</td>
+</tr>
+<tr>
+<td align="center">AddBefore(node, key)</td>
+<td align="center">O(n)</td>
+<td align="center">O(n)</td>
+</tr>
+<tr>
+<td align="center">PopFront()</td>
+<td align="center">O(1)</td>
+<td align="center">O(1)</td>
+</tr>
+<tr>
+<td align="center">PopBack()</td>
+<td align="center">O(n)</td>
+<td align="center">O(n)</td>
+</tr>
+<tr>
+<td align="center">Erase(key)</td>
+<td align="center">O(n)</td>
+<td align="center">O(n)</td>
+</tr>
+<tr>
+<td align="center">Find(key)</td>
+<td align="center">O(n)</td>
+<td align="center">O(n)</td>
+</tr>
+</tbody></table>
+<p>Find(key) 就不貼pesudo code了，就是跑迴圈找到match的資料</p>
+<h2 id="Doubly-Linked-list"><a href="#Doubly-Linked-list" class="headerlink" title="Doubly-Linked list"></a>Doubly-Linked list</h2><p>由於單向的連結串列在處理尾端資料時因為無法知道前一筆是誰，需要耗費O(n)的時間複雜度搜尋，所以又出現了另一種串聯資料結構，叫做雙向連結串列</p>
+<p><img src="http://i.imgur.com/RG6T7ZZ.png" alt="linkedlist7"></p>
+<p>相較於單向的資料結構，程式的處理上會比較複雜難讀一些，因為要處理2個指標 <code>*prev</code> 、 <code>*next</code> 的位址變化</p>
+<p>雙向的新增與刪除資料再製圖太麻煩了OTZ<br>以下直接貼部分函式的pesudo code，跟著程式碼紙上演練一遍就會懂了</p>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">PushBack(key)</span><br><span class="line">  <span class="comment">//新增一個指向null的node</span></span><br><span class="line">  node ← newnode</span><br><span class="line">  node.key ← key</span><br><span class="line">  node.next ← null</span><br><span class="line">  <span class="keyword">if</span> tail = null <span class="comment">// empty list</span></span><br><span class="line">    head ← tail ← node</span><br><span class="line">    node.prev ← null</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    tail.next ← node</span><br><span class="line">    node.prev = tail</span><br><span class="line">    tail ← node</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">PopBack()</span><br><span class="line">  <span class="keyword">if</span> head = null</span><br><span class="line">    ERROR: empty <span class="built_in">list</span> <span class="comment">// return</span></span><br><span class="line">  <span class="keyword">if</span> head = tail  <span class="comment">// 只有一筆資料</span></span><br><span class="line">    head ← tail ← null</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    tail ← tail.prev  <span class="comment">// tail指到目前尾端資料的上一個資料</span></span><br><span class="line">    tail.next ← null</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">AddAfter(node, key)</span><br><span class="line">  <span class="comment">// node 的後面為 node2 要插入的位置</span></span><br><span class="line">  node2 ← <span class="keyword">new</span> node</span><br><span class="line">  node2.key ← key</span><br><span class="line">  node2.next ← node.next</span><br><span class="line">  node2.prev ← node</span><br><span class="line">  node.next ← node2</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* 不是加在最後一筆資料後的話，</span></span><br><span class="line"><span class="comment">     要把原來node的下一筆資料的prev改指到node2 */</span></span><br><span class="line">  <span class="keyword">if</span> node2.next != null</span><br><span class="line">    node2.next.prev ← node2</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 如果是加在最後一筆資料後的話, tail pointer要更新為node2</span></span><br><span class="line">  <span class="keyword">if</span> tail = node  </span><br><span class="line">    tail ← node2</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">AddBefore(node, key)</span><br><span class="line">  <span class="comment">// node 的後面為 node2 要插入的位置</span></span><br><span class="line">  node2 ← <span class="keyword">new</span> node</span><br><span class="line">  node2.key ← key</span><br><span class="line">  node2.next ← node</span><br><span class="line">  node2.prev ← node.prev</span><br><span class="line">  node.prev ← node2</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* 不是加在第一筆資料前的話，</span></span><br><span class="line"><span class="comment">     要把原來node的前一筆資料的next改指到node2 */</span></span><br><span class="line">  <span class="keyword">if</span> node2.prev != null</span><br><span class="line">    node2.prev.next ← node2</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 如果是加在第一筆資料前的話, head pointer要更新為node2</span></span><br><span class="line">  <span class="keyword">if</span> head = node  </span><br><span class="line">    head ← node2</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="簡單小結"><a href="#簡單小結" class="headerlink" title="簡單小結"></a>簡單小結</h2><p>Array是一個有界限的長度，適合用在已知要處理多少大小資料的情況上<br>Array的好處是可以用O(1)的時間去存取資料</p>
+<p>Linked list較有彈性，適合用在不知道有多少大小的資料上(新增或刪除很頻繁)<br>但是相較Array存取元素而言顯得較慢，必須花費一定的時間跑遍list</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span class="permalink-text"><a href="http://havincy.github.io/post/ArrayvsLinkedlist/">http://havincy.github.io/post/ArrayvsLinkedlist/</a></span>
+                    </p>
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Stay Foolish, Stay Hungry</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Array/">#Array</a>
+                    
+                        <a href="/tags/LinkedList/">#LinkedList</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/StackAndQueue/">Stack and Queue </a>
+            
+            
+            <a class="next" rel="next" href="/post/Leetcode-digit-root/">digital root 數根 / 生命靈數 ? </a>
+            
+        </section>
+        <div>
+        
+            <section id="comments">
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+              </div>
+            </section>
+        
+        </div>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>haVincy © Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+        
+    <script>
+      var disqus_shortname = 'havincy-github-io';
+      
+      var disqus_url = 'http://havincy.github.io/post/ArrayvsLinkedlist/';
+      
+      (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+
+    </div>
+</body>
+</html>
